@@ -2,66 +2,94 @@ package main
 
 import "github.com/charmbracelet/lipgloss"
 
-// Tag styles
-var (
-	errorStyle = lipgloss.NewStyle().
-			Bold(true).
-			Background(lipgloss.Color("#BF1A2F")).
-			Foreground(lipgloss.Color("#ffffff")).
-			Padding(0, 1)
-	infoStyle = lipgloss.NewStyle().
-			Bold(true).
-			Background(lipgloss.Color("#454e9e")).
-			Foreground(lipgloss.Color("#ffffff")).
-			Padding(0, 1)
-	warningStyle = lipgloss.NewStyle().
-			Bold(true).
-			Background(lipgloss.Color("#FFD700")).
-			Foreground(lipgloss.Color("#ffffff")).
-			Padding(0, 1)
+// Define color constants
+const (
+	errorHex          = "#BF1A2F"
+	errorHexDark      = "#D72638"
+	infoHex           = "#454e9e"
+	infoHexDark       = "#3A57D6"
+	warningHex        = "#FFD700"
+	warningHexDark    = "#FFC107"
+	subtleHex         = "#D9DCCF"
+	subtleHexDark     = "#6E6E6E"
+	highlightHex      = "#874BFD"
+	highlightHexDark  = "#7D56F4"
+	specialHex        = "#43BF6D"
+	specialHexDark    = "#73F59F"
+	accentHex         = "#FF5733"
+	accentHexDark     = "#FF6B6B"
+	backgroundHex     = "#FAFAFA"
+	backgroundHexDark = "#1E1E1E"
+	whiteHex          = "#ffffff"
 )
 
-// Colors
+// Adaptive colors for theme support
 var (
-	subtle     = lipgloss.AdaptiveColor{Light: "#D9DCCF", Dark: "#6E6E6E"}
-	highlight  = lipgloss.AdaptiveColor{Light: "#874BFD", Dark: "#7D56F4"}
-	special    = lipgloss.AdaptiveColor{Light: "#43BF6D", Dark: "#73F59F"}
-	warning    = lipgloss.AdaptiveColor{Light: "#FFD700", Dark: "#FFC107"} // Amarelo para avisos
-	errorColor = lipgloss.AdaptiveColor{Light: "#BF1A2F", Dark: "#D72638"} // Vermelho para erros
-	info       = lipgloss.AdaptiveColor{Light: "#454e9e", Dark: "#3A57D6"} // Azul para informações
-	accent     = lipgloss.AdaptiveColor{Light: "#FF5733", Dark: "#FF6B6B"} // Laranja para destaque
-	background = lipgloss.AdaptiveColor{Light: "#FAFAFA", Dark: "#1E1E1E"} // Fundo adaptativo
+	subtleColor     = lipgloss.AdaptiveColor{Light: subtleHex, Dark: subtleHexDark}
+	highlightColor  = lipgloss.AdaptiveColor{Light: highlightHex, Dark: highlightHexDark}
+	specialColor    = lipgloss.AdaptiveColor{Light: specialHex, Dark: specialHexDark}
+	warningColor    = lipgloss.AdaptiveColor{Light: warningHex, Dark: warningHexDark}       // Yellow for warnings
+	errorColor      = lipgloss.AdaptiveColor{Light: errorHex, Dark: errorHexDark}           // Red for errors
+	infoColor       = lipgloss.AdaptiveColor{Light: infoHex, Dark: infoHexDark}             // Blue for information
+	accentColor     = lipgloss.AdaptiveColor{Light: accentHex, Dark: accentHexDark}         // Orange for highlighting
+	backgroundColor = lipgloss.AdaptiveColor{Light: backgroundHex, Dark: backgroundHexDark} // Adaptive background
 )
 
-// Help menu styles
+// Tag styles with consistent formatting
 var (
-	baseStyle = lipgloss.NewStyle().
+	tagBaseStyle = lipgloss.NewStyle().
+			Bold(true).
+			Foreground(lipgloss.Color(whiteHex)).
+			Padding(0, 1)
+
+	errorStyle = tagBaseStyle.Copy().
+			Background(lipgloss.Color(errorHex))
+
+	infoStyle = tagBaseStyle.Copy().
+			Background(lipgloss.Color(infoHex))
+
+	warningStyle = tagBaseStyle.Copy().
+			Background(lipgloss.Color(warningHex)).
+			Foreground(lipgloss.Color("#333333")) // Darker text for better contrast on yellow
+)
+
+// UI component styles
+var (
+	// Container style
+	containerStyle = lipgloss.NewStyle().
 			BorderStyle(lipgloss.RoundedBorder()).
-			BorderForeground(subtle).
+			BorderForeground(subtleColor).
 			Padding(1, 2)
-	titleStyle = lipgloss.NewStyle().
-			Foreground(highlight).
+
+	// Text styles
+	headingStyle = lipgloss.NewStyle().
+			Foreground(highlightColor).
 			Bold(true).
 			Padding(0, 1).
 			MarginLeft(2)
-	itemStyle = lipgloss.NewStyle().
+
+	normalItemStyle = lipgloss.NewStyle().
 			PaddingLeft(4).
 			Foreground(lipgloss.Color("241"))
-	selectedItemStyle = lipgloss.NewStyle().
-				PaddingLeft(2).
-				Foreground(special).
-				Bold(true)
-	messageStyle = lipgloss.NewStyle().
-			Italic(true).
-			Foreground(subtle).
-			PaddingTop(1).
-			PaddingLeft(2)
-	infoItemStyle = lipgloss.NewStyle().
+
+	activeItemStyle = lipgloss.NewStyle().
 			PaddingLeft(2).
-			Foreground(info).
+			Foreground(specialColor).
+			Bold(true)
+
+	statusMessageStyle = lipgloss.NewStyle().
+				Italic(true).
+				Foreground(subtleColor).
+				PaddingTop(1).
+				PaddingLeft(2)
+
+	infoTextStyle = lipgloss.NewStyle().
+			PaddingLeft(2).
+			Foreground(infoColor).
 			Bold(true)
 )
 
+// Tag returns a styled tag based on type
 func Tag(tagType string) string {
 	switch tagType {
 	case "error":
@@ -70,6 +98,10 @@ func Tag(tagType string) string {
 		return infoStyle.Render("INFO")
 	case "warning":
 		return warningStyle.Render("WARNING")
+	case "success":
+		return tagBaseStyle.Copy().
+			Background(lipgloss.Color(specialHex)).
+			Render("SUCCESS")
 	default:
 		return ""
 	}

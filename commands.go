@@ -2,30 +2,42 @@ package main
 
 import (
 	"fmt"
-	"github.com/charmbracelet/lipgloss"
 )
 
+const Version = "0.0.1"
+
+// ShowVersion displays the version of the R2D2 Language.
 func ShowVersion() {
-	fmt.Println(Tag("info"), "R2D2 Language - version 0.0.1")
+	fmt.Println(InfoMessage("R2D2 Language - version " + Version))
 }
 
-func Build() { // TODO: Função que compila o código
-	fmt.Println(Tag("info"), "Compiling...")
+// Build simulates the compilation process.
+func Build() {
+	fmt.Println(InfoMessage("Compiling..."))
 }
 
-func Run() { // TODO: Função que executa o código
-	fmt.Println(Tag("info"), "Executing...")
+// Run simulates the execution process.
+func Run() {
+	fmt.Println(InfoMessage("Executing..."))
 }
 
+// UnknownCommand shows an error message when an unknown command is entered.
 func UnknownCommand(cmd string, errArgIndex int) {
-	errorMsg := lipgloss.NewStyle().
-		Bold(true).
-		Render("Unknown command: " + fmt.Sprint(lipgloss.NewStyle().Foreground(warning).Render(cmd)))
+	fmt.Println(ErrorMessage("Unknown command: " + cmd))
+	fmt.Println(HelpMessage("Run 'r2d2 help' for usage."))
+}
 
-	helpMsg := lipgloss.NewStyle().
-		Foreground(subtle).
-		Render("Run 'r2d2 help' for usage.")
+// InfoMessage returns a styled info message.
+func InfoMessage(message string) string {
+	return Tag("info") + " " + message
+}
 
-	fmt.Println(Tag("error"), errorMsg)
-	fmt.Println(helpMsg)
+// ErrorMessage returns a styled error message.
+func ErrorMessage(message string) string {
+	return Tag("error") + " " + message
+}
+
+// HelpMessage returns a styled help message.
+func HelpMessage(message string) string {
+	return Tag("info") + " " + message
 }
