@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+
+	"github.com/ArturC03/r2d2"
 )
 
 const Version = "0.0.1"
@@ -12,13 +14,13 @@ func ShowVersion() {
 }
 
 // Build simulates the compilation process.
-func Build() {
-	fmt.Println(InfoMessage("Compiling..."))
+func Build(r2d2Code string) {
+	r2d2.BuildCode(r2d2Code)
 }
 
 // Run simulates the execution process.
-func Run() {
-	fmt.Println(InfoMessage("Executing..."))
+func Run(r2d2Code string) {
+	r2d2.RunCode(r2d2Code)
 }
 
 // UnknownCommand shows an error message when an unknown command is entered.

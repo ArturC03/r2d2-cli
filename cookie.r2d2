@@ -1,0 +1,9 @@
+module cookie {
+    fn main() {
+        var i int = 3;
+
+        loop {
+        console.log(i);
+        }
+    }
+}
