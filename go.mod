@@ -6,14 +6,14 @@ toolchain go1.24.1
 
 require (
 	github.com/ArturC03/r2d2 v0.0.2
-	github.com/ArturC03/r2d2Styles v0.0.15
+	github.com/ArturC03/r2d2Styles v0.0.16
+	github.com/antlr4-go/antlr/v4 v4.13.1
 	github.com/charmbracelet/bubbles v0.20.0
 	github.com/charmbracelet/bubbletea v1.3.4
 	github.com/charmbracelet/lipgloss v1.0.0
 )
 
 require (
-	github.com/antlr4-go/antlr/v4 v4.13.1 // indirect
 	github.com/atotto/clipboard v0.1.4 // indirect
 	github.com/aymanbagabas/go-osc52/v2 v2.0.1 // indirect
 	github.com/charmbracelet/x/ansi v0.8.0 // indirect
@@ -33,3 +33,7 @@ require (
 	golang.org/x/sys v0.30.0 // indirect
 	golang.org/x/text v0.3.8 // indirect
 )
+
+replace github.com/ArturC03/r2d2 => ../r2d2
+
+replace github.com/ArturC03/r2d2Styles => ../r2d2Styles

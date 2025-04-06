@@ -121,7 +121,7 @@ assignmentOperator
   ;
 
 simpleFor
-  : (variableDeclaration | assignment)? expression? SEMI (assignment)?
+  : (variableDeclaration | assignment SEMI)? expression? SEMI (assignment)?
   ;
 
 whileStatement
