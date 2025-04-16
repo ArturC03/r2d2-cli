@@ -18,7 +18,7 @@ RESET='\033[0m'
 # ----------------------------------------
 # Configuration variables
 # ----------------------------------------
-REPO_URL="https://github.com/ArturC03/r2d2-cli"
+REPO_URL="https://github.com/ArturC03/r2d2-cli.git"
 BINARY_NAME="r2d2"
 TEMP_DIR="/tmp/r2d2-installer"
 INSTALL_DIR="/usr/local/bin"
@@ -199,10 +199,14 @@ install_r2d2() {
   mkdir -p "$TEMP_DIR"
   cd "$TEMP_DIR"
 
+  # Remove any existing clone to ensure the directory is empty
+  rm -rf "$TEMP_DIR/*"
+
   # Clone repository
   echo -e "${YELLOW}[*] Cloning R2D2 repository...${RESET}"
-  git clone "$REPO_URL" . &
+  git clone "$REPO_URL" r2d2-cli &
   spinner $!
+  cd r2d2-cli
 
   if [ $? -ne 0 ]; then
     echo -e "${RED}[!] Error: Failed to clone the repository.${RESET}"
@@ -211,204 +215,33 @@ install_r2d2() {
 
   # Build from source
   echo -e "${YELLOW}[*] Building R2D2 from source...${RESET}"
-  echo -e "${YELLOW}[*] This may take a few minutes...${RESET}"
-  go build . &
-  spinner $!
+  go build -o "$BINARY_NAME"
 
-  if [ $? -ne 0 ] || [ ! -f "$BINARY_NAME" ]; then
-    echo -e "${RED}[!] Error: Failed to build R2D2.${RESET}"
+  if [ $? -ne 0 ]; then
+    echo -e "${RED}[!] Error: Build failed.${RESET}"
     exit 1
   fi
 
-  # Install binary
-  echo -e "${YELLOW}[*] Installing R2D2 binary...${RESET}"
-
-  # Check if we can install to system directory or need user directory
-  if [ "$OS" == "windows" ]; then
-    # For Windows/MSYS/Cygwin
-    cp "$BINARY_NAME" "$BINARY_NAME.exe"
-    mkdir -p "$HOME/bin"
-    cp "$BINARY_NAME.exe" "$HOME/bin/"
-    echo -e "${GREEN}[✓] R2D2 installed to $HOME/bin/${BINARY_NAME}.exe${RESET}"
-    echo -e "${YELLOW}[*] Make sure $HOME/bin is in your PATH${RESET}"
+  # Copy binary to appropriate location
+  echo -e "${YELLOW}[*] Installing the binary...${RESET}"
+  if [ -w "$INSTALL_DIR" ]; then
+    sudo cp "$BINARY_NAME" "$INSTALL_DIR"
   else
-    # Try system-wide installation first, fall back to user directory
-    if [ -w "$INSTALL_DIR" ] || [ "$(id -u)" -eq 0 ]; then
-      cp "$BINARY_NAME" "$INSTALL_DIR/"
-      chmod +x "$INSTALL_DIR/$BINARY_NAME"
-      echo -e "${GREEN}[✓] R2D2 installed to $INSTALL_DIR/$BINARY_NAME${RESET}"
-    else
-      mkdir -p "$USER_INSTALL_DIR"
-      cp "$BINARY_NAME" "$USER_INSTALL_DIR/"
-      chmod +x "$USER_INSTALL_DIR/$BINARY_NAME"
-      echo -e "${GREEN}[✓] R2D2 installed to $USER_INSTALL_DIR/$BINARY_NAME${RESET}"
-
-      # Add to PATH if needed
-      if [[ ":$PATH:" != *":$USER_INSTALL_DIR:"* ]]; then
-        echo -e "${YELLOW}[*] Adding $USER_INSTALL_DIR to your PATH...${RESET}"
-
-        # Detect shell and update appropriate config file
-        SHELL_NAME=$(basename "$SHELL")
-        if [ "$SHELL_NAME" == "bash" ]; then
-          echo 'export PATH="$HOME/.local/bin:$PATH"' >>"$HOME/.bashrc"
-          echo -e "${YELLOW}[*] Updated .bashrc, restart your terminal or run: source ~/.bashrc${RESET}"
-        elif [ "$SHELL_NAME" == "zsh" ]; then
-          echo 'export PATH="$HOME/.local/bin:$PATH"' >>"$HOME/.zshrc"
-          echo -e "${YELLOW}[*] Updated .zshrc, restart your terminal or run: source ~/.zshrc${RESET}"
-        elif [ "$SHELL_NAME" == "fish" ]; then
-          echo 'set -gx PATH "$HOME/.local/bin" $PATH' >>"$HOME/.config/fish/config.fish"
-          echo -e "${YELLOW}[*] Updated fish config, restart your terminal or run: source ~/.config/fish/config.fish${RESET}"
-        else
-          echo -e "${YELLOW}[*] Please add $USER_INSTALL_DIR to your PATH manually${RESET}"
-        fi
-      fi
-    fi
+    mkdir -p "$USER_INSTALL_DIR"
+    cp "$BINARY_NAME" "$USER_INSTALL_DIR"
+    echo -e "${YELLOW}[*] Installed to user local bin: $USER_INSTALL_DIR${RESET}"
   fi
 
   # Clean up
-  echo -e "${YELLOW}[*] Cleaning up temporary files...${RESET}"
-  cd
   rm -rf "$TEMP_DIR"
+
+  echo -e "${GREEN}[✓] Installation successful!${RESET}"
 }
 
 # ----------------------------------------
-# Configuration
+# Main Execution
 # ----------------------------------------
-configure_r2d2() {
-  echo -e "\n${BLUE}${BOLD}[*] Configuring R2D2...${RESET}"
-
-  # Create config directory
-  CONFIG_DIR="$HOME/.config/r2d2"
-  mkdir -p "$CONFIG_DIR"
-
-  # Create default config file if it doesn't exist
-  if [ ! -f "$CONFIG_DIR/config.json" ]; then
-    echo -e "${YELLOW}[*] Creating default configuration...${RESET}"
-    cat >"$CONFIG_DIR/config.json" <<EOF
-{
-    "editor": "auto",
-    "theme": "dark",
-    "auto_update": true,
-    "telemetry": false
-}
-EOF
-    echo -e "${GREEN}[✓] Created default configuration at $CONFIG_DIR/config.json${RESET}"
-  else
-    echo -e "${GREEN}[✓] Configuration already exists at $CONFIG_DIR/config.json${RESET}"
-  fi
-}
-
-# ----------------------------------------
-# Post-installation
-# ----------------------------------------
-post_install() {
-  echo -e "\n${BLUE}${BOLD}[*] Verifying installation...${RESET}"
-
-  # Check if R2D2 is in PATH
-  if check_command r2d2; then
-    VERSION=$(r2d2 --version 2>/dev/null)
-    echo -e "${GREEN}[✓] R2D2 installed successfully! Version: $VERSION${RESET}"
-  else
-    echo -e "${YELLOW}[!] R2D2 installed but may not be in your PATH.${RESET}"
-    echo -e "${YELLOW}[!] You may need to restart your terminal or add R2D2 to your PATH manually.${RESET}"
-  fi
-
-  echo -e "\n${GREEN}${BOLD}=== R2D2 Programming Language Installation Complete ===${RESET}"
-  echo -e "${CYAN}[*] Run 'r2d2 --help' to see available commands${RESET}"
-  echo -e "${CYAN}[*] Documentation available at: https://github.com/ArturC03/r2d2-cli#readme${RESET}"
-  echo -e "${CYAN}[*] Report issues at: https://github.com/ArturC03/r2d2-cli/issues${RESET}"
-  echo -e "\n${GREEN}${BOLD}Happy coding with R2D2!${RESET}\n"
-}
-
-# ----------------------------------------
-# Interactive Installation
-# ----------------------------------------
-interactive_install() {
-  print_logo
-
-  echo -e "${YELLOW}Welcome to the R2D2 Programming Language Installer!${RESET}"
-  echo -e "${YELLOW}This script will install R2D2 and its dependencies on your system.${RESET}"
-  echo
-
-  # Detect OS
-  echo -e "${BLUE}[*] Detecting operating system...${RESET}"
-  detect_os
-  echo -e "${GREEN}[✓] Detected: $OS ${OS_VER:-}${RESET}"
-  echo
-
-  # Installation options
-  echo -e "${MAGENTA}${BOLD}Installation Options:${RESET}"
-  echo -e "${CYAN}1) Express Install${RESET} - Install with default settings"
-  echo -e "${CYAN}2) Custom Install${RESET} - Choose installation directory and components"
-  echo -e "${CYAN}3) Exit${RESET} - Cancel installation"
-  echo
-
-  read -p "$(echo -e ${YELLOW}"Please select an option [1-3]: "${RESET})" choice
-
-  case $choice in
-  1)
-    echo -e "${GREEN}[*] Starting express installation...${RESET}"
-    install_dependencies
-    echo -e "${YELLOW}[*] Installing R2D2...${RESET}"
-    progress_bar 2
-    install_r2d2
-    configure_r2d2
-    post_install
-    ;;
-  2)
-    echo -e "${GREEN}[*] Starting custom installation...${RESET}"
-
-    # Ask for dependency installation
-    read -p "$(echo -e ${YELLOW}"Install dependencies? (y/n): "${RESET})" install_deps
-    if [[ $install_deps =~ ^[Yy]$ ]]; then
-      install_dependencies
-    fi
-
-    # Ask for installation directory
-    read -p "$(echo -e ${YELLOW}"Installation directory [default: $INSTALL_DIR]: "${RESET})" custom_dir
-    if [ -n "$custom_dir" ]; then
-      INSTALL_DIR=$custom_dir
-      USER_INSTALL_DIR=$custom_dir
-    fi
-
-    echo -e "${YELLOW}[*] Installing R2D2...${RESET}"
-    progress_bar 2
-    install_r2d2
-
-    # Ask for configuration
-    read -p "$(echo -e ${YELLOW}"Configure R2D2? (y/n): "${RESET})" configure
-    if [[ $configure =~ ^[Yy]$ ]]; then
-      configure_r2d2
-    fi
-
-    post_install
-    ;;
-  3)
-    echo -e "${RED}Installation cancelled.${RESET}"
-    exit 0
-    ;;
-  *)
-    echo -e "${RED}Invalid option. Exiting.${RESET}"
-    exit 1
-    ;;
-  esac
-}
-
-# ----------------------------------------
-# Main Installation Script
-# ----------------------------------------
-main() {
-  # Check if running with admin privileges on Windows
-  if [ "$OS" == "windows" ] && ! net session &>/dev/null; then
-    echo -e "${RED}[!] This script should be run with administrator privileges on Windows.${RESET}"
-    echo -e "${RED}[!] Please run this script from an administrator command prompt.${RESET}"
-    exit 1
-  fi
-
-  # Run interactive installer
-  interactive_install
-}
-
-# Start the installer
+print_logo
 detect_os
-main
+install_dependencies
+install_r2d2
