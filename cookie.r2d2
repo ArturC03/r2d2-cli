@@ -1,11 +1,19 @@
-module cookie {
-pseudo fn cookie(i int) {
-  console.log("cookie" + i);
-}
-  export pseudo fn main() {
-    var i int = 0;
-    for i = 5 ; i <= 10; i++ {
-      cookie(i);
-    }
+module temperature {
+  fn celsius_to_fahrenheit(celsius float) {
+    return celsius * 9.0/5.0 + 32.0;
+  }
+
+  fn fahrenheit_to_celsius(fahrenheit float) {
+    return (fahrenheit - 32.0) * 5.0/9.0;
+  }
+
+  fn main() {
+    var celsius float = 25.0;
+    var fahrenheit = celsius_to_fahrenheit(celsius);
+    console.log(celsius, "°C =", fahrenheit, "°F");
+
+    fahrenheit = 98.6;
+    celsius = fahrenheit_to_celsius(fahrenheit);
+    console.log(fahrenheit, "°F =", celsius, "°C");
   }
 }

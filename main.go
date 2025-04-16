@@ -66,6 +66,8 @@ func main() {
 		Build(readR2D2File())
 	case "-r", "run":
 		Run(readR2D2File())
+	case "new":
+		// MakeProject()
 	default:
 		UnknownCommand(cmd, 1)
 	}

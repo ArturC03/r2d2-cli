@@ -34,6 +34,6 @@ require (
 	golang.org/x/text v0.3.8 // indirect
 )
 
-replace github.com/ArturC03/r2d2 => ../r2d2
-
-replace github.com/ArturC03/r2d2Styles => ../r2d2Styles
+// replace github.com/ArturC03/r2d2 => ../r2d2
+//
+// replace github.com/ArturC03/r2d2Styles => ../r2d2Styles
