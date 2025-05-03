@@ -1,13 +1,8 @@
-// Interface declarando a função de ajuste de tamanho
-interface Config {
-    export fn adjustSize(h i32, w i32);  // Assinatura da função (apenas declaração)
-}
-
 // Modelo que implementa a interface Config
 module Settings implements Config {
     // Variáveis de estado do modelo
-    var height i32 = 100;   // altura mutável
-    let width i32 = 200;    // largura imutável
+    var height number = 100;   // altura mutável
+    let width number = 200;    // largura imutável
     const bool isActive = true;  // constante, define se está ativo
     
     // Função que implementa a interface Config
@@ -19,49 +14,49 @@ module Settings implements Config {
 module Main {
 
 // Função principal de exemplo
-export fn main() {
-    // Declaração de variáveis
-    var x i32 = 10;            // Variável normal
-    let y i32 = 20;            // Variável imutável
-    const bool isAvailable = true;  // Constante booleana
+  export fn main() {
+      // Declaração de variáveis
+      var x i32 = 10;            // Variável normal
+      var y i32 = 20;
+      const isAvailable bool = true ;  // Constante booleana
 
-    // Controle de fluxo (condicional)
-    if (x > 5) {
-        console.log("Maior que 5");
-    } else if (y == 20) {
-        console.log("Valor de y é 20");
-    } else {
-        console.log("Nenhuma das opções");
-    }
-    
-    // Laço de repetição - for (seguindo a estrutura de C)
-    for var i i32 = 0; i < 10; i++ {
-        console.log(i);
-    }
+      // Controle de fluxo (condicional)
+      if (x > 5) {
+          console.log("Maior que 5");
+      } else if (y == 20) {
+          console.log("Valor de y é 20");
+      } else {
+          console.log("Nenhuma das opções");
+      }
+      
+      // Laço de repetição - for (seguindo a estrutura de C)
+      for var i i32 = 0; i < 10; i++ {
+          console.log(i);
+      }
 
-    // Laço de repetição - while
-    var i i32 = 0;
-    while i < 5 {
-        console.log(i);
-        i++;
-    }
-    
-    // Laço infinito - loop
-    loop {
-        console.log("Laço infinito!");
-        break;
-    }
+      // Laço de repetição - while
+      var i i32 = 0;
+      while i < 5 {
+          console.log(i);
+          i++;
+      }
+      
+      // Laço infinito - loop
+      loop {
+          console.log("Laço infinito!");
+          break;
+      }
 
-    // Usando funções internas
-    let result i32 = addNumbers(x, y);
-    console.log(result);
+      // Usando funções internas
+      let result i32 = addNumbers(x, y);
+      console.log(result);
 
-    // Uso da interface através de implementações
-    Settings.adjustSize(300, 150);
-}
+      // Uso da interface através de implementações
+      Settings.adjustSize(300, 150);
+  }
 
 // Função de adição simples
-fn addNumbers(a i32, b i32): i32 {
-    return a + b;
-}
+  fn addNumbers(a i32, b i32): i32 {
+      return a + b;
+  }
 }

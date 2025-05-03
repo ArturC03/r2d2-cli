@@ -88,6 +88,11 @@ statement
   | returnStatement
   | switchStatement
   | assignmentDeclaration
+  | jsBlockStatement
+  ;
+
+jsBlockStatement
+  : JS_BLOCK
   ;
 
 expressionStatement
@@ -335,6 +340,10 @@ FLOAT_LITERAL
   : SignPart? DecimalNumeral '.' DecimalDigits? ExponentPart?
   | SignPart? '.' DecimalDigits ExponentPart?
   | SignPart? DecimalNumeral ExponentPart
+  ;
+
+JS_BLOCK
+  : '__js__' '(' .*? ')' SEMI
   ;
 
 fragment SignPart

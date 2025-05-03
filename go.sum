@@ -1,7 +1,3 @@
-github.com/ArturC03/r2d2 v0.1.0 h1:/sxvW4vF8FZkC8My3yAtqgWlxs6tzUrgbdNdrhZNlos=
-github.com/ArturC03/r2d2 v0.1.0/go.mod h1:RKCluzip4N65Fj1LXnTEMwzDP2EoHHK5Eb64XuZHBNI=
-github.com/ArturC03/r2d2Styles v0.0.17 h1:OKsivjQLKEmaFdU0aGbFnSJbIgY9cv0dMfWfY7yXxxM=
-github.com/ArturC03/r2d2Styles v0.0.17/go.mod h1:f/ANs6KmA9tQYj5WSSq4aCH7ZE3J9ac8lX3RMpg9QFg=
 github.com/antlr4-go/antlr/v4 v4.13.1 h1:SqQKkuVZ+zWkMMNkjy5FZe5mr5WURWnlpmOuzYWrPrQ=
 github.com/antlr4-go/antlr/v4 v4.13.1/go.mod h1:GKmUxMtwp6ZgGwZSva4eWPC5mS6vUAmOABFgjdkM7Nw=
 github.com/atotto/clipboard v0.1.4 h1:EH0zSVneZPSuFR11BlR9YppQTVDbh5+16AmcJi4g1z4=

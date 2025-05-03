@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	// "path/filepath"
 
 	"github.com/ArturC03/r2d2"
 )
@@ -42,4 +43,8 @@ func ErrorMessage(message string) string {
 // HelpMessage returns a styled help message.
 func HelpMessage(message string) string {
 	return Tag("info") + " " + message
+}
+
+func BuildJs(input string, filename string) {
+	r2d2.BuildJsFile(input, filename)
 }

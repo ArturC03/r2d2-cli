@@ -12,11 +12,35 @@ import (
 // Remove this line as it's redeclared in commands.go
 // const version = "0.0.1"
 
+func getFilename() string {
+	// Check if there are enough command line arguments
+	if len(os.Args) < 3 {
+		fmt.Println(r2d2Styles.ErrorMessage("Número insuficiente de argumentos"))
+		fmt.Println(r2d2Styles.InfoMessage("Args: program <comand> <file_path_r2d2>"))
+		os.Exit(1)
+	}
+
+	// Get the file path (second argument)
+	filePath := os.Args[2]
+
+	// Check if the file path is empty
+	if filePath == "" {
+		fmt.Println(r2d2Styles.ErrorMessage("File path can't be empty"))
+		os.Exit(1)
+	}
+
+	// Extract just the filename from the path
+	parts := strings.Split(filePath, string(os.PathSeparator))
+	filename := parts[len(parts)-1]
+
+	return filename
+}
+
 func readR2D2File() string {
 	// Verifica se há pelo menos 3 argumentos na linha de comando (o primeiro é o nome do programa)
 	if len(os.Args) < 3 {
-		fmt.Println(r2d2Styles.ErrorMessage("Número insuficiente de argumentos"))
-		fmt.Println(r2d2Styles.InfoMessage("Uso: programa <comando> <caminho_arquivo_r2d2>"))
+		fmt.Println(r2d2Styles.ErrorMessage("Isuficient number of arguments"))
+		fmt.Println(r2d2Styles.InfoMessage("Use: program <comand> <file_path_r2d2>"))
 		os.Exit(1)
 	}
 
@@ -25,21 +49,21 @@ func readR2D2File() string {
 
 	// Verifica se o caminho do arquivo está vazio
 	if filePath == "" {
-		fmt.Println(r2d2Styles.ErrorMessage("Caminho do arquivo não pode ser vazio"))
+		fmt.Println(r2d2Styles.ErrorMessage("File path can't be empty"))
 		os.Exit(1)
 	}
 
 	// Verifica se o arquivo existe
 	_, err := os.Stat(filePath)
 	if os.IsNotExist(err) {
-		fmt.Println(r2d2Styles.ErrorMessage(fmt.Sprintf("Arquivo não encontrado - %s", filePath)))
+		fmt.Println(r2d2Styles.ErrorMessage(fmt.Sprintf("file not found: %v", filePath)))
 		os.Exit(1)
 	}
 
 	// Lê o conteúdo do arquivo
 	content, err := os.ReadFile(filePath)
 	if err != nil {
-		fmt.Println(r2d2Styles.ErrorMessage(fmt.Sprintf("Erro ao ler o arquivo: %v", err)))
+		fmt.Println(r2d2Styles.ErrorMessage(fmt.Sprintf("Error reading file: %v", err)))
 		os.Exit(1)
 	}
 
@@ -66,6 +90,8 @@ func main() {
 		Build(readR2D2File())
 	case "-r", "run":
 		Run(readR2D2File())
+	case "js", "buildjs":
+		BuildJs(readR2D2File(), getFilename())
 	case "new":
 		// MakeProject()
 	default:
