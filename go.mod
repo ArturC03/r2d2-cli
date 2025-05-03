@@ -5,7 +5,7 @@ go 1.24.0
 toolchain go1.24.1
 
 require (
-	github.com/ArturC03/r2d2 v0.1.0
+	github.com/ArturC03/r2d2
 	github.com/ArturC03/r2d2Styles v0.0.17
 	github.com/charmbracelet/bubbles v0.20.0
 	github.com/charmbracelet/bubbletea v1.3.4
