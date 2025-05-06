@@ -1,6 +1,6 @@
 module cookie {
 fn main() {
-    var cookie.x string= 2;
+    var cookie string= 2;
     
     }
 }

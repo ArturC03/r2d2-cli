@@ -33,7 +33,3 @@ require (
 	golang.org/x/sys v0.30.0 // indirect
 	golang.org/x/text v0.3.8 // indirect
 )
-
-replace github.com/ArturC03/r2d2 v0.1.0 => ../r2d2
-
-replace github.com/ArturC03/r2d2Styles v0.0.17 => ../r2d2Styles
