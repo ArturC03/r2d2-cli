@@ -80,16 +80,16 @@ var commands = []Command{
 		},
 		CategoryUtil,
 	},
-	{
-		"package",
-		"Create a distributable package",
-		"r2d2 package [options]",
-		[]string{
-			"r2d2 package --target=all",
-			"r2d2 package --target=linux",
-		},
-		CategoryUtil,
-	},
+	// {
+	// 	"package",
+	// 	"Create a distributable package",
+	// 	"r2d2 package [options]",
+	// 	[]string{
+	// 		"r2d2 package --target=all",
+	// 		"r2d2 package --target=linux",
+	// 	},
+	// 	CategoryUtil,
+	// },
 }
 
 // Styles for categories
@@ -304,7 +304,7 @@ func (m HelpModel) View() string {
 	}
 
 	// List view: show command list and help message
-	return containerStyle.Width(75).Render(
+	return containerStyle.Width(40).Render(
 		lipgloss.JoinVertical(
 			lipgloss.Left,
 			m.list.View(),
@@ -333,7 +333,7 @@ func ShowHelp() {
 
 	// Setup the list model
 	delegate := NewCustomDelegate()
-	listModel := list.New(items, delegate, 20, 12)
+	listModel := list.New(items, delegate, 30, 20)
 	listModel.Title = "R2D2 Commands"
 	listModel.SetShowPagination(false)
 	listModel.Styles.Title = headingStyle

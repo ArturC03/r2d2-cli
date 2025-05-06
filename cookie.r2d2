@@ -1,23 +1,6 @@
-module temperature {
-  fn celsius_to_fahrenheit(celsius float) {
-    return ( 9.0/5.0 + 32.0);
-  }
-
-  fn fahrenheit_to_celsius(fahrenheit float) {
-    return ( 5.0/9.0 + 32.0) - 32.0;
-  }
-
-  export fn main() {
-    var celsius float = 25.0;
-    var fahrenheit = celsius_to_fahrenheit(celsius);
-    @js <<
-      console.log(celsius, "°C =", fahrenheit, "°F");
-      >>;
-
-    fahrenheit = 98.6;
-    celsius = fahrenheit_to_celsius(fahrenheit);
-    @js <<
-      console.log(celsius, "°C =", fahrenheit, "°F");
-      >>;
-  }
+module cookie {
+fn main() {
+    var cookie.x string= 2;
+    
+    }
 }
