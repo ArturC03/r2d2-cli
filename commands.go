@@ -7,7 +7,7 @@ import (
 	"github.com/ArturC03/r2d2"
 )
 
-const Version = "0.0.1"
+const Version = "0.1.1"
 
 // ShowVersion displays the version of the R2D2 Language.
 func ShowVersion() {
@@ -15,8 +15,9 @@ func ShowVersion() {
 }
 
 // Build simulates the compilation process.
-func Build(r2d2Code string) {
-	r2d2.BuildCode(r2d2Code)
+func Build(r2d2Code string, filename string) {
+	fmt.Println(filename)
+	r2d2.BuildCode(r2d2Code, filename)
 }
 
 // Run simulates the execution process.

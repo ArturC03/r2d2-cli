@@ -32,6 +32,7 @@ func getFilename() string {
 	// Extract just the filename from the path
 	parts := strings.Split(filePath, string(os.PathSeparator))
 	filename := parts[len(parts)-1]
+	fmt.Println(filename)
 
 	return filename
 }
@@ -87,7 +88,7 @@ func main() {
 	case "-version", "-v", "--version", "version", "--v":
 		ShowVersion()
 	case "-b", "build":
-		Build(readR2D2File())
+		Build(readR2D2File(), getFilename())
 	case "-r", "run":
 		Run(readR2D2File())
 	case "js", "buildjs":
