@@ -4,7 +4,7 @@ module Settings implements Config {
     var height number = 100;   // altura mutável
     let width number = 200;    // largura imutável
     const bool isActive = true;  // constante, define se está ativo
-    
+
     // Função que implementa a interface Config
     export fn adjustSize(h i32, w i32) {
         height = h;  // Atualiza altura
@@ -28,7 +28,7 @@ module Main {
       } else {
           console.log("Nenhuma das opções");
       }
-      
+
       // Laço de repetição - for (seguindo a estrutura de C)
       for var i i32 = 0; i < 10; i++ {
           console.log(i);
@@ -40,7 +40,7 @@ module Main {
           console.log(i);
           i++;
       }
-      
+
       // Laço infinito - loop
       loop {
           console.log("Laço infinito!");
@@ -56,7 +56,7 @@ module Main {
   }
 
 // Função de adição simples
-  fn addNumbers(a i32, b i32): i32 {
+  fn addNumbers(a i32, b i32) i32 {
       return a + b;
   }
 }

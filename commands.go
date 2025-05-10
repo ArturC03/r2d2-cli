@@ -16,7 +16,6 @@ func ShowVersion() {
 
 // Build simulates the compilation process.
 func Build(r2d2Code string, filename string) {
-	fmt.Println(filename)
 	r2d2.BuildCode(r2d2Code, filename)
 }
 

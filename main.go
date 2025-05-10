@@ -32,7 +32,6 @@ func getFilename() string {
 	// Extract just the filename from the path
 	parts := strings.Split(filePath, string(os.PathSeparator))
 	filename := parts[len(parts)-1]
-	fmt.Println(filename)
 
 	return filename
 }

@@ -1,0 +1,213 @@
+module std {
+
+  // Basic I/O functions
+  export fn print(s string) {
+    @js << console.log(s); >>;
+  }
+
+  export fn println(s string) {
+    @js << console.log(s + "\n"); >>;
+  }
+
+  export fn printf(formatStr string, a string, b string, c string, d string, e string) {
+    @js <<
+      let args = [a, b, c, d, e];
+      let result = formatStr;
+      for (const arg of args) {
+        result = result.replace(/%[sdifo]/, String(arg));
+      }
+      console.log(result);
+    >>;
+  }
+
+  /*
+  export fn input(prompt string) string {
+    @js <<
+      const readline = require('readline').createInterface({
+        input: process.stdin,
+        output: process.stdout
+      });
+
+      return new Promise((resolve) => {
+        readline.question(prompt, (answer) => {
+          readline.close();
+          resolve(answer);
+        });
+      });
+    >>;
+  }
+  */
+
+  // String manipulation
+  export fn lengthStr(s string) number {  // Renamed to lengthStr
+    @js << return s.length; >>;
+  }
+
+  export fn substring(s string, start number, end number) string {
+    @js << return s.substring(start, end); >>;
+  }
+
+  export fn replaceStr(s string, oldStr string, newStr string) string {  // Renamed to replaceStr
+    @js << return s.replace(new RegExp(oldStr, 'g'), newStr); >>;
+  }
+
+  export fn split(s string, delimiter string) []string {
+    @js << return s.split(delimiter); >>;
+  }
+
+  export fn join(arr []string, delimiter string) string {
+    @js << return arr.join(delimiter); >>;
+  }
+
+  export fn trim(s string) string {
+    @js << return s.trim(); >>;
+  }
+
+  export fn toLower(s string) string {
+    @js << return s.toLowerCase(); >>;
+  }
+
+  export fn toUpper(s string) string {
+    @js << return s.toUpperCase(); >>;
+  }
+
+  // Math functions
+  export fn abs(x number) number {
+    @js << return Math.abs(x); >>;
+  }
+
+  export fn maxVal(x number, y number) number {  // Renamed to maxVal
+    @js << return Math.max(x, y); >>;
+  }
+
+  export fn minVal(x number, y number) number {  // Renamed to minVal
+    @js << return Math.min(x, y); >>;
+  }
+
+  export fn pow(base number, exponent number) number {
+    @js << return Math.pow(base, exponent); >>;
+  }
+
+  export fn sqrt(x number) number {
+    @js << return Math.sqrt(x); >>;
+  }
+
+  export fn round(x number) number {
+    @js << return Math.round(x); >>;
+  }
+
+  export fn floor(x number) number {
+    @js << return Math.floor(x); >>;
+  }
+
+  export fn ceil(x number) number {
+    @js << return Math.ceil(x); >>;
+  }
+
+  export fn random() number {
+    @js << return Math.random(); >>;
+  }
+
+  export fn randomInt(min number, max number) number {
+    @js << return Math.floor(Math.random() * (max - min + 1)) + min; >>;
+  }
+
+  // Array/slice function (no HOFs)
+  export fn contains(arr []string, item string) bool {
+    @js << return arr.includes(item); >>;
+  }
+
+  export fn indexOf(arr []string, item string) number {
+    @js << return arr.indexOf(item); >>;
+  }
+
+  export fn reverse(arr []string) []string {
+    @js << return [...arr].reverse(); >>;
+  }
+
+  export fn sort(arr []string) []string {
+    @js << return [...arr].sort(); >>;
+  }
+
+  // Time
+  export fn now() number {
+    @js << return Date.now(); >>;
+  }
+
+  export fn sleep(ms number) {
+    @js << return new Promise(resolve => setTimeout(resolve, ms)); >>;
+  }
+
+  export fn formatDate(timestamp number, format string) string {
+    @js <<
+      const date = new Date(timestamp);
+      return format
+        .replace('YYYY', date.getFullYear())
+        .replace('MM', String(date.getMonth() + 1).padStart(2, '0'))
+        .replace('DD', String(date.getDate()).padStart(2, '0'))
+        .replace('HH', String(date.getHours()).padStart(2, '0'))
+        .replace('mm', String(date.getMinutes()).padStart(2, '0'))
+        .replace('ss', String(date.getSeconds()).padStart(2, '0'));
+    >>;
+  }
+
+  // File system
+  export fn readFile(path string) string {
+    @js <<
+      const fs = require('fs');
+      return fs.readFileSync(path, 'utf8');
+    >>;
+  }
+
+  export fn writeFile(path string, content string) bool {
+    @js <<
+      const fs = require('fs');
+      try {
+        fs.writeFileSync(path, content, 'utf8');
+        return true;
+      } catch (err) {
+        return false;
+      }
+    >>;
+  }
+
+  export fn appendFile(path string, content string) bool {
+    @js <<
+      const fs = require('fs');
+      try {
+        fs.appendFileSync(path, content, 'utf8');
+        return true;
+      } catch (err) {
+        return false;
+      }
+    >>;
+  }
+
+  export fn fileExists(path string) bool {
+    @js <<
+      const fs = require('fs');
+      return fs.existsSync(path);
+    >>;
+  }
+
+  // System functions
+  export fn exec(command string) string {
+    @js <<
+      const { execSync } = require('child_process');
+      return execSync(command, { encoding: 'utf8' });
+    >>;
+  }
+
+  export fn exit(code number) {
+    @js << process.exit(code); >>;
+  }
+
+  export fn getEnv(name string) string {
+    @js << return process.env[name] || ""; >>;
+  }
+
+  export fn setEnv(name string, value string) {
+    @js << process.env[name] = value; >>;
+  }
+}
+
