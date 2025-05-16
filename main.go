@@ -9,9 +9,6 @@ import (
 	r2d2Styles "github.com/ArturC03/r2d2Styles"
 )
 
-// Remove this line as it's redeclared in commands.go
-// const version = "0.0.1"
-
 func getFilename() string {
 	// Check if there are enough command line arguments
 	if len(os.Args) < 3 {

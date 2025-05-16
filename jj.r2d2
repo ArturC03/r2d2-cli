@@ -1,0 +1,12 @@
+use "std.r2d2";
+
+module jj {
+export fn main() {
+  var x = 0;
+  while (x < 10) {
+    x = x + 1;
+    std.print(x);
+  }
+}
+}
+

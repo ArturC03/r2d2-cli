@@ -20,8 +20,7 @@ module std {
     >>;
   }
 
-  /*
-  export fn input(prompt string) string {
+  export fn input(prompt string) {
     @js <<
       const readline = require('readline').createInterface({
         input: process.stdin,
@@ -36,7 +35,6 @@ module std {
       });
     >>;
   }
-  */
 
   // String manipulation
   export fn lengthStr(s string) number {  // Renamed to lengthStr

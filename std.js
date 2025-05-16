@@ -13,19 +13,6 @@ const std = (function () {
     }
     console.log(result);
   }
-  function input(prompt) {
-    const readline = require("readline").createInterface({
-      input: process.stdin,
-      output: process.stdout,
-    });
-
-    return new Promise((resolve) => {
-      readline.question(prompt, (answer) => {
-        readline.close();
-        resolve(answer);
-      });
-    });
-  }
   function lengthStr(s) {
     return s.length;
   }
@@ -148,43 +135,42 @@ const std = (function () {
     process.env[name] = value;
   }
   return {
-    writeFile,
-    exit,
+    print,
     replaceStr,
-    trim,
     toUpper,
-    abs,
     pow,
     round,
-    floor,
-    print,
-    substring,
+    split,
+    randomInt,
+    readFile,
     appendFile,
+    fileExists,
+    setEnv,
+    exit,
     printf,
     toLower,
-    ceil,
-    now,
-    println,
-    minVal,
-    fileExists,
-    exec,
-    setEnv,
-    lengthStr,
-    random,
-    indexOf,
-    sleep,
     maxVal,
-    sqrt,
-    randomInt,
+    minVal,
+    sleep,
+    indexOf,
     reverse,
-    readFile,
-    getEnv,
-    input,
-    split,
     join,
+    sqrt,
     contains,
+    writeFile,
+    getEnv,
+    abs,
+    floor,
+    ceil,
     sort,
     formatDate,
+    println,
+    lengthStr,
+    trim,
+    random,
+    exec,
+    substring,
+    now,
   };
 })();
 
