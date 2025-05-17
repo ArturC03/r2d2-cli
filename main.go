@@ -6,7 +6,7 @@ import (
 	"os"
 	"strings"
 
-	r2d2Styles "github.com/ArturC03/r2d2Styles"
+	"github.com/ArturC03/r2d2Styles"
 )
 
 func getFilename() string {

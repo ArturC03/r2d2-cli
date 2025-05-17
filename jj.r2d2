@@ -1,12 +1,49 @@
 use "std.r2d2";
 
 module jj {
-export fn main() {
-  var x = 0;
-  while (x < 10) {
-    x = x + 1;
+
+  export var y = 0;
+
+  export fn main() {
+  var x = [1, 2, y ];
     std.print(x);
+    std.print(x[4]);
+    
+    x += 2;
+    while (x < 10) {
+      x = x + 1;
+      std.print(x);
+      break;
+    }
+
+    switch x {
+      case 10 =>
+      std.print("x is 10");
+      
+      case 20=> 
+std.print("x is 20");
+       
+      default=> 
+      std.print("x is not 10 or 20");
+      
+    }
+
+    if (x == 10) {
+      std.print("x is 10");
+    } else if (x == 20) {
+      std.print("x is 20");
+    } else {
+      std.print("x is not 10 or 20");
+    }
+
+    for (x = 0; x < 10; x = x + 1) {
+      std.print(x);
+    }
+
+    @js << 
+      console.log("hello world");
+    >>;
+
   }
-}
 }
 

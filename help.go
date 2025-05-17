@@ -71,6 +71,16 @@ var commands = []Command{
 		CategoryBuild,
 	},
 	{
+		"js",
+		"Transpiles a .r2d2 file to JavaScript",
+		"r2d2 js <file.r2d2>",
+		[]string{
+			"r2d2 js hello.r2d2",
+			"r2d2 js --out hello.js hello.r2d2",
+		},
+		CategoryBuild,
+	},
+	{
 		"init",
 		"Initialize a new R2D2 project",
 		"r2d2 init [project-name]",
