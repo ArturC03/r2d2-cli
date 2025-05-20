@@ -2,14 +2,16 @@ use "std.r2d2";
 
 module jj {
 
-  export var y = 0;
+  var x = 0;
 
   export fn main() {
-  var x = [1, 2, y ];
+
+  var x = [1, 2, "hello"];
     std.print(x);
-    std.print(x[4]);
+    std.print(x);
     
     x += 2;
+
     while (x < 10) {
       x = x + 1;
       std.print(x);
@@ -17,26 +19,18 @@ module jj {
     }
 
     switch x {
-      case 10 =>
-      std.print("x is 10");
-      
-      case 20=> 
-std.print("x is 20");
-       
-      default=> 
-      std.print("x is not 10 or 20");
-      
+      case 10 => std.print("x is 10");
+      case 20 => std.print("x is 20");
+      default => std.print("x is not 10 or 20");
     }
 
-    if (x == 10) {
-      std.print("x is 10");
-    } else if (x == 20) {
-      std.print("x is 20");
-    } else {
-      std.print("x is not 10 or 20");
-    }
+    if (x == 10) => std.print("x is 10");
+    else if (x == 20) => std.print("x is 20");
+    else => std.print("x is not 10 or 20");
 
-    for (x = 0; x < 10; x = x + 1) {
+    x = 0;
+
+    for (x < 10;x++) {
       std.print(x);
     }
 
