@@ -1,0 +1,67 @@
+use "std.r2d2";
+
+module donut {
+
+  var A = 0;
+  var B = 0;
+
+  export fn frame() {
+    var b = [];
+    var z = [];
+
+    A += 0.05;
+    B += 0.07;
+
+    var cA = std.cos(A);
+    var sA = std.sin(A);
+    var cB = std.cos(B);
+    var sB = std.sin(B);
+
+    var k = 0;
+    while (k < 1760) {
+      if (k % 80 == 79) {
+        b[k] = "\n";
+      } else {
+        b[k] = " ";
+      }
+      z[k] = 0;
+      k += 1;
+    }
+
+    var j = 0.0;
+    while (j < 6.28) {
+      var ct = std.cos(j);
+      var st = std.sin(j);
+
+      var i = 0.0;
+      while (i < 6.28) {
+        var sp = std.sin(i);
+        var cp = std.cos(i);
+        var h = ct + 2;
+        var D = 1 / (sp * h * sA + st * cA + 5);
+        var t = sp * h * cA - st * sA;
+
+        var x = std.bitwiseOrZero(40 + 30 * D * (cp * h * cB - t * sB));
+        var y = std.bitwiseOrZero(12 + 15 * D * (cp * h * sB + t * cB));
+        var o = x + 80 * y;
+
+        var N = std.bitwiseOrZero(8 * ((st * sA - sp * ct * cA) * cB - sp * ct * sA - st * cA - cp * ct * sB));
+
+        if (y < 22 && y >= 0 && x >= 0 && x < 79 && D > z[o]) {
+          z[o] = D;
+          var chars = ".,-~:;=!*#$@";
+          if (N > 0) {
+            b[o] = std.substring(chars, N, N + 1);
+          } else {
+            b[o] = std.substring(chars, 0, 1);
+          }
+        }
+
+        i += 0.02;
+      }
+      j += 0.07;
+    }
+
+    std.stdoutWrite( std.join(b, ""));
+  }
+}

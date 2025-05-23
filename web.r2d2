@@ -1,0 +1,124 @@
+use "std.r2d2";
+
+module SimpleWebPage {
+  
+  fn createSimplePage() {
+    // Definir o título da página
+    @js <<
+      document.title = "Minha Primeira Página R2D2";
+    >>;
+    
+    // Adicionar estilos básicos
+    @js <<
+      const style = document.createElement('style');
+      style.textContent = `
+        body {
+          font-family: Arial, sans-serif;
+          margin: 0;
+          padding: 20px;
+          background: linear-gradient(135deg, #74b9ff, #0984e3);
+          min-height: 100vh;
+          color: white;
+        }
+        
+        .container {
+          max-width: 800px;
+          margin: 0 auto;
+          text-align: center;
+          padding: 50px 20px;
+        }
+        
+        h1 {
+          font-size: 3rem;
+          margin-bottom: 20px;
+          text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        p {
+          font-size: 1.2rem;
+          margin-bottom: 30px;
+          opacity: 0.9;
+        }
+        
+        .btn {
+          background: white;
+          color: #0984e3;
+          padding: 15px 30px;
+          border: none;
+          border-radius: 25px;
+          font-size: 1.1rem;
+          font-weight: bold;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        .btn:hover {
+          transform: translateY(-3px);
+          box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+        
+        .info-box {
+          background: rgba(255,255,255,0.1);
+          padding: 30px;
+          border-radius: 15px;
+          margin: 40px 0;
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .footer {
+          margin-top: 50px;
+          font-size: 0.9rem;
+          opacity: 0.7;
+        }
+      `;
+      document.head.appendChild(style);
+    >>;
+    
+    // Criar o conteúdo da página
+    @js <<
+      document.body.innerHTML = `
+        <div class="container">
+          <h1>🚀 Olá, R2D2!</h1>
+          <p>Esta é a minha primeira página web criada com a linguagem R2D2!</p>
+          
+          <div class="info-box">
+            <h2>Sobre esta página</h2>
+            <p>Esta página foi criada usando apenas funções R2D2 e blocos @js. 
+               É simples, mas poderosa!</p>
+          </div>
+          
+          <button class="btn" onclick="showMessage()">Clica aqui!</button>
+          
+          <div class="footer">
+            <p>Feito com ❤️ usando R2D2 Web Framework</p>
+          </div>
+        </div>
+      `;
+    >>;
+    
+    // Adicionar interatividade
+    @js <<
+      window.showMessage = function() {
+        alert('Parabéns! O teu programa R2D2 está a funcionar perfeitamente! 🎉');
+      };
+      
+      // Efeito de entrada suave
+      setTimeout(() => {
+        document.querySelector('.container').style.opacity = '0';
+        document.querySelector('.container').style.transform = 'translateY(30px)';
+        document.querySelector('.container').style.transition = 'all 1s ease';
+        
+        setTimeout(() => {
+          document.querySelector('.container').style.opacity = '1';
+          document.querySelector('.container').style.transform = 'translateY(0)';
+        }, 100);
+      }, 100);
+    >>;
+  }
+  
+  export fn main() {
+    createSimplePage();
+  }
+}
