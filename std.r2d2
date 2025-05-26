@@ -66,13 +66,24 @@ module std {
     @js << process.exit(code); >>;
   }
 
-  
-
   export fn setIntervalCallback() {
     @js << setInterval(() => donut.frame(), 50); >>;
   }
 
   export fn bitwiseOrZero(x number) number {
     @js << return x | 0; >>;
+  }
+
+
+  export fn lower(x string) string {
+    @js << return x.toLowerCase(); >>;
+  }
+
+  export fn upper(x string) string {
+    @js << return x.toUpperCase(); >>;
+  }
+
+  export fn len(x string) number {
+    @js << return x.length; >>;
   }
 }

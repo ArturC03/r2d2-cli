@@ -1,0 +1,36 @@
+use "std.r2d2";
+
+module DemoCLI {
+    export fn main() {
+        // Basic string operations
+        let greeting = "Hello, R2D2 CLI!";
+        std.println(greeting);
+        std.println("String length:" + std.len(greeting));
+        std.println("Uppercase:" + std.upper(greeting));
+        std.println("Lowercase:" + std.lower(greeting));
+
+        // Simple math operations
+        let x = 10;
+        let y = 5;
+
+        std.println("Sum:" + x + y);
+        std.println("Difference:" + (x - y));
+        std.println("Product:" + x * y);
+        std.println("Division:" + x / y);
+        
+        // Conditional example
+        if x > y {
+            std.println("x is greater than y");
+        } else {
+            std.println("y is greater than or equal to x");
+        }
+        
+        // Loop example
+        std.println("Counting from 1 to 5:");
+        let i = 1;
+        while i <= 5 {
+            std.println(i);
+            i = i + 1;
+        }
+    }
+}

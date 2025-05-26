@@ -1,0 +1,34 @@
+use "std.r2d2";
+use "web_utils.r2d2";
+
+module WebDemo {
+    export fn main() {
+        // Basic string operations
+        let greeting = "Hello from R2D2 Web!";
+        let result = WebUtils.getElementById("demoResult");
+        WebUtils.appendHTML(result, "<p>Original: " + greeting + "</p>");
+        WebUtils.appendHTML(result, "<p>Length: " + greeting.length + "</p>");
+        WebUtils.appendHTML(result, "<p>Uppercase: " + greeting.toUpperCase() + "</p>");
+        
+        // Simple math operations
+        let x = 10;
+        let y = 5;
+        WebUtils.appendHTML(result, "<p>Sum: " + (x + y) + "</p>");
+        WebUtils.appendHTML(result, "<p>Difference: " + (x - y) + "</p>");
+        
+        // Conditional example
+        if (x > y) {
+            WebUtils.appendHTML(result, "<p>x is greater than y</p>");
+        } else {
+            WebUtils.appendHTML(result, "<p>y is greater than or equal to x</p>");
+        }
+        
+        // Loop example
+        WebUtils.appendHTML(result, "<p>Counting from 1 to 5:</p>");
+        let i = 1;
+        while (i <= 5) {
+            WebUtils.appendHTML(result, "<p>" + i + "</p>");
+            i = i + 1;
+        }
+    }
+}

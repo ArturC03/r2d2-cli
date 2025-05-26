@@ -1,0 +1,68 @@
+use "std.r2d2";
+
+module WebUtils {
+    // Get element by ID
+    fn getElementById(id string) {
+        @js <<
+            return document.getElementById(id);
+        >>;
+    }
+
+    // Set inner HTML
+    fn setInnerHTML(element any, html string) {
+        @js <<
+            element.innerHTML = html;
+        >>;
+    }
+
+    // Append HTML to element
+    fn appendHTML(element any, html string) {
+        @js <<
+            element.innerHTML += html;
+        >>;
+    }
+
+    // Create element
+    fn createElement(tag string) {
+        @js <<
+            return document.createElement(tag);
+        >>;
+    }
+
+    // Add class to element
+    fn addClass(element any, className string) {
+        @js <<
+            element.classList.add(className);
+        >>;
+    }
+
+    // Create text node
+    fn createTextNode(text string) {
+        @js <<
+            return document.createTextNode(text);
+        >>;
+    }
+
+    // Append child
+    fn appendChild(parent any, child any) {
+        @js <<
+            parent.appendChild(child);
+        >>;
+    }
+
+    // Create button
+    fn createButton(text string) {
+        let button = createElement("button");
+        let textNode = createTextNode(text);
+        appendChild(button, textNode);
+        return button;
+    }
+
+    // Create paragraph
+    fn createParagraph(text string) {
+        let p = createElement("p");
+        let textNode = createTextNode(text);
+        appendChild(p, textNode);
+        return p;
+    }
+}

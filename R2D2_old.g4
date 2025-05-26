@@ -12,7 +12,6 @@ declaration
   : moduleDeclaration
   | interfaceDeclaration
   | globalDeclaration
-  | typeDeclaration
   ;
 
 globalDeclaration
@@ -20,7 +19,7 @@ globalDeclaration
   ;
 
 importDeclaration
-  : USE STRING_LITERAL SEMI
+  : IMPORT IDENTIFIER FROM STRING_LITERAL SEMI
   ;
 
 interfaceDeclaration
@@ -32,7 +31,7 @@ moduleDeclaration
   ;
 
 functionDeclaration
-  : (EXPORT)? (PSEUDO)? FN IDENTIFIER LPAREN parameterList? RPAREN (typeExpression)? (block | SEMI)
+  : (EXPORT)? (PSEUDO)? FN IDENTIFIER LPAREN parameterList? RPAREN (COLON typeExpression)? (block | SEMI)
   ;
 
 functionCallStatement
@@ -48,12 +47,11 @@ parameterList
   ;
 
 parameter
-  : IDENTIFIER ( typeExpression )?
+  : IDENTIFIER typeExpression
   ;
 
 typeExpression
   : baseType arrayDimensions?
-  | arrayDimensions? baseType
   ;
 
 arrayDimensions
@@ -71,7 +69,7 @@ genericType
   ;
 
 typeDeclaration
-  : (EXPORT)? 'type' IDENTIFIER LBRACE (variableDeclaration)* RBRACE
+  : 'type' IDENTIFIER LBRACE (variableDeclaration)* RBRACE
   ;
 
 variableDeclaration
@@ -90,7 +88,11 @@ statement
   | returnStatement
   | switchStatement
   | assignmentDeclaration
-  | jsStatement
+  | jsBlockStatement
+  ;
+
+jsBlockStatement
+  : JS_BLOCK
   ;
 
 expressionStatement
@@ -98,10 +100,9 @@ expressionStatement
   ;
 
 ifStatement
-  : IF (LPAREN)? expression (RPAREN)? (block | ARROW statement)
-    (ELSE IF (LPAREN)? expression (RPAREN)? (block | ARROW statement))*
-    (ELSE (block | ARROW statement))?
+  : IF ( LPAREN )? expression ( RPAREN )? block (ELSE IF ( LPAREN )? expression (RPAREN)? block)* (ELSE block)?
   ;
+
 forStatement
   : FOR (LPAREN)? simpleFor (RPAREN)? block
   ;
@@ -113,8 +114,6 @@ assignmentDeclaration
 assignment
   : IDENTIFIER assignmentOperator expression
   | IDENTIFIER (INCREMENT | DECREMENT)
-  | IDENTIFIER LBRACK expression RBRACK assignmentOperator expression 
-  | IDENTIFIER LBRACK expression RBRACK (INCREMENT | DECREMENT)
   ;
 
 assignmentOperator
@@ -127,11 +126,11 @@ assignmentOperator
   ;
 
 simpleFor
-  : (variableDeclaration | assignment SEMI)? (expression SEMI)? (assignment)?
+  : (variableDeclaration | assignment SEMI)? (expression SEMI )? (assignment)?
   ;
 
 whileStatement
-  : WHILE (LPAREN)? expression (RPAREN)? block
+  : WHILE LPAREN expression RPAREN block
   ;
 
 loopStatement
@@ -155,42 +154,29 @@ returnStatement
   ;
 
 expression
-  : literal                                                #literalExpression
-  | IDENTIFIER                                             #identifierExpression
-  | functionCall                                           #functionCallExpression
-  | expression LBRACK expression RBRACK                    #arrayAccessExpression
-  | '(' expression ')'                                     #parenthesisExpression
-  | (NOT | MINUS | INCREMENT | DECREMENT) expression       #unaryExpression
-  | expression (MULT | DIV | MOD) expression               #multiplicativeExpression
-  | expression (PLUS | MINUS) expression                   #additiveExpression
-  | expression (EQ | NEQ | LT | GT | LEQ | GEQ) expression #comparisonExpression
-  | expression (AND | OR) expression                       #logicalExpression
+  : logicalExpression
   ;
 
-// expression
-//   : logicalExpression
-//   ;
-//
-// logicalExpression
-//   : comparisonExpression ((AND | OR) comparisonExpression)*
-//   ;
-//
-// comparisonExpression
-//   : additiveExpression ((EQ | NEQ | LT | GT | LEQ | GEQ) additiveExpression)*
-//   ;
-//
-// additiveExpression
-//   : multiplicativeExpression ((PLUS | MINUS) multiplicativeExpression)*
-//   ;
-//
-// multiplicativeExpression
-//   : unaryExpression ((MULT | DIV | MOD) unaryExpression)*
-//   ;
-//
-// unaryExpression
-//   : (NOT | MINUS | INCREMENT | DECREMENT) unaryExpression
-//   | memberExpression
-//   ;
+logicalExpression
+  : comparisonExpression ((AND | OR) comparisonExpression)*
+  ;
+
+comparisonExpression
+  : additiveExpression ((EQ | NEQ | LT | GT | LEQ | GEQ) additiveExpression)*
+  ;
+
+additiveExpression
+  : multiplicativeExpression ((PLUS | MINUS) multiplicativeExpression)*
+  ;
+
+multiplicativeExpression
+  : unaryExpression ((MULT | DIV | MOD) unaryExpression)*
+  ;
+
+unaryExpression
+  : (NOT | MINUS | INCREMENT | DECREMENT) unaryExpression
+  | memberExpression
+  ;
 
 memberExpression
   : primaryExpression memberPart*
@@ -225,8 +211,6 @@ literal
   | FLOAT_LITERAL
   | STRING_LITERAL
   | BOOL_LITERAL
-  | NULL_LITERAL
-  | arrayLiteral
   ;
 
 block
@@ -234,21 +218,15 @@ block
   ;
 
 switchStatement
-  : SWITCH (LPAREN)? expression (RPAREN)? LBRACE switchCase* defaultCase? RBRACE
+  : SWITCH LPAREN expression RPAREN LBRACE switchCase* defaultCase? RBRACE
   ;
 
 switchCase
-  : CASE expression block
-  | CASE expression ARROW statement
+  : CASE expression COLON block
   ;
 
 defaultCase
-  : DEFAULT block
-  | DEFAULT ARROW statement
-  ;
-
-jsStatement
-  : AT JS JS_BLOCK SEMI
+  : DEFAULT COLON block
   ;
 
 /*
@@ -256,7 +234,6 @@ jsStatement
  */
 
 // Keywords
-USE: 'use';
 IMPORT: 'import';
 FROM: 'from';
 INTERFACE: 'interface';
@@ -317,19 +294,14 @@ DOT: '.';
 COLON: ':';
 SEMI: ';';
 
-// Other stuff
-AT      : '@';
-JS      : 'js';
-JS_BLOCK: '<<' .*? '>>';
-ARROW   : '=>';
+// Identifiers and literals
+IDENTIFIER: [a-zA-Z_][a-zA-Z_0-9]*;
 
 TYPE
-  : 'number'
-  | 'boolean'
-  | 'string'
-  | 'array'
-  | 'object'
-  | 'void'
+  : 'i8' | 'i16' | 'i32' | 'i64'
+  | 'u8' | 'u16' | 'u32' | 'u64'
+  | 'f32' | 'f64'
+  | 'bool' | 'string' | 'void'
   ;
 
 STRING_LITERAL
@@ -341,19 +313,12 @@ BOOL_LITERAL
   | 'false'
   ;
 
-  NULL_LITERAL
-  : 'null'
-  ;
-
 INT_LITERAL
   : DecimalIntegerLiteral
   | HexIntegerLiteral
   | OctalIntegerLiteral
   | BinaryIntegerLiteral
   ;
-
-// Identifiers and literals
-IDENTIFIER: ([a-zA-Z_][a-zA-Z_0-9]*);
 
 fragment DecimalIntegerLiteral
   : SignPart? DecimalNumeral
@@ -375,6 +340,10 @@ FLOAT_LITERAL
   : SignPart? DecimalNumeral '.' DecimalDigits? ExponentPart?
   | SignPart? '.' DecimalDigits ExponentPart?
   | SignPart? DecimalNumeral ExponentPart
+  ;
+
+JS_BLOCK
+  : '__js__' '(' .*? ')' SEMI
   ;
 
 fragment SignPart
