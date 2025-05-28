@@ -3,7 +3,7 @@ use "std.r2d2";
 module DemoCLI {
     export fn main() {
         // Basic string operations
-        let greeting = "Hello, R2D2 CLI!";
+        let greeting = """Hello, R2D2 CLI!""";
         std.println(greeting);
         std.println("String length:" + std.len(greeting));
         std.println("Uppercase:" + std.upper(greeting));

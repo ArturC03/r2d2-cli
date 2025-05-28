@@ -47,7 +47,10 @@ var commands = []Command{
 		"version",
 		"Displays the language version",
 		"r2d2 version",
-		[]string{"r2d2 version --full", "r2d2 version -f"},
+		[]string{
+			"r2d2 version",
+			// "r2d2 version -f"
+		},
 		CategoryBasic,
 	},
 	{
@@ -56,7 +59,8 @@ var commands = []Command{
 		"r2d2 build <file.r2d2>",
 		[]string{
 			"r2d2 build hello.r2d2",
-			"r2d2 build --optimize hello.r2d2",
+			"r2d2 build hello.r2d2 -o hi",
+			// "r2d2 build --optimize hello.r2d2",
 		},
 		CategoryBuild,
 	},
@@ -66,7 +70,7 @@ var commands = []Command{
 		"r2d2 run <file.r2d2>",
 		[]string{
 			"r2d2 run hello.r2d2",
-			"r2d2 run --debug hello.r2d2",
+			// "r2d2 run debug hello.r2d2",
 		},
 		CategoryBuild,
 	},
@@ -76,7 +80,7 @@ var commands = []Command{
 		"r2d2 js <file.r2d2>",
 		[]string{
 			"r2d2 js hello.r2d2",
-			"r2d2 js --out hello.js hello.r2d2",
+			"r2d2 js hello.r2d2 -o yoyo.js",
 		},
 		CategoryBuild,
 	},

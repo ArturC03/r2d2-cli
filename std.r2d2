@@ -2,88 +2,88 @@
 module std {
   // I/O
   // export fn print(s string) {
-  //   @js << console.log(s); >>;
+  //   @js "console.log(s);"; 
   // }
 
   // JS interop helpers for donut
   export fn println(s string) {
-    @js <<
+    @js """
       const encoder = new TextEncoder();
       const data = encoder.encode(s+"\n");
       Deno.stdout.write(data).then(() => {});
-    >>;
+    """;
   }
 
   export fn print(s string) {
-    @js <<
+    @js """
       const encoder = new TextEncoder();
       const data = encoder.encode(s);
       Deno.stdout.write(data).then(() => {});
-    >>;
+    """;
   }
 
   // String utils
   export fn lengthStr(s string) number {
-    @js << return s.length; >>;
+    @js """ return s.length; """;
   }
   export fn trim(s string) string {
-    @js << return s.trim(); >>;
+    @js """ return s.trim(); """;
   }
   export fn split(s string, delim string) array {
-    @js << return s.split(delim); >>;
+    @js """ return s.split(delim); """;
   }
   export fn join(arr array, delim string) string {
-    @js << return arr.join(delim); >>;
+    @js """ return arr.join(delim); """;
   }
   export fn substring(s string, start number, end number) string {
-    @js << return s.substring(start, end); >>;
+    @js """ return s.substring(start, end); """;
   }
   export fn repeat(s string, times number) string {
-    @js << return s.repeat(times); >>;
+    @js """ return s.repeat(times); """;
   }
 
   // Math
-  export fn abs(x number) number { @js << return Math.abs(x); >>; }
-  export fn sqrt(x number) number { @js << return Math.sqrt(x); >>; }
-  export fn pow(x number, y number) number { @js << return Math.pow(x, y); >>; }
-  export fn sin(x number) number { @js << return Math.sin(x); >>; }
-  export fn cos(x number) number { @js << return Math.cos(x); >>; }
-  export fn tan(x number) number { @js << return Math.tan(x); >>; }
-  export fn floor(x number) number { @js << return Math.floor(x); >>; }
-  export fn pi() number { @js << return Math.PI; >>; }
-  export fn random() number { @js << return Math.random(); >>; }
+  export fn abs(x number) number { @js """ return Math.abs(x); """; }
+  export fn sqrt(x number) number { @js """ return Math.sqrt(x); """; }
+  export fn pow(x number, y number) number { @js """ return Math.pow(x, y); """; }
+  export fn sin(x number) number { @js """ return Math.sin(x); """; }
+  export fn cos(x number) number { @js """ return Math.cos(x); """; }
+  export fn tan(x number) number { @js """ return Math.tan(x); """; }
+  export fn floor(x number) number { @js """ return Math.floor(x); """; }
+  export fn pi() number { @js """ return Math.PI; """; }
+  export fn random() number { @js """ return Math.random(); """; }
 
   // Time
-  export fn now() number { @js << return Date.now(); >>; }
+  export fn now() number { @js """ return Date.now(); """; }
 
   // File system
   export fn readFile(path string) string {
-    @js << return require('fs').readFileSync(path, 'utf8'); >>;
+    @js """ return require('fs').readFileSync(path, 'utf8'); """;
   }
 
   // System
   export fn exit(code number) {
-    @js << process.exit(code); >>;
+    @js """ process.exit(code); """;
   }
 
   export fn setIntervalCallback() {
-    @js << setInterval(() => donut.frame(), 50); >>;
+    @js """ setInterval(() => donut.frame(), 50); """;
   }
 
   export fn bitwiseOrZero(x number) number {
-    @js << return x | 0; >>;
+    @js """ return x | 0; """;
   }
 
 
   export fn lower(x string) string {
-    @js << return x.toLowerCase(); >>;
+    @js """ return x.toLowerCase(); """;
   }
 
   export fn upper(x string) string {
-    @js << return x.toUpperCase(); >>;
+    @js """ return x.toUpperCase(); """;
   }
 
   export fn len(x string) number {
-    @js << return x.length; >>;
+    @js """ return x.length; """;
   }
 }
