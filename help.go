@@ -1,17 +1,18 @@
-// help.go
 package main
 
 import (
 	"fmt"
+	"io"
 	"os"
 	"strings"
 
+	"github.com/ArturC03/r2d2Styles"
 	"github.com/charmbracelet/bubbles/list"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
 )
 
-// Command represents a CLI command with its details
+// Represents a CLI command with its details
 type Command struct {
 	name        string
 	description string
@@ -20,10 +21,11 @@ type Command struct {
 	category    string
 }
 
-// Implementing list.Item interface
+// Implementing list.Item interface - return plain text for filtering
 func (c Command) Title() string {
-	return fmt.Sprintf("%s%s", highlightedCmdStyle.Render(c.name), categoryStyle.Render(" ["+c.category+"]"))
+	return fmt.Sprintf("%s [%s]", c.name, c.category)
 }
+
 func (c Command) Description() string { return c.description }
 func (c Command) FilterValue() string { return c.name + " " + c.description + " " + c.category }
 
@@ -80,20 +82,20 @@ var commands = []Command{
 		"r2d2 js <file.r2d2>",
 		[]string{
 			"r2d2 js hello.r2d2",
-			"r2d2 js hello.r2d2 -o yoyo.js",
+			"r2d2 js hello.r2d2 -o bye.js",
 		},
 		CategoryBuild,
 	},
-	{
-		"init",
-		"Initialize a new R2D2 project",
-		"r2d2 init [project-name]",
-		[]string{
-			"r2d2 init my-project",
-			"r2d2 init --template basic",
-		},
-		CategoryUtil,
-	},
+	// {
+	// 	"init",
+	// 	"Initialize a new R2D2 project",
+	// 	"r2d2 init [project-name]",
+	// 	[]string{
+	// 		"r2d2 init my-project",
+	// 		"r2d2 init --template basic",
+	// 	},
+	// 	CategoryUtil,
+	// },
 	// {
 	// 	"package",
 	// 	"Create a distributable package",
@@ -106,12 +108,11 @@ var commands = []Command{
 	// },
 }
 
-// Styles for categories
+// Styles for categories (using colors from styles.go)
 var (
 	categoryStyle = lipgloss.NewStyle().
 			Foreground(subtleColor).
-			Italic(true).
-			MarginLeft(1)
+			Italic(true)
 
 	highlightedCmdStyle = lipgloss.NewStyle().
 				Foreground(specialColor).
@@ -141,6 +142,37 @@ func NewCustomDelegate() customDelegate {
 	d.Styles.DimmedDesc = normalItemStyle.Foreground(subtleColor).Faint(true)
 
 	return d
+}
+
+// Custom render method to handle styling properly
+func (d customDelegate) Render(w io.Writer, m list.Model, index int, item list.Item) {
+	var str string
+
+	if cmd, ok := item.(Command); ok {
+		// Apply custom styling here instead of in Title()
+		cmdName := highlightedCmdStyle.Render(cmd.name)
+		category := categoryStyle.Render(" [" + cmd.category + "]")
+
+		if index == m.Index() {
+			// Selected item
+			str = d.Styles.SelectedTitle.Render(cmdName + category)
+			if cmd.description != "" {
+				str += "\n" + d.Styles.SelectedDesc.Render(cmd.description)
+			}
+		} else {
+			// Normal item
+			str = d.Styles.NormalTitle.Render(cmdName + category)
+			if cmd.description != "" {
+				str += "\n" + d.Styles.NormalDesc.Render(cmd.description)
+			}
+		}
+	} else {
+		// Fallback to default rendering
+		d.DefaultDelegate.Render(w, m, index, item)
+		return
+	}
+
+	fmt.Fprint(w, str)
 }
 
 // HelpModel represents the application state
@@ -373,7 +405,7 @@ func ShowHelp() {
 	)
 
 	if _, err := p.Run(); err != nil {
-		fmt.Printf("%s %s\n", Tag("error"), err)
+		r2d2Styles.ErrorMessage(err.Error())
 		os.Exit(1)
 	}
 }

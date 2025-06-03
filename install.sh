@@ -4,15 +4,17 @@
 # This script installs the R2D2 CLI tool on various operating systems
 
 # Terminal colors and formatting
-BLUE='\033[0;34m'
-GREEN='\033[0;32m'
-RED='\033[0;31m'
-YELLOW='\033[0;33m'
-WHITE='\033[1;37m'
-BG_BLUE='\033[44m'
-BG_GREEN='\033[42m'
-BG_RED='\033[41m'
-BG_YELLOW='\033[43m'
+BLUE='\033[38;2;76;110;245m'
+GREEN='\033[38;2;40;167;69m'
+RED='\033[38;2;255;79;90m'
+YELLOW='\033[38;2;255;185;45m'
+PURPLE='\033[38;2;165;94;234m'
+WHITE='\033[38;2;255;255;255m'
+BG_BLUE='\033[48;2;76;110;245m'
+BG_GREEN='\033[48;2;40;167;69m'
+BG_RED='\033[48;2;255;79;90m'
+BG_YELLOW='\033[48;2;255;185;45m'
+BG_PURPLE='\033[48;2;165;94;234m'
 BOLD='\033[1m'
 RESET='\033[0m'
 
@@ -202,8 +204,7 @@ clone_and_build() {
     # Move the binary to the bin directory
     if ! sudo mv r2d2 "$BIN_DIR/"; then
         error "Failed to move the binary to $BIN_DIR. Trying without sudo..."
-        if ! mv r2d2 "$BIN_DIR/"; then
-            error "Failed to install the R2D2 CLI tool."
+        if ! mv r2d2 "$BIN_DIR/"; then error "Failed to install the R2D2 CLI tool."
             exit 1
         fi
     fi
@@ -271,12 +272,12 @@ main() {
 
     # Print the ASCII art with bold green formatting
     echo -e ""
-    echo -e "${BOLD}${GREEN}██████╗ ██████╗ ██████╗ ██████╗ ${RESET}"
-    echo -e "${BOLD}${GREEN}██╔══██╗╚════██╗██╔══██╗╚════██╗${RESET}"
-    echo -e "${BOLD}${GREEN}██████╔╝ █████╔╝██║  ██║ █████╔╝${RESET}"
-    echo -e "${BOLD}${GREEN}██╔══██╗██╔═══╝ ██║  ██║██╔═══╝ ${RESET}"
-    echo -e "${BOLD}${GREEN}██║  ██║███████╗██████╔╝███████╗${RESET}"
-    echo -e "${BOLD}${GREEN}╚═╝  ╚═╝╚══════╝╚═════╝ ╚══════╝${RESET}"
+    echo -e "${BOLD}${PURPLE}██████╗ ██████╗ ██████╗ ██████╗ ${RESET}"
+    echo -e "${BOLD}${PURPLE}██╔══██╗╚════██╗██╔══██╗╚════██╗${RESET}"
+    echo -e "${BOLD}${PURPLE}██████╔╝ █████╔╝██║  ██║ █████╔╝${RESET}"
+    echo -e "${BOLD}${PURPLE}██╔══██╗██╔═══╝ ██║  ██║██╔═══╝ ${RESET}"
+    echo -e "${BOLD}${PURPLE}██║  ██║███████╗██████╔╝███████╗${RESET}"
+    echo -e "${BOLD}${PURPLE}╚═╝  ╚═╝╚══════╝╚═════╝ ╚══════╝${RESET}"
     info "R2D2 CLI Installation Script"
 
     detect_os

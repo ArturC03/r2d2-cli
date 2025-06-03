@@ -88,21 +88,3 @@ var (
 			Foreground(infoColor).
 			Bold(true)
 )
-
-// Tag returns a styled tag based on type
-func Tag(tagType string) string {
-	switch tagType {
-	case "error":
-		return errorStyle.Render("ERROR")
-	case "info":
-		return infoStyle.Render("INFO")
-	case "warning":
-		return warningStyle.Render("WARNING")
-	case "success":
-		return tagBaseStyle.Copy().
-			Background(lipgloss.Color(specialHex)).
-			Render("SUCCESS")
-	default:
-		return ""
-	}
-}

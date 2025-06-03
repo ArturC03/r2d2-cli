@@ -1,12 +1,11 @@
 use "std.r2d2";
 
 module cookie {
-
     export fn main() {
         var cookie string = 2;
 
         if (cookie == "2") {
-            print("Cookie is 2");
+            std.print("Cookie is 2");
         } else {
             std.print("Cookie is not 2");
         }

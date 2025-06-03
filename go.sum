@@ -1,9 +1,5 @@
-github.com/ArturC03/r2d2 v0.1.1 h1:47DBpssOj/31oLUSzpEvr34u2ClPJlMOa9MdXWL42RE=
-github.com/ArturC03/r2d2 v0.1.1/go.mod h1:KkIHObMI0C6noc60VhnnJYgQlM81z/f5GCpmwQrRXb0=
-github.com/ArturC03/r2d2 v0.1.2 h1:wrT//BN2rJksE6yPfNhYB6dGAZKOes1L3sNMbjQW3WM=
-github.com/ArturC03/r2d2 v0.1.2/go.mod h1:KkIHObMI0C6noc60VhnnJYgQlM81z/f5GCpmwQrRXb0=
-github.com/ArturC03/r2d2 v0.1.4 h1:trRsBR0/F+U05AKqg8ZsWpe/bWX34oYTsWAVqAfYBNM=
-github.com/ArturC03/r2d2 v0.1.4/go.mod h1:KkIHObMI0C6noc60VhnnJYgQlM81z/f5GCpmwQrRXb0=
+github.com/ArturC03/r2d2 v0.1.6 h1:Z92qsx3fWa0HACj6R1o1SO+lUFUfwFCrZbYdZu6bbLU=
+github.com/ArturC03/r2d2 v0.1.6/go.mod h1:KkIHObMI0C6noc60VhnnJYgQlM81z/f5GCpmwQrRXb0=
 github.com/ArturC03/r2d2Styles v0.0.17 h1:OKsivjQLKEmaFdU0aGbFnSJbIgY9cv0dMfWfY7yXxxM=
 github.com/ArturC03/r2d2Styles v0.0.17/go.mod h1:f/ANs6KmA9tQYj5WSSq4aCH7ZE3J9ac8lX3RMpg9QFg=
 github.com/antlr4-go/antlr/v4 v4.13.1 h1:SqQKkuVZ+zWkMMNkjy5FZe5mr5WURWnlpmOuzYWrPrQ=
