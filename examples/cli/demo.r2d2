@@ -1,13 +1,16 @@
 use "std.r2d2";
 
-module DemoCLI {
+
+
+module DemoCLI::Console {
+    
 
     let greeting = """Hello, R2D2 CLI!""";
     let x = 10;
     let y = 5;
 
     fn stringOp() {
-        std.println(greeting);
+        console.log(greeting);
         std.println("String length:" + std.len(greeting));
         std.println("Uppercase:" + std.upper(greeting));
         std.println("Lowercase:" + std.lower(greeting));
@@ -45,4 +48,8 @@ module DemoCLI {
         conditionOp();
         loopOp();
     }
+}
+
+interface Console {
+    let ss;
 }
