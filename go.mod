@@ -5,7 +5,7 @@ go 1.24.0
 toolchain go1.24.1
 
 require (
-	github.com/ArturC03/r2d2 v0.1.7
+	github.com/ArturC03/r2d2 v0.1.8
 	github.com/ArturC03/r2d2Styles v0.0.17
 	github.com/charmbracelet/bubbles v0.20.0
 	github.com/charmbracelet/bubbletea v1.3.4
@@ -13,7 +13,7 @@ require (
 )
 
 require (
-	github.com/antlr4-go/antlr/v4 v4.13.1 // indirect; in5direct
+	github.com/antlr4-go/antlr/v4 v4.13.1 // in5direct
 	github.com/atotto/clipboard v0.1.4 // indirect
 	github.com/aymanbagabas/go-osc52/v2 v2.0.1 // indirect
 	github.com/charmbracelet/x/ansi v0.8.0 // indirect
@@ -34,6 +34,6 @@ require (
 	golang.org/x/text v0.3.8 // indirect
 )
 
-// replace github.com/ArturC03/r2d2 v0.1.7 => ../r2d2
+// replace github.com/ArturC03/r2d2 v0.1.8 => ../r2d2
 //
 // replace github.com/ArturC03/r2d2Styles v0.0.17 => ../r2d2Styles

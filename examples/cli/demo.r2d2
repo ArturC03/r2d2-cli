@@ -2,14 +2,26 @@ use "std.r2d2";
 
 
 
+interface Demo {
+    export fn stringOp();
+    fn mathOp();
+    fn conditionOp();
+    fn loopOp();
+
+    pseudo fn main();
+}
+
+interface Console::Demo {
+    let greeting;
+    var y;
+}
+
 module DemoCLI::Console {
-    
+    var greeting = """Hello, R2D2 CLI!""";
+    export var x = 10;
+    var y = 5;
 
-    let greeting = """Hello, R2D2 CLI!""";
-    let x = 10;
-    let y = 5;
-
-    fn stringOp() {
+    export fn stringOp() {
         console.log(greeting);
         std.println("String length:" + std.len(greeting));
         std.println("Uppercase:" + std.upper(greeting));
@@ -31,6 +43,17 @@ module DemoCLI::Console {
         } else {
             std.println("y is greater than or equal to x");
         }
+
+        switch x {
+            case 10 {
+                std.println("x is 10");
+            }
+            case 20 => std.println("x is 20");
+            
+            default {
+                std.println("x is not 10 or 20");
+            }
+        }
     }
 
     fn loopOp() {
@@ -48,8 +71,4 @@ module DemoCLI::Console {
         conditionOp();
         loopOp();
     }
-}
-
-interface Console {
-    let ss;
 }
