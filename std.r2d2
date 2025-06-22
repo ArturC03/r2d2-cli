@@ -10,9 +10,16 @@ module std {
     @js """
       const encoder = new TextEncoder();
       const data = encoder.encode(s+"\n");
-      Deno.stdout.write(data).then(() => {});
+     Deno.stdout.write(data).then(() => {});
     """;
   }
+  
+export fn readline(promptText) {
+@js """
+  const input = promptText ? prompt(promptText) : prompt();
+  return input?.trim() ?? "";
+  """;
+}
 
   export fn print(s string) {
     @js """
@@ -35,9 +42,15 @@ module std {
   export fn join(arr array, delim string) string {
     @js """ return arr.join(delim); """;
   }
-  export fn substring(s string, start number, end number) string {
-    @js """ return s.substring(start, end); """;
+export fn substring(s string, start number, end number) string {
+  @js """
+  let result = "";
+  for (let i = start; i < end && i < s.length; i++) {
+    result += s[i];
   }
+  return result;
+  """;
+}
   export fn repeat(s string, times number) string {
     @js """ return s.repeat(times); """;
   }
@@ -86,4 +99,12 @@ module std {
   export fn len(x string) number {
     @js """ return x.length; """;
   }
+
+  export fn sleep(ms number) {
+    @js """ const end = Date.now() + ms;
+  while (Date.now() < end) {
+    // espera ativa
+  }""";
+    }
 }
+

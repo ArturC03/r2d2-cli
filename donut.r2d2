@@ -1,67 +1,80 @@
 use "std.r2d2";
 
-module donut {
+interface Donut {
+    export fn main();
+}
 
-  var A = 0;
-  var B = 0;
+interface Console::Donut {
+    var A;
+    var B;
+}
 
-  export fn frame() {
-    var b = [];
-    var z = [];
+module DonutCLI::Console {
+    var A = 0.0;
+    var B = 0.0;
 
-    A += 0.05;
-    B += 0.07;
+    export fn main() {
+        loop {
+            var z = [];
+            var b = [];
+            let i = 0;
 
-    var cA = std.cos(A);
-    var sA = std.sin(A);
-    var cB = std.cos(B);
-    var sB = std.sin(B);
+            while i < 1760 {
+                z[i] = 0.0;
+                b[i] = " ";
+                i = i + 1;
+            }
 
-    var k = 0;
-    while (k < 1760) {
-      if (k % 80 == 79) {
-        b[k] = "\n";
-      } else {
-        b[k] = " ";
-      }
-      z[k] = 0;
-      k += 1;
-    }
+            var j = 0.0;
+            while j < 6.28 {
+                var ii = 0.0;
+                while ii < 6.28 {
+                    let c = std.sin(ii);
+                    let d = std.cos(j);
+                    let e = std.sin(A);
+                    let f = std.sin(j);
+                    let g = std.cos(A);
+                    let h = d + 2.0;
+                    let D = 1.0 / (c * h * e + f * g + 5.0);
+                    let l = std.cos(ii);
+                    let m = std.cos(B);
+                    let n = std.sin(B);
+                    let t = c * h * g - f * e;
+                    let x = std.floor(40.0 + 30.0 * D * (l * h * m - t * n));
+                    let y = std.floor(12.0 + 15.0 * D * (l * h * n + t * m));
+                    let o = x + 80 * y;
+                    let N = std.floor(8.0 * ((f * e - c * d * g) * m - c * d * e - f * g - l * d * n));
 
-    var j = 0.0;
-    while (j < 6.28) {
-      var ct = std.cos(j);
-      var st = std.sin(j);
+                    if y < 22 && y > 0 && x > 0 && x < 80 {
+                        if D > z[o] {
+                            z[o] = D;
+                            if N < 0 {
+                                N = 0;
+                            }
+                            if N > 11 {
+                                N = 11;
+                            }
+                            b[o] = std.substring(".,-~:;=!*#$@", N, N + 1);
+                        }
+                    }
+                    ii = ii + 0.02;
+                }
+                j = j + 0.07;
+            }
 
-      var i = 0.0;
-      while (i < 6.28) {
-        var sp = std.sin(i);
-        var cp = std.cos(i);
-        var h = ct + 2;
-        var D = 1 / (sp * h * sA + st * cA + 5);
-        var t = sp * h * cA - st * sA;
+            let idx = 79;
+            while idx < 1760 {
+                b[idx] = "\n";
+                idx = idx + 80;
+            }
 
-        var x = std.bitwiseOrZero(40 + 30 * D * (cp * h * cB - t * sB));
-        var y = std.bitwiseOrZero(12 + 15 * D * (cp * h * sB + t * cB));
-        var o = x + 80 * y;
+            console.clear();
+            console.log(std.join(b, ""));
 
-        var N = std.bitwiseOrZero(8 * ((st * sA - sp * ct * cA) * cB - sp * ct * sA - st * cA - cp * ct * sB));
+            A = A + 0.04;
+            B = B + 0.02;
 
-        if (y < 22 && y >= 0 && x >= 0 && x < 79 && D > z[o]) {
-          z[o] = D;
-          var chars = ".,-~:;=!*#$@";
-          if (N > 0) {
-            b[o] = std.substring(chars, N, N + 1);
-          } else {
-            b[o] = std.substring(chars, 0, 1);
-          }
+            std.sleep(50);
         }
-
-        i += 0.02;
-      }
-      j += 0.07;
     }
-
-    std.stdoutWrite( std.join(b, ""));
-  }
 }

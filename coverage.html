@@ -1,0 +1,1017 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>r2d2-cli: Go Coverage Report</title>
+		<style>
+			body {
+				background: black;
+				color: rgb(80, 80, 80);
+			}
+			body, pre, #legend span {
+				font-family: Menlo, monospace;
+				font-weight: bold;
+			}
+			#topbar {
+				background: black;
+				position: fixed;
+				top: 0; left: 0; right: 0;
+				height: 42px;
+				border-bottom: 1px solid rgb(80, 80, 80);
+			}
+			#content {
+				margin-top: 50px;
+			}
+			#nav, #legend {
+				float: left;
+				margin-left: 10px;
+			}
+			#legend {
+				margin-top: 12px;
+			}
+			#nav {
+				margin-top: 10px;
+			}
+			#legend span {
+				margin: 0 5px;
+			}
+			.cov0 { color: rgb(192, 0, 0) }
+.cov1 { color: rgb(128, 128, 128) }
+.cov2 { color: rgb(116, 140, 131) }
+.cov3 { color: rgb(104, 152, 134) }
+.cov4 { color: rgb(92, 164, 137) }
+.cov5 { color: rgb(80, 176, 140) }
+.cov6 { color: rgb(68, 188, 143) }
+.cov7 { color: rgb(56, 200, 146) }
+.cov8 { color: rgb(44, 212, 149) }
+.cov9 { color: rgb(32, 224, 152) }
+.cov10 { color: rgb(20, 236, 155) }
+
+		</style>
+	</head>
+	<body>
+		<div id="topbar">
+			<div id="nav">
+				<select id="files">
+				
+				<option value="file0">github.com/ArturC03/r2d2-cli/commands.go (100.0%)</option>
+				
+				<option value="file1">github.com/ArturC03/r2d2-cli/help.go (0.0%)</option>
+				
+				<option value="file2">github.com/ArturC03/r2d2-cli/main.go (27.6%)</option>
+				
+				</select>
+			</div>
+			<div id="legend">
+				<span>not tracked</span>
+			
+				<span class="cov0">not covered</span>
+				<span class="cov8">covered</span>
+			
+			</div>
+		</div>
+		<div id="content">
+		
+		<pre class="file" id="file0" style="display: none">package main
+
+import (
+        "fmt"
+        // "path/filepath"
+
+        "github.com/ArturC03/r2d2"
+        "github.com/ArturC03/r2d2Styles"
+)
+
+const Version = "0.1.1"
+
+// ShowVersion displays the version of the R2D2 Language.
+func ShowVersion() <span class="cov8" title="1">{
+        fmt.Println(InfoMessage("R2D2 Language - version " + Version))
+}</span>
+
+// Build simulates the compilation process.
+func Build(r2d2Code string, filename string) (err error) <span class="cov8" title="1">{
+        err = r2d2.BuildCode(r2d2Code, filename)
+
+        if err != nil </span><span class="cov8" title="1">{
+                return err
+        }</span>
+        <span class="cov8" title="1">return nil</span>
+}
+
+// Run simulates the execution process.
+func Run(r2d2Code string) (err error) <span class="cov8" title="1">{
+        err = r2d2.RunCode(r2d2Code)
+
+        if err != nil </span><span class="cov8" title="1">{
+                return err
+        }</span>
+        <span class="cov8" title="1">return nil</span>
+}
+
+// UnknownCommand shows an error message when an unknown command is entered.
+func UnknownCommand(cmd string, errArgIndex int) <span class="cov8" title="1">{
+        fmt.Println(("Unknown command: " + cmd))
+        fmt.Println(HelpMessage("Run 'r2d2 help' for usage."))
+}</span>
+
+// InfoMessage returns a styled info message.
+func InfoMessage(message string) string <span class="cov8" title="1">{
+        return r2d2Styles.InfoMessage(message)
+}</span>
+
+// ErrorMessage returns a styled error message.
+func ErrorMessage(message string) string <span class="cov8" title="1">{
+        return r2d2Styles.ErrorMessage(message)
+}</span>
+
+// HelpMessage returns a styled help message.
+func HelpMessage(message string) string <span class="cov8" title="1">{
+        return r2d2Styles.InfoMessage(message)
+}</span>
+
+func BuildJs(input string, filename string) (err error) <span class="cov8" title="1">{
+        err = r2d2.BuildJsFile(input, filename)
+
+        if err != nil </span><span class="cov8" title="1">{
+                return err
+        }</span>
+        <span class="cov8" title="1">return nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file1" style="display: none">package main
+
+import (
+        "fmt"
+        "io"
+        "os"
+        "strings"
+
+        "github.com/ArturC03/r2d2Styles"
+        "github.com/charmbracelet/bubbles/list"
+        tea "github.com/charmbracelet/bubbletea"
+        "github.com/charmbracelet/lipgloss"
+        "golang.org/x/term"
+)
+
+// Represents a CLI command with its details
+type Command struct {
+        name        string
+        description string
+        usage       string
+        examples    []string
+        category    string
+}
+
+// Implementing list.Item interface - return plain text for filtering
+func (c Command) Title() string <span class="cov0" title="0">{
+        return fmt.Sprintf("%s [%s]", c.name, c.category)
+}</span>
+
+func (c Command) Description() string <span class="cov0" title="0">{ return c.description }</span>
+func (c Command) FilterValue() string <span class="cov0" title="0">{ return c.name + " " + c.description + " " + c.category }</span>
+
+// Command categories
+const (
+        CategoryBasic = "basic"
+        CategoryBuild = "build"
+        CategoryUtil  = "utility"
+)
+
+// Available commands
+var commands = []Command{
+        {
+                "help",
+                "Shows help menu (interactive by default, use 'static' for simple output)",
+                "r2d2 help [static]",
+                []string{"r2d2 help", "r2d2 help static"},
+                CategoryBasic,
+        },
+        {
+                "version",
+                "Displays the language version",
+                "r2d2 version",
+                []string{
+                        "r2d2 version",
+                        // "r2d2 version -f"
+                },
+                CategoryBasic,
+        },
+        {
+                "build",
+                "Compiles a .r2d2 file",
+                "r2d2 build &lt;file.r2d2&gt;",
+                []string{
+                        "r2d2 build hello.r2d2",
+                        "r2d2 build hello.r2d2 -o hi",
+                        // "r2d2 build --optimize hello.r2d2",
+                },
+                CategoryBuild,
+        },
+        {
+                "run",
+                "Executes a .r2d2 file",
+                "r2d2 run &lt;file.r2d2&gt;",
+                []string{
+                        "r2d2 run hello.r2d2",
+                        // "r2d2 run debug hello.r2d2",
+                },
+                CategoryBuild,
+        },
+        {
+                "js",
+                "Transpiles a .r2d2 file to JavaScript",
+                "r2d2 js &lt;file.r2d2&gt;",
+                []string{
+                        "r2d2 js hello.r2d2",
+                        "r2d2 js hello.r2d2 -o bye.js",
+                },
+                CategoryBuild,
+        },
+        // {
+        //         "init",
+        //         "Initialize a new R2D2 project",
+        //         "r2d2 init [project-name]",
+        //         []string{
+        //                 "r2d2 init my-project",
+        //                 "r2d2 init --template basic",
+        //         },
+        //         CategoryUtil,
+        // },
+        // {
+        //         "package",
+        //         "Create a distributable package",
+        //         "r2d2 package [options]",
+        //         []string{
+        //                 "r2d2 package --target=all",
+        //                 "r2d2 package --target=linux",
+        //         },
+        //         CategoryUtil,
+        // },
+}
+
+// Styles for categories (using colors from styles.go)
+var (
+        categoryStyle = lipgloss.NewStyle().
+                        Foreground(subtleColor).
+                        Italic(true)
+
+        highlightedCmdStyle = lipgloss.NewStyle().
+                                Foreground(specialColor).
+                                Bold(true)
+
+        exampleStyle = lipgloss.NewStyle().
+                        Foreground(infoColor).
+                        MarginLeft(2)
+)
+
+// Custom delegate for styling list items
+type customDelegate struct {
+        list.DefaultDelegate
+        width int
+}
+
+func NewCustomDelegate(width int) customDelegate <span class="cov0" title="0">{
+        d := customDelegate{
+                DefaultDelegate: list.NewDefaultDelegate(),
+                width:           width,
+        }
+
+        // Update styles using the colors from styles.go
+        d.Styles.SelectedTitle = activeItemStyle
+        d.Styles.NormalTitle = normalItemStyle
+        d.Styles.DimmedTitle = normalItemStyle.Foreground(subtleColor)
+        d.Styles.SelectedDesc = activeItemStyle.Bold(false)
+        d.Styles.NormalDesc = normalItemStyle.Foreground(subtleColor)
+        d.Styles.DimmedDesc = normalItemStyle.Foreground(subtleColor).Faint(true)
+
+        return d
+}</span>
+
+// Custom render method to handle styling properly
+func (d customDelegate) Render(w io.Writer, m list.Model, index int, item list.Item) <span class="cov0" title="0">{
+        var str string
+
+        if cmd, ok := item.(Command); ok </span><span class="cov0" title="0">{
+                // Apply custom styling here instead of in Title()
+                cmdName := highlightedCmdStyle.Render(cmd.name)
+
+                // Get current terminal width from the model width (we'll estimate it)
+                termWidth := 80 // default fallback
+                if m.Width() &gt; 0 </span><span class="cov0" title="0">{
+                        termWidth = m.Width()
+                }</span>
+
+                // Responsive category display
+                <span class="cov0" title="0">var category string
+                if termWidth &lt; 50 </span><span class="cov0" title="0">{
+                        // Very compact for small screens
+                        category = categoryStyle.Render(" [" + string(cmd.category[0]) + "]")
+                }</span> else<span class="cov0" title="0"> if termWidth &lt; 70 </span><span class="cov0" title="0">{
+                        // Short category names for medium screens
+                        shortCategory := cmd.category
+                        if len(shortCategory) &gt; 5 </span><span class="cov0" title="0">{
+                                shortCategory = shortCategory[:5]
+                        }</span>
+                        <span class="cov0" title="0">category = categoryStyle.Render(" [" + shortCategory + "]")</span>
+                } else<span class="cov0" title="0"> {
+                        // Full category for larger screens
+                        category = categoryStyle.Render(" [" + cmd.category + "]")
+                }</span>
+
+                // Responsive description handling
+                <span class="cov0" title="0">description := cmd.description
+                if termWidth &lt; 60 &amp;&amp; len(description) &gt; 40 </span><span class="cov0" title="0">{
+                        description = description[:37] + "..."
+                }</span> else<span class="cov0" title="0"> if termWidth &lt; 80 &amp;&amp; len(description) &gt; 60 </span><span class="cov0" title="0">{
+                        description = description[:57] + "..."
+                }</span>
+
+                <span class="cov0" title="0">if index == m.Index() </span><span class="cov0" title="0">{
+                        // Selected item
+                        str = d.Styles.SelectedTitle.Render(cmdName + category)
+                        if description != "" &amp;&amp; termWidth &gt; 40 </span><span class="cov0" title="0">{
+                                str += "\n" + d.Styles.SelectedDesc.Render(description)
+                        }</span>
+                } else<span class="cov0" title="0"> {
+                        // Normal item
+                        str = d.Styles.NormalTitle.Render(cmdName + category)
+                        if description != "" &amp;&amp; termWidth &gt; 40 </span><span class="cov0" title="0">{
+                                str += "\n" + d.Styles.NormalDesc.Render(description)
+                        }</span>
+                }
+        } else<span class="cov0" title="0"> {
+                // Fallback to default rendering
+                d.DefaultDelegate.Render(w, m, index, item)
+                return
+        }</span>
+
+        <span class="cov0" title="0">fmt.Fprint(w, str)</span>
+}
+
+// HelpModel represents the application state
+type HelpModel struct {
+        list            list.Model
+        help            string
+        detailed        bool
+        selectedItem    Command
+        filterCategory  string
+        categories      []string
+        showingCategory bool
+        width           int
+        height          int
+}
+
+func (m HelpModel) Init() tea.Cmd <span class="cov0" title="0">{
+        return tea.EnterAltScreen
+}</span>
+
+func (m HelpModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) <span class="cov0" title="0">{
+        // Handle window size changes
+        switch msg := msg.(type) </span>{
+        case tea.WindowSizeMsg:<span class="cov0" title="0">
+                m.width = msg.Width
+                m.height = msg.Height
+
+                // Update list dimensions dynamically
+                listWidth := m.width - 4
+                if listWidth &lt; 30 </span><span class="cov0" title="0">{
+                        listWidth = 30
+                }</span>
+                <span class="cov0" title="0">if listWidth &gt; 80 </span><span class="cov0" title="0">{
+                        listWidth = 80
+                }</span>
+
+                <span class="cov0" title="0">listHeight := m.height - 8
+                if listHeight &lt; 10 </span><span class="cov0" title="0">{
+                        listHeight = 10
+                }</span>
+                <span class="cov0" title="0">if listHeight &gt; 25 </span><span class="cov0" title="0">{
+                        listHeight = 25
+                }</span>
+
+                <span class="cov0" title="0">m.list.SetSize(listWidth, listHeight)
+
+                // Note: Delegate width will be updated on next render
+
+                // Update help message based on screen width
+                if m.width &lt; 40 </span><span class="cov0" title="0">{
+                        m.help = "/ filter • c cat • q quit • ↑/↓ • enter"
+                }</span> else<span class="cov0" title="0"> if m.width &lt; 60 </span><span class="cov0" title="0">{
+                        m.help = "/ filter • c cat • q quit • ↑/↓ nav • enter info"
+                }</span> else<span class="cov0" title="0"> {
+                        m.help = "/ filter • c categories • q quit • ↑/↓ navigate • enter details"
+                }</span>
+
+                <span class="cov0" title="0">return m, nil</span>
+        }
+
+        // Handle detailed view mode
+        <span class="cov0" title="0">if m.detailed </span><span class="cov0" title="0">{
+                switch msg := msg.(type) </span>{
+                case tea.KeyMsg:<span class="cov0" title="0">
+                        switch msg.String() </span>{
+                        case "esc", "q", "backspace":<span class="cov0" title="0">
+                                m.detailed = false
+                                m.help = "/ filter • c categories • q quit • ↑/↓ navigate • &lt;CR&gt; details"
+                                return m, nil</span>
+                        }
+                }
+                <span class="cov0" title="0">return m, nil</span>
+        }
+
+        // Handle category selection mode
+        <span class="cov0" title="0">if m.showingCategory </span><span class="cov0" title="0">{
+                switch msg := msg.(type) </span>{
+                case tea.KeyMsg:<span class="cov0" title="0">
+                        switch msg.String() </span>{
+                        case "esc", "c", "backspace":<span class="cov0" title="0">
+                                m.showingCategory = false
+                                return m, nil</span>
+                        case "1", "2", "3", "4", "5", "6", "7", "8", "9":<span class="cov0" title="0">
+                                idx := int(msg.Runes[0] - '1')
+                                if idx &lt; len(m.categories) </span><span class="cov0" title="0">{
+                                        // Filter by selected category
+                                        m.filterByCategory(m.categories[idx])
+                                        m.showingCategory = false
+                                }</span>
+                                <span class="cov0" title="0">return m, nil</span>
+                        case "0":<span class="cov0" title="0">
+                                // Clear category filter
+                                m.filterByCategory("")
+                                m.showingCategory = false
+                                return m, nil</span>
+                        }
+                }
+                <span class="cov0" title="0">return m, nil</span>
+        }
+
+        // Handle list view mode
+        <span class="cov0" title="0">switch msg := msg.(type) </span>{
+        case tea.KeyMsg:<span class="cov0" title="0">
+                switch msg.String() </span>{
+                case "q", "esc":<span class="cov0" title="0">
+                        if m.list.FilterState() == list.Filtering </span><span class="cov0" title="0">{
+                                m.list.ResetFilter()
+                                return m, nil
+                        }</span>
+                        <span class="cov0" title="0">return m, tea.Quit</span>
+                case "/":<span class="cov0" title="0">
+                        if m.width &lt; 40 </span><span class="cov0" title="0">{
+                                m.help = "Filter • ESC • ENTER"
+                        }</span> else<span class="cov0" title="0"> if m.width &lt; 60 </span><span class="cov0" title="0">{
+                                m.help = "Filter • ESC cancel • ENTER select"
+                        }</span> else<span class="cov0" title="0"> {
+                                m.help = "Type to filter • ESC to cancel • ENTER to select"
+                        }</span>
+                case "c":<span class="cov0" title="0">
+                        m.showingCategory = true
+                        return m, nil</span>
+                case "enter":<span class="cov0" title="0">
+                        if i, ok := m.list.SelectedItem().(Command); ok </span><span class="cov0" title="0">{
+                                m.selectedItem = i
+                                m.detailed = true
+                        }</span>
+                }
+        }
+
+        <span class="cov0" title="0">var cmd tea.Cmd
+        m.list, cmd = m.list.Update(msg)
+        return m, cmd</span>
+}
+
+func (m *HelpModel) filterByCategory(category string) <span class="cov0" title="0">{
+        m.filterCategory = category
+
+        // Create new filtered items list
+        var filteredItems []list.Item
+        if category == "" </span><span class="cov0" title="0">{
+                // Show all commands
+                filteredItems = make([]list.Item, len(commands))
+                for i, cmd := range commands </span><span class="cov0" title="0">{
+                        filteredItems[i] = cmd
+                }</span>
+        } else<span class="cov0" title="0"> {
+                // Show only commands matching the category
+                for _, cmd := range commands </span><span class="cov0" title="0">{
+                        if cmd.category == category </span><span class="cov0" title="0">{
+                                filteredItems = append(filteredItems, cmd)
+                        }</span>
+                }
+        }
+
+        <span class="cov0" title="0">m.list.SetItems(filteredItems)</span>
+}
+
+func (m HelpModel) View() string <span class="cov0" title="0">{
+        // Calculate responsive dimensions
+        containerWidth := m.width - 4
+        if containerWidth &lt; 30 </span><span class="cov0" title="0">{
+                containerWidth = 30
+        }</span>
+        <span class="cov0" title="0">if containerWidth &gt; 100 </span><span class="cov0" title="0">{
+                containerWidth = 100
+        }</span>
+
+        // Category selector view
+        <span class="cov0" title="0">if m.showingCategory </span><span class="cov0" title="0">{
+                var sb strings.Builder
+                sb.WriteString(headingStyle.Render("Select Category"))
+                sb.WriteString("\n\n")
+
+                for i, category := range m.categories </span><span class="cov0" title="0">{
+                        sb.WriteString(fmt.Sprintf("%s %s\n",
+                                highlightedCmdStyle.Render(fmt.Sprintf("%d.", i+1)),
+                                categoryStyle.Render(category),
+                        ))
+                }</span>
+                <span class="cov0" title="0">sb.WriteString(fmt.Sprintf("\n%s %s\n",
+                        highlightedCmdStyle.Render("0."),
+                        categoryStyle.Render("Show all commands"),
+                ))
+
+                sb.WriteString("\n" + statusMessageStyle.Render("ESC to cancel"))
+
+                categoryWidth := containerWidth / 2
+                if categoryWidth &lt; 25 </span><span class="cov0" title="0">{
+                        categoryWidth = 25
+                }</span>
+
+                // Use minimal padding for very small screens
+                <span class="cov0" title="0">padding := 1
+                if m.width &lt; 50 </span><span class="cov0" title="0">{
+                        padding = 0
+                }</span>
+                <span class="cov0" title="0">return containerStyle.Width(categoryWidth).Padding(padding).Render(sb.String())</span>
+        }
+
+        // Detailed view: show complete command information
+        <span class="cov0" title="0">if m.detailed </span><span class="cov0" title="0">{
+                detailWidth := containerWidth
+                if detailWidth &gt; 80 </span><span class="cov0" title="0">{
+                        detailWidth = 80
+                }</span>
+
+                // Use minimal padding for very small screens
+                <span class="cov0" title="0">padding := 1
+                if m.width &lt; 50 </span><span class="cov0" title="0">{
+                        padding = 0
+                }</span>
+                <span class="cov0" title="0">detailBox := containerStyle.Width(detailWidth).Padding(padding)
+
+                title := lipgloss.NewStyle().
+                        Foreground(highlightColor).
+                        Bold(true).
+                        Render(m.selectedItem.name)
+
+                category := lipgloss.NewStyle().
+                        Foreground(subtleColor).
+                        Italic(true).
+                        Render(m.selectedItem.category)
+
+                description := lipgloss.NewStyle().
+                        Foreground(infoColor).
+                        Render(m.selectedItem.description)
+
+                usage := lipgloss.NewStyle().
+                        Foreground(specialColor).
+                        Render(m.selectedItem.usage)
+
+                // Examples section with word wrapping for small screens
+                var examplesText string
+                maxExampleWidth := detailWidth - 8
+                if padding == 0 </span><span class="cov0" title="0">{
+                        maxExampleWidth = detailWidth - 2
+                }</span>
+
+                <span class="cov0" title="0">for _, example := range m.selectedItem.examples </span><span class="cov0" title="0">{
+                        if len(example) &gt; maxExampleWidth &amp;&amp; maxExampleWidth &gt; 15 </span><span class="cov0" title="0">{
+                                // Wrap long examples on small screens
+                                wrapped := ""
+                                words := strings.Fields(example)
+                                currentLine := ""
+                                indent := "      "
+                                if m.width &lt; 50 </span><span class="cov0" title="0">{
+                                        indent = "  "
+                                }</span>
+
+                                <span class="cov0" title="0">for _, word := range words </span><span class="cov0" title="0">{
+                                        if len(currentLine)+len(word)+1 &lt;= maxExampleWidth </span><span class="cov0" title="0">{
+                                                if currentLine == "" </span><span class="cov0" title="0">{
+                                                        currentLine = word
+                                                }</span> else<span class="cov0" title="0"> {
+                                                        currentLine += " " + word
+                                                }</span>
+                                        } else<span class="cov0" title="0"> {
+                                                if wrapped != "" </span><span class="cov0" title="0">{
+                                                        wrapped += "\n" + indent
+                                                }</span>
+                                                <span class="cov0" title="0">wrapped += currentLine
+                                                currentLine = word</span>
+                                        }
+                                }
+                                <span class="cov0" title="0">if wrapped != "" </span><span class="cov0" title="0">{
+                                        wrapped += "\n" + indent
+                                }</span>
+                                <span class="cov0" title="0">wrapped += currentLine
+                                examplesText += exampleStyle.Render(wrapped) + "\n"</span>
+                        } else<span class="cov0" title="0"> {
+                                examplesText += exampleStyle.Render(example) + "\n"
+                        }</span>
+                }
+
+                // Compact layout for very small screens
+                <span class="cov0" title="0">if m.width &lt; 50 </span><span class="cov0" title="0">{
+                        return detailBox.Render(
+                                lipgloss.JoinVertical(lipgloss.Left,
+                                        title,
+                                        category,
+                                        "",
+                                        description,
+                                        "",
+                                        "Usage:",
+                                        usage,
+                                        "",
+                                        "Examples:",
+                                        examplesText,
+                                        statusMessageStyle.Render("ESC = back"),
+                                ),
+                        )
+                }</span> else<span class="cov0" title="0"> {
+                        return detailBox.Render(
+                                lipgloss.JoinVertical(lipgloss.Left,
+                                        title,
+                                        category,
+                                        "",
+                                        description,
+                                        "",
+                                        "Usage: "+usage,
+                                        "",
+                                        "Examples:",
+                                        examplesText,
+                                        statusMessageStyle.Render("ESC to return"),
+                                ),
+                        )
+                }</span>
+        }
+
+        // List view: show command list and help message
+        <span class="cov0" title="0">listContainerWidth := containerWidth
+        if listContainerWidth &lt; 30 </span><span class="cov0" title="0">{
+                listContainerWidth = 30
+        }</span>
+
+        // Use minimal padding for very small screens
+        <span class="cov0" title="0">padding := 1
+        if m.width &lt; 50 </span><span class="cov0" title="0">{
+                padding = 0
+        }</span>
+
+        <span class="cov0" title="0">return containerStyle.Width(listContainerWidth).Padding(padding).Render(
+                lipgloss.JoinVertical(
+                        lipgloss.Left,
+                        m.list.View(),
+                        statusMessageStyle.Render(m.help),
+                ),
+        )</span>
+}
+
+// ShowHelpStatic displays help information in a simple, static format
+func ShowHelpStatic() <span class="cov0" title="0">{
+        // Header
+        fmt.Println(headingStyle.Render("R2D2 Language - Help"))
+        fmt.Println()
+
+        // Group commands by category
+        categoryMap := make(map[string][]Command)
+        for _, cmd := range commands </span><span class="cov0" title="0">{
+                categoryMap[cmd.category] = append(categoryMap[cmd.category], cmd)
+        }</span>
+
+        // Display commands by category
+        <span class="cov0" title="0">categories := []string{CategoryBasic, CategoryBuild, CategoryUtil}
+
+        for _, category := range categories </span><span class="cov0" title="0">{
+                if cmds, exists := categoryMap[category]; exists &amp;&amp; len(cmds) &gt; 0 </span><span class="cov0" title="0">{
+                        // Category header
+                        fmt.Println(categoryStyle.Render(strings.ToUpper(category) + " COMMANDS:"))
+                        fmt.Println()
+
+                        // Commands in this category
+                        for _, cmd := range cmds </span><span class="cov0" title="0">{
+                                // Command name and description
+                                fmt.Printf("  %s - %s\n",
+                                        highlightedCmdStyle.Render(cmd.name),
+                                        cmd.description)
+
+                                // Usage
+                                fmt.Printf("    Usage: %s\n",
+                                        exampleStyle.Render(cmd.usage))
+
+                                // Examples
+                                if len(cmd.examples) &gt; 0 </span><span class="cov0" title="0">{
+                                        fmt.Printf("    Examples:\n")
+                                        for _, example := range cmd.examples </span><span class="cov0" title="0">{
+                                                fmt.Printf("      %s\n", exampleStyle.Render(example))
+                                        }</span>
+                                }
+                                <span class="cov0" title="0">fmt.Println()</span>
+                        }
+                }
+        }
+
+        // Footer
+        <span class="cov0" title="0">fmt.Println(statusMessageStyle.Render("For interactive help, use: r2d2 help (without 'static')"))</span>
+}
+
+func ShowHelp() <span class="cov0" title="0">{
+        // Get terminal dimensions
+        width, height, err := term.GetSize(int(os.Stdout.Fd()))
+        if err != nil </span><span class="cov0" title="0">{
+                // Fallback dimensions if terminal size can't be detected
+                width, height = 80, 24
+        }</span>
+
+        // Get unique categories
+        <span class="cov0" title="0">categoryMap := make(map[string]bool)
+        for _, cmd := range commands </span><span class="cov0" title="0">{
+                categoryMap[cmd.category] = true
+        }</span>
+
+        <span class="cov0" title="0">categories := make([]string, 0, len(categoryMap))
+        for category := range categoryMap </span><span class="cov0" title="0">{
+                categories = append(categories, category)
+        }</span>
+
+        // Convert commands to list.Item
+        <span class="cov0" title="0">items := make([]list.Item, len(commands))
+        for i, cmd := range commands </span><span class="cov0" title="0">{
+                items[i] = cmd
+        }</span>
+
+        // Calculate responsive dimensions
+        <span class="cov0" title="0">listWidth := width - 4
+        if listWidth &lt; 30 </span><span class="cov0" title="0">{
+                listWidth = 30
+        }</span>
+        <span class="cov0" title="0">if listWidth &gt; 80 </span><span class="cov0" title="0">{
+                listWidth = 80
+        }</span>
+
+        <span class="cov0" title="0">listHeight := height - 8
+        if listHeight &lt; 10 </span><span class="cov0" title="0">{
+                listHeight = 10
+        }</span>
+        <span class="cov0" title="0">if listHeight &gt; 25 </span><span class="cov0" title="0">{
+                listHeight = 25
+        }</span>
+
+        // Setup the list model
+        <span class="cov0" title="0">delegate := NewCustomDelegate(width)
+        listModel := list.New(items, delegate, listWidth, listHeight)
+        listModel.Title = "R2D2 Commands"
+        listModel.SetShowPagination(false)
+        listModel.Styles.Title = headingStyle
+        listModel.SetFilteringEnabled(true)
+
+        // Style the filter input
+        listModel.FilterInput.PromptStyle = lipgloss.NewStyle().
+                Foreground(highlightColor)
+        listModel.FilterInput.TextStyle = lipgloss.NewStyle().
+                Foreground(specialColor)
+        listModel.FilterInput.Placeholder = "Filter..."
+
+        // Set initial help message based on width
+        helpMsg := "/ filter • c categories • q quit • ↑/↓ navigate • enter details"
+        if width &lt; 40 </span><span class="cov0" title="0">{
+                helpMsg = "/ filter • c cat • q quit • ↑/↓ • enter"
+        }</span> else<span class="cov0" title="0"> if width &lt; 60 </span><span class="cov0" title="0">{
+                helpMsg = "/ filter • c cat • q quit • ↑/↓ nav • enter info"
+        }</span>
+
+        // Initialize and run the program
+        <span class="cov0" title="0">p := tea.NewProgram(
+                HelpModel{
+                        list:           listModel,
+                        help:           helpMsg,
+                        detailed:       false,
+                        categories:     categories,
+                        filterCategory: "",
+                        width:          width,
+                        height:         height,
+                },
+                tea.WithAltScreen(),
+        )
+
+        if _, err := p.Run(); err != nil </span><span class="cov0" title="0">{
+                r2d2Styles.ErrorMessage(err.Error())
+                os.Exit(1)
+        }</span>
+}
+</pre>
+		
+		<pre class="file" id="file2" style="display: none">// main.go
+package main
+
+import (
+        "fmt"
+        "os"
+        "strings"
+
+        "github.com/ArturC03/r2d2Styles"
+)
+
+// Gets the filename from the command line arguments
+func getFilename() string <span class="cov8" title="1">{
+
+        // Check if there are enough command line arguments
+        if len(os.Args) &lt; 3 </span><span class="cov0" title="0">{
+                fmt.Println(r2d2Styles.ErrorMessage("Unsufficient number of arguments"))
+                fmt.Println(r2d2Styles.InfoMessage("Args: r2d2 &lt;comand&gt; &lt;file_path_r2d2&gt; -o &lt;output_file&gt;"))
+                os.Exit(1)
+        }</span>
+
+        // Get the file path (second argument)
+        <span class="cov8" title="1">filePath := os.Args[2]
+
+        // Check if the file path is empty
+        if filePath == "" </span><span class="cov0" title="0">{
+                fmt.Println(r2d2Styles.ErrorMessage("File path can't be empty"))
+                os.Exit(1)
+        }</span>
+
+        // Extract just the filename from the path
+        <span class="cov8" title="1">parts := strings.Split(filePath, string(os.PathSeparator))
+        filename := parts[len(parts)-1]
+
+        return filename</span>
+}
+
+// Reads the contents of the R2D2 file
+func readR2D2File() string <span class="cov0" title="0">{
+
+        // Check if there are at least 3 command line arguments (the first is the program name)
+        if len(os.Args) &lt; 3 </span><span class="cov0" title="0">{
+                fmt.Println(r2d2Styles.ErrorMessage("Isuficient number of arguments"))
+                fmt.Println(r2d2Styles.InfoMessage("Use: program &lt;comand&gt; &lt;file_path_r2d2&gt;"))
+                os.Exit(1)
+        }</span>
+
+        // Gets the file path from the command line arguments
+        <span class="cov0" title="0">filePath := os.Args[2]
+
+        // Checks if the file path is empty
+        if filePath == "" </span><span class="cov0" title="0">{
+                fmt.Println(r2d2Styles.ErrorMessage("File path can't be empty"))
+                os.Exit(1)
+        }</span>
+
+        // Check if the file exists
+        <span class="cov0" title="0">_, err := os.Stat(filePath)
+        if os.IsNotExist(err) </span><span class="cov0" title="0">{
+                fmt.Println(r2d2Styles.ErrorMessage(fmt.Sprintf("file not found: %v", filePath)))
+                os.Exit(1)
+        }</span>
+
+        // Reads the contents of the file
+        <span class="cov0" title="0">content, err := os.ReadFile(filePath)
+        if err != nil </span><span class="cov0" title="0">{
+                fmt.Println(r2d2Styles.ErrorMessage(fmt.Sprintf("Error reading file: %v", err)))
+                os.Exit(1)
+        }</span>
+
+        // Converts the contents to a string
+        <span class="cov0" title="0">return string(content)</span>
+}
+
+// Checks for -o flag and returns the output filename
+func parseOutputFlag() (string, bool) <span class="cov8" title="1">{
+        for i, arg := range os.Args </span><span class="cov8" title="1">{
+                if arg == "-o" &amp;&amp; i+1 &lt; len(os.Args) </span><span class="cov8" title="1">{
+                        return os.Args[i+1], true
+                }</span>
+        }
+        <span class="cov8" title="1">return "", false</span>
+}
+
+// Removes -o and its value from os.Args for compatibility
+func removeOutputFlag() <span class="cov8" title="1">{
+        var newArgs []string
+        skip := false
+
+        for i, arg := range os.Args </span><span class="cov8" title="1">{
+                if skip </span><span class="cov8" title="1">{
+                        skip = false
+                        continue</span>
+                }
+                <span class="cov8" title="1">if arg == "-o" &amp;&amp; i+1 &lt; len(os.Args) </span><span class="cov8" title="1">{
+                        skip = true // Skip the next argument (the output filename)
+                        continue</span>
+                }
+                <span class="cov8" title="1">newArgs = append(newArgs, arg)</span>
+        }
+
+        <span class="cov8" title="1">os.Args = newArgs</span>
+}
+
+var commandLine = strings.Join(os.Args[1:], " ")
+
+func main() <span class="cov0" title="0">{
+
+        var err error = nil
+        if len(os.Args) &lt; 2 </span><span class="cov0" title="0">{
+                ShowVersion()
+                os.Exit(0)
+        }</span>
+
+        // Parse -o flag before processing other arguments
+        <span class="cov0" title="0">outputFile, hasOutput := parseOutputFlag()
+        if hasOutput </span><span class="cov0" title="0">{
+                removeOutputFlag()
+        }</span>
+
+        <span class="cov0" title="0">cmd := os.Args[1]
+        switch cmd </span>{
+        case "-help", "-h", "--help", "help", "--h":<span class="cov0" title="0">
+                // Check if there's a sub-argument for help
+                if len(os.Args) &gt; 2 &amp;&amp; os.Args[2] == "static" </span><span class="cov0" title="0">{
+                        ShowHelpStatic()
+                }</span> else<span class="cov0" title="0"> {
+                        ShowHelp()
+                }</span>
+
+        case "-version", "-v", "--version", "version", "--v":<span class="cov0" title="0">
+                ShowVersion()</span>
+
+        case "-b", "build":<span class="cov0" title="0">
+                if hasOutput </span><span class="cov0" title="0">{
+                        err = Build(readR2D2File(), outputFile)
+                        if err != nil </span><span class="cov0" title="0">{
+                                os.Exit(1)
+                        }</span>
+                        <span class="cov0" title="0">break</span>
+                }
+
+                <span class="cov0" title="0">err = Build(readR2D2File(), getFilename())
+                if err != nil </span><span class="cov0" title="0">{
+                        os.Exit(1)
+                }</span>
+        case "-r", "run":<span class="cov0" title="0">
+                err = Run(readR2D2File())
+                if err != nil </span><span class="cov0" title="0">{
+                        os.Exit(1)
+                }</span>
+
+        case "js":<span class="cov0" title="0">
+                if hasOutput </span><span class="cov0" title="0">{
+                        err = BuildJs(readR2D2File(), outputFile)
+                        if err != nil </span><span class="cov0" title="0">{
+                                os.Exit(1)
+                        }</span>
+                        <span class="cov0" title="0">break</span>
+                }
+
+                <span class="cov0" title="0">err = BuildJs(readR2D2File(), getFilename())
+                if err != nil </span><span class="cov0" title="0">{
+                        os.Exit(1)
+                }</span>
+        case "new":<span class="cov0" title="0"></span>
+                // MakeProject() - je nes se'est pas
+        default:<span class="cov0" title="0">
+                UnknownCommand(cmd, 1)</span>
+        }
+}
+</pre>
+		
+		</div>
+	</body>
+	<script>
+	(function() {
+		var files = document.getElementById('files');
+		var visible;
+		files.addEventListener('change', onChange, false);
+		function select(part) {
+			if (visible)
+				visible.style.display = 'none';
+			visible = document.getElementById(part);
+			if (!visible)
+				return;
+			files.value = part;
+			visible.style.display = 'block';
+			location.hash = part;
+		}
+		function onChange() {
+			select(files.value);
+			window.scrollTo(0, 0);
+		}
+		if (location.hash != "") {
+			select(location.hash.substr(1));
+		}
+		if (!visible) {
+			select("file0");
+		}
+	})();
+	</script>
+</html>

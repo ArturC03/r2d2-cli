@@ -10,6 +10,7 @@ import (
 	"github.com/charmbracelet/bubbles/list"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
+	"golang.org/x/term"
 )
 
 // Represents a CLI command with its details
@@ -40,9 +41,9 @@ const (
 var commands = []Command{
 	{
 		"help",
-		"Shows this interactive help menu",
-		"r2d2 help",
-		[]string{"r2d2 help --all"},
+		"Shows help menu (interactive by default, use 'static' for simple output)",
+		"r2d2 help [static]",
+		[]string{"r2d2 help", "r2d2 help static"},
 		CategoryBasic,
 	},
 	{
@@ -126,11 +127,13 @@ var (
 // Custom delegate for styling list items
 type customDelegate struct {
 	list.DefaultDelegate
+	width int
 }
 
-func NewCustomDelegate() customDelegate {
+func NewCustomDelegate(width int) customDelegate {
 	d := customDelegate{
 		DefaultDelegate: list.NewDefaultDelegate(),
+		width:           width,
 	}
 
 	// Update styles using the colors from styles.go
@@ -151,19 +154,49 @@ func (d customDelegate) Render(w io.Writer, m list.Model, index int, item list.I
 	if cmd, ok := item.(Command); ok {
 		// Apply custom styling here instead of in Title()
 		cmdName := highlightedCmdStyle.Render(cmd.name)
-		category := categoryStyle.Render(" [" + cmd.category + "]")
+
+		// Get current terminal width from the model width (we'll estimate it)
+		termWidth := 80 // default fallback
+		if m.Width() > 0 {
+			termWidth = m.Width()
+		}
+
+		// Responsive category display
+		var category string
+		if termWidth < 50 {
+			// Very compact for small screens
+			category = categoryStyle.Render(" [" + string(cmd.category[0]) + "]")
+		} else if termWidth < 70 {
+			// Short category names for medium screens
+			shortCategory := cmd.category
+			if len(shortCategory) > 5 {
+				shortCategory = shortCategory[:5]
+			}
+			category = categoryStyle.Render(" [" + shortCategory + "]")
+		} else {
+			// Full category for larger screens
+			category = categoryStyle.Render(" [" + cmd.category + "]")
+		}
+
+		// Responsive description handling
+		description := cmd.description
+		if termWidth < 60 && len(description) > 40 {
+			description = description[:37] + "..."
+		} else if termWidth < 80 && len(description) > 60 {
+			description = description[:57] + "..."
+		}
 
 		if index == m.Index() {
 			// Selected item
 			str = d.Styles.SelectedTitle.Render(cmdName + category)
-			if cmd.description != "" {
-				str += "\n" + d.Styles.SelectedDesc.Render(cmd.description)
+			if description != "" && termWidth > 40 {
+				str += "\n" + d.Styles.SelectedDesc.Render(description)
 			}
 		} else {
 			// Normal item
 			str = d.Styles.NormalTitle.Render(cmdName + category)
-			if cmd.description != "" {
-				str += "\n" + d.Styles.NormalDesc.Render(cmd.description)
+			if description != "" && termWidth > 40 {
+				str += "\n" + d.Styles.NormalDesc.Render(description)
 			}
 		}
 	} else {
@@ -184,13 +217,54 @@ type HelpModel struct {
 	filterCategory  string
 	categories      []string
 	showingCategory bool
+	width           int
+	height          int
 }
 
 func (m HelpModel) Init() tea.Cmd {
-	return nil
+	return tea.EnterAltScreen
 }
 
 func (m HelpModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
+	// Handle window size changes
+	switch msg := msg.(type) {
+	case tea.WindowSizeMsg:
+		m.width = msg.Width
+		m.height = msg.Height
+
+		// Update list dimensions dynamically
+		listWidth := m.width - 4
+		if listWidth < 30 {
+			listWidth = 30
+		}
+		if listWidth > 80 {
+			listWidth = 80
+		}
+
+		listHeight := m.height - 8
+		if listHeight < 10 {
+			listHeight = 10
+		}
+		if listHeight > 25 {
+			listHeight = 25
+		}
+
+		m.list.SetSize(listWidth, listHeight)
+
+		// Note: Delegate width will be updated on next render
+
+		// Update help message based on screen width
+		if m.width < 40 {
+			m.help = "/ filter • c cat • q quit • ↑/↓ • enter"
+		} else if m.width < 60 {
+			m.help = "/ filter • c cat • q quit • ↑/↓ nav • enter info"
+		} else {
+			m.help = "/ filter • c categories • q quit • ↑/↓ navigate • enter details"
+		}
+
+		return m, nil
+	}
+
 	// Handle detailed view mode
 	if m.detailed {
 		switch msg := msg.(type) {
@@ -242,7 +316,13 @@ func (m HelpModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			}
 			return m, tea.Quit
 		case "/":
-			m.help = "Type to filter • ESC to cancel • ENTER to select"
+			if m.width < 40 {
+				m.help = "Filter • ESC • ENTER"
+			} else if m.width < 60 {
+				m.help = "Filter • ESC cancel • ENTER select"
+			} else {
+				m.help = "Type to filter • ESC to cancel • ENTER to select"
+			}
 		case "c":
 			m.showingCategory = true
 			return m, nil
@@ -283,6 +363,15 @@ func (m *HelpModel) filterByCategory(category string) {
 }
 
 func (m HelpModel) View() string {
+	// Calculate responsive dimensions
+	containerWidth := m.width - 4
+	if containerWidth < 30 {
+		containerWidth = 30
+	}
+	if containerWidth > 100 {
+		containerWidth = 100
+	}
+
 	// Category selector view
 	if m.showingCategory {
 		var sb strings.Builder
@@ -302,12 +391,32 @@ func (m HelpModel) View() string {
 
 		sb.WriteString("\n" + statusMessageStyle.Render("ESC to cancel"))
 
-		return containerStyle.Width(50).Padding(1).Render(sb.String())
+		categoryWidth := containerWidth / 2
+		if categoryWidth < 25 {
+			categoryWidth = 25
+		}
+
+		// Use minimal padding for very small screens
+		padding := 1
+		if m.width < 50 {
+			padding = 0
+		}
+		return containerStyle.Width(categoryWidth).Padding(padding).Render(sb.String())
 	}
 
 	// Detailed view: show complete command information
 	if m.detailed {
-		detailBox := containerStyle.Width(65).Padding(1)
+		detailWidth := containerWidth
+		if detailWidth > 80 {
+			detailWidth = 80
+		}
+
+		// Use minimal padding for very small screens
+		padding := 1
+		if m.width < 50 {
+			padding = 0
+		}
+		detailBox := containerStyle.Width(detailWidth).Padding(padding)
 
 		title := lipgloss.NewStyle().
 			Foreground(highlightColor).
@@ -327,30 +436,97 @@ func (m HelpModel) View() string {
 			Foreground(specialColor).
 			Render(m.selectedItem.usage)
 
-		// Examples section
+		// Examples section with word wrapping for small screens
 		var examplesText string
-		for _, example := range m.selectedItem.examples {
-			examplesText += exampleStyle.Render(example) + "\n"
+		maxExampleWidth := detailWidth - 8
+		if padding == 0 {
+			maxExampleWidth = detailWidth - 2
 		}
 
-		return detailBox.Render(
-			lipgloss.JoinVertical(lipgloss.Left,
-				title,
-				category,
-				"",
-				description,
-				"",
-				"Usage: "+usage,
-				"",
-				"Examples:",
-				examplesText,
-				statusMessageStyle.Render("ESC to return"),
-			),
-		)
+		for _, example := range m.selectedItem.examples {
+			if len(example) > maxExampleWidth && maxExampleWidth > 15 {
+				// Wrap long examples on small screens
+				wrapped := ""
+				words := strings.Fields(example)
+				currentLine := ""
+				indent := "      "
+				if m.width < 50 {
+					indent = "  "
+				}
+
+				for _, word := range words {
+					if len(currentLine)+len(word)+1 <= maxExampleWidth {
+						if currentLine == "" {
+							currentLine = word
+						} else {
+							currentLine += " " + word
+						}
+					} else {
+						if wrapped != "" {
+							wrapped += "\n" + indent
+						}
+						wrapped += currentLine
+						currentLine = word
+					}
+				}
+				if wrapped != "" {
+					wrapped += "\n" + indent
+				}
+				wrapped += currentLine
+				examplesText += exampleStyle.Render(wrapped) + "\n"
+			} else {
+				examplesText += exampleStyle.Render(example) + "\n"
+			}
+		}
+
+		// Compact layout for very small screens
+		if m.width < 50 {
+			return detailBox.Render(
+				lipgloss.JoinVertical(lipgloss.Left,
+					title,
+					category,
+					"",
+					description,
+					"",
+					"Usage:",
+					usage,
+					"",
+					"Examples:",
+					examplesText,
+					statusMessageStyle.Render("ESC = back"),
+				),
+			)
+		} else {
+			return detailBox.Render(
+				lipgloss.JoinVertical(lipgloss.Left,
+					title,
+					category,
+					"",
+					description,
+					"",
+					"Usage: "+usage,
+					"",
+					"Examples:",
+					examplesText,
+					statusMessageStyle.Render("ESC to return"),
+				),
+			)
+		}
 	}
 
 	// List view: show command list and help message
-	return containerStyle.Width(40).Render(
+	listContainerWidth := containerWidth
+	if listContainerWidth < 30 {
+		listContainerWidth = 30
+	}
+
+	// Use minimal padding for very small screens
+	padding := 1
+	if m.width < 50 {
+		padding = 0
+	}
+
+	return containerStyle.Width(listContainerWidth).Padding(padding).Render(
 		lipgloss.JoinVertical(
 			lipgloss.Left,
 			m.list.View(),
@@ -359,7 +535,62 @@ func (m HelpModel) View() string {
 	)
 }
 
+// ShowHelpStatic displays help information in a simple, static format
+func ShowHelpStatic() {
+	// Header
+	fmt.Println(headingStyle.Render("R2D2 Language - Help"))
+	fmt.Println()
+
+	// Group commands by category
+	categoryMap := make(map[string][]Command)
+	for _, cmd := range commands {
+		categoryMap[cmd.category] = append(categoryMap[cmd.category], cmd)
+	}
+
+	// Display commands by category
+	categories := []string{CategoryBasic, CategoryBuild, CategoryUtil}
+
+	for _, category := range categories {
+		if cmds, exists := categoryMap[category]; exists && len(cmds) > 0 {
+			// Category header
+			fmt.Println(categoryStyle.Render(strings.ToUpper(category) + " COMMANDS:"))
+			fmt.Println()
+
+			// Commands in this category
+			for _, cmd := range cmds {
+				// Command name and description
+				fmt.Printf("  %s - %s\n",
+					highlightedCmdStyle.Render(cmd.name),
+					cmd.description)
+
+				// Usage
+				fmt.Printf("    Usage: %s\n",
+					exampleStyle.Render(cmd.usage))
+
+				// Examples
+				if len(cmd.examples) > 0 {
+					fmt.Printf("    Examples:\n")
+					for _, example := range cmd.examples {
+						fmt.Printf("      %s\n", exampleStyle.Render(example))
+					}
+				}
+				fmt.Println()
+			}
+		}
+	}
+
+	// Footer
+	fmt.Println(statusMessageStyle.Render("For interactive help, use: r2d2 help (without 'static')"))
+}
+
 func ShowHelp() {
+	// Get terminal dimensions
+	width, height, err := term.GetSize(int(os.Stdout.Fd()))
+	if err != nil {
+		// Fallback dimensions if terminal size can't be detected
+		width, height = 80, 24
+	}
+
 	// Get unique categories
 	categoryMap := make(map[string]bool)
 	for _, cmd := range commands {
@@ -377,9 +608,26 @@ func ShowHelp() {
 		items[i] = cmd
 	}
 
+	// Calculate responsive dimensions
+	listWidth := width - 4
+	if listWidth < 30 {
+		listWidth = 30
+	}
+	if listWidth > 80 {
+		listWidth = 80
+	}
+
+	listHeight := height - 8
+	if listHeight < 10 {
+		listHeight = 10
+	}
+	if listHeight > 25 {
+		listHeight = 25
+	}
+
 	// Setup the list model
-	delegate := NewCustomDelegate()
-	listModel := list.New(items, delegate, 30, 20)
+	delegate := NewCustomDelegate(width)
+	listModel := list.New(items, delegate, listWidth, listHeight)
 	listModel.Title = "R2D2 Commands"
 	listModel.SetShowPagination(false)
 	listModel.Styles.Title = headingStyle
@@ -392,14 +640,24 @@ func ShowHelp() {
 		Foreground(specialColor)
 	listModel.FilterInput.Placeholder = "Filter..."
 
+	// Set initial help message based on width
+	helpMsg := "/ filter • c categories • q quit • ↑/↓ navigate • enter details"
+	if width < 40 {
+		helpMsg = "/ filter • c cat • q quit • ↑/↓ • enter"
+	} else if width < 60 {
+		helpMsg = "/ filter • c cat • q quit • ↑/↓ nav • enter info"
+	}
+
 	// Initialize and run the program
 	p := tea.NewProgram(
 		HelpModel{
 			list:           listModel,
-			help:           "/ filter • c categories • q quit • ↑/↓ navigate • enter details",
+			help:           helpMsg,
 			detailed:       false,
 			categories:     categories,
 			filterCategory: "",
+			width:          width,
+			height:         height,
 		},
 		tea.WithAltScreen(),
 	)

@@ -16,13 +16,23 @@ func ShowVersion() {
 }
 
 // Build simulates the compilation process.
-func Build(r2d2Code string, filename string) {
-	r2d2.BuildCode(r2d2Code, filename)
+func Build(r2d2Code string, filename string) (err error) {
+	err = r2d2.BuildCode(r2d2Code, filename)
+
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 // Run simulates the execution process.
-func Run(r2d2Code string) {
-	r2d2.RunCode(r2d2Code)
+func Run(r2d2Code string) (err error) {
+	err = r2d2.RunCode(r2d2Code)
+
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 // UnknownCommand shows an error message when an unknown command is entered.
@@ -46,6 +56,11 @@ func HelpMessage(message string) string {
 	return r2d2Styles.InfoMessage(message)
 }
 
-func BuildJs(input string, filename string) {
-	r2d2.BuildJsFile(input, filename)
+func BuildJs(input string, filename string) (err error) {
+	err = r2d2.BuildJsFile(input, filename)
+
+	if err != nil {
+		return err
+	}
+	return nil
 }

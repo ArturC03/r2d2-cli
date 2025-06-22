@@ -8,7 +8,7 @@ interface Demo {
     fn conditionOp();
     fn loopOp();
 
-    pseudo fn main();
+    fn main();
 }
 
 interface Console::Demo {
@@ -65,7 +65,10 @@ module DemoCLI::Console {
         }
     }
 
-    export pseudo fn main() {
+    export fn main() {
+        var associativeArray = [null => ["key" => ["key" => "value"]],"key2"=>"value2","key3"=>"value3","key4"=>"value3"];
+        console.log(associativeArray, associativeArray["null"]["key"]["key"], associativeArray["key2"], associativeArray["key3"], associativeArray["key4"]);
+
         stringOp();
         mathOp();
         conditionOp();

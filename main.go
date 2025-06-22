@@ -3,9 +3,10 @@ package main
 
 import (
 	"fmt"
-	"github.com/ArturC03/r2d2Styles"
 	"os"
 	"strings"
+
+	"github.com/ArturC03/r2d2Styles"
 )
 
 // Gets the filename from the command line arguments
@@ -104,6 +105,8 @@ func removeOutputFlag() {
 var commandLine = strings.Join(os.Args[1:], " ")
 
 func main() {
+
+	var err error = nil
 	if len(os.Args) < 2 {
 		ShowVersion()
 		os.Exit(0)
@@ -118,28 +121,48 @@ func main() {
 	cmd := os.Args[1]
 	switch cmd {
 	case "-help", "-h", "--help", "help", "--h":
-		ShowHelp()
+		// Check if there's a sub-argument for help
+		if len(os.Args) > 2 && os.Args[2] == "static" {
+			ShowHelpStatic()
+		} else {
+			ShowHelp()
+		}
 
 	case "-version", "-v", "--version", "version", "--v":
 		ShowVersion()
 
 	case "-b", "build":
 		if hasOutput {
-			Build(readR2D2File(), outputFile)
+			err = Build(readR2D2File(), outputFile)
+			if err != nil {
+				os.Exit(1)
+			}
 			break
 		}
 
-		Build(readR2D2File(), getFilename())
+		err = Build(readR2D2File(), getFilename())
+		if err != nil {
+			os.Exit(1)
+		}
 	case "-r", "run":
-		Run(readR2D2File())
+		err = Run(readR2D2File())
+		if err != nil {
+			os.Exit(1)
+		}
 
 	case "js":
 		if hasOutput {
-			BuildJs(readR2D2File(), outputFile)
+			err = BuildJs(readR2D2File(), outputFile)
+			if err != nil {
+				os.Exit(1)
+			}
 			break
 		}
 
-		BuildJs(readR2D2File(), getFilename())
+		err = BuildJs(readR2D2File(), getFilename())
+		if err != nil {
+			os.Exit(1)
+		}
 	case "new":
 		// MakeProject() - je nes se'est pas
 	default:
