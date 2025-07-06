@@ -2,7 +2,7 @@
 
 # Minimal R2D2 CLI Installer
 
-INSTALLER_PATH="installer/build/r2d2-installer"
+INSTALLER_PATH="./installer/build/r2d2-installer"
 
 # Check if the script is run as root
 if [ "$(id -u)" -ne 0 ]; then
