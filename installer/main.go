@@ -447,8 +447,11 @@ func buildCLI(repoDir string) tea.Cmd {
 
 		cmd := exec.CommandContext(ctx, "go", "mod", "tidy")
 		cmd.Dir = repoDir
+
 		if err := cmd.Run(); err != nil {
-			return errorMsg(fmt.Errorf("failed to tidy Go modules. Command executed: '%s', Error: %v", cmd.String(), err))
+			// Get the full command string for the error message
+			executedCommand := cmd.String()
+			return errorMsg(fmt.Errorf("failed to tidy Go modules. Command executed: '%s', Error: %v", executedCommand, err))
 		}
 
 		binaryPath := filepath.Join(repoDir, "r2d2")
