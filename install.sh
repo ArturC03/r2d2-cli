@@ -14,24 +14,26 @@ case $ARCH in
   *) echo "Arquitetura $ARCH não suportada"; exit 1 ;;
 esac
 
-BIN_FILE="${BIN_NAME}_${OS}_${ARCH}"  # Sem o _v1 se não existir
+BIN_FILE="${BIN_NAME}_${OS}_${ARCH}"
 BIN_URL="${BASE_URL}/${BIN_FILE}"
-
-echo "A transferir de: $BIN_URL"
-
-HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" "$BIN_URL")
-if [ "$HTTP_STATUS" != "200" ]; then
-  echo "Erro: ficheiro não encontrado na URL: $BIN_URL"
-  exit 1
-fi
 
 TMP_DIR=$(mktemp -d)
 BIN_PATH="$TMP_DIR/$BIN_NAME"
 
-curl -L -o "$BIN_PATH" "$BIN_URL"
-chmod +x "$BIN_PATH"
+download_and_run() {
+  echo "A transferir $BIN_URL..."
+  curl -L -o "$BIN_PATH" "$BIN_URL"
 
-echo "A executar o binário..."
-sudo "$BIN_PATH"
+  chmod +x "$BIN_PATH"
 
-rm -rf "$TMP_DIR"
+  echo "A executar o binário..."
+  "$BIN_PATH"
+}
+
+if [ "$(id -u)" -ne 0 ]; then
+  echo "Este script precisa de ser executado com sudo. A reiniciar com sudo..."
+  exec sudo sh "$0" "$@"
+else
+  download_and_run
+  rm -rf "$TMP_DIR"
+fi
