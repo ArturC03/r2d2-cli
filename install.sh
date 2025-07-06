@@ -4,6 +4,7 @@
 
 SCRIPT_DIR="$(dirname "$(realpath "$0")")"
 INSTALLER_PATH="$SCRIPT_DIR/installer/build/r2d2-installer"
+echo "Installer path: $INSTALLER_PATH"
 
 # Check if the script is run as root
 if [ "$(id -u)" -ne 0 ]; then
@@ -12,7 +13,7 @@ if [ "$(id -u)" -ne 0 ]; then
 fi
 
 if [ ! -f "$INSTALLER_PATH" ]; then
-  echo "Installer binary not found at $INSTALLER_PATH. Please build it first."
+  echo "Installer binary not found at $INSTALLER_PATH Please build it first."
   exit 1
 fi
 
