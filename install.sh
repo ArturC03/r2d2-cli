@@ -2,30 +2,38 @@
 
 set -e
 
-# Detecta se está a correr como root
-if [ "$(id -u)" -ne 0 ]; then
-  echo "Cloning R2D2 CLI..."
+# Se root, continua com o resto
+if [ "$(id -u)" -eq 0 ]; then
+  INSTALLER_PATH="$1"
 
-  TMP_DIR=$(mktemp -d)
-  git clone https://github.com/ArturC03/r2d2-cli.git "$TMP_DIR"
-  cd "$TMP_DIR"
+  if [ ! -f "$INSTALLER_PATH" ]; then
+    echo "Installer não encontrado em: $INSTALLER_PATH"
+    exit 1
+  fi
 
-  echo "Building installer..."
-  go build -o installer/build/r2d2-installer ./installer
+  echo "Running installer as root..."
+  chmod +x "$INSTALLER_PATH"
+  "$INSTALLER_PATH"
 
-  INSTALLER_PATH="$TMP_DIR/installer/build/r2d2-installer"
-
-  echo "Re-running as sudo..."
-  exec sudo bash -c "INSTALLER_PATH='$INSTALLER_PATH' bash -s" < "$0"
+  TMP_DIR="$(dirname "$INSTALLER_PATH")/../.."
+  if [ -d "$TMP_DIR" ]; then
+    echo "Cleaning up..."
+    rm -rf "$TMP_DIR"
+  fi
+  exit 0
 fi
 
-# Parte que corre como root
-echo "Running installer as root..."
-chmod +x "$INSTALLER_PATH"
-"$INSTALLER_PATH"
+# Parte não-root
+echo "Cloning R2D2 CLI..."
 
-# Limpeza só se o tmp ainda existir
-if [ -d "$(dirname "$INSTALLER_PATH")/../.." ]; then
-  echo "Cleaning up..."
-  rm -rf "$(dirname "$INSTALLER_PATH")/../.."
-fi
+TMP_DIR=$(mktemp -d)
+git clone https://github.com/ArturC03/r2d2-cli.git "$TMP_DIR"
+cd "$TMP_DIR"
+
+echo "Building installer..."
+go build -o installer/build/r2d2-installer ./installer
+
+INSTALLER_PATH="$TMP_DIR/installer/build/r2d2-installer"
+
+echo "Re-running as sudo..."
+sudo bash "$0" "$INSTALLER_PATH"
