@@ -1,39 +1,23 @@
 #!/bin/sh
-
 set -e
 
-# Se root, continua com o resto
-if [ "$(id -u)" -eq 0 ]; then
-  INSTALLER_PATH="$1"
+# Configuration
+BINARY_URL="https://github.com/ArturC03/r2d2-cli/installer/build/r2d2-installer-linux-amd64"
+TMP_BIN="/tmp/r2d2-installer"
 
-  if [ ! -f "$INSTALLER_PATH" ]; then
-    echo "Installer não encontrado em: $INSTALLER_PATH"
-    exit 1
-  fi
-
-  echo "Running installer as root..."
-  chmod +x "$INSTALLER_PATH"
-  "$INSTALLER_PATH"
-
-  TMP_DIR="$(dirname "$INSTALLER_PATH")/../.."
-  if [ -d "$TMP_DIR" ]; then
-    echo "Cleaning up..."
-    rm -rf "$TMP_DIR"
-  fi
-  exit 0
+# Root check
+if [ "$(id -u)" -ne 0 ]; then
+  echo "Este script precisa de ser executado com sudo. A reiniciar com sudo..."
+  exec sudo "$0" "$@"
 fi
 
-# Parte não-root
-echo "Cloning R2D2 CLI..."
+echo "A transferir o instalador R2D2..."
+curl -fsSL "$BINARY_URL" -o "$TMP_BIN"
 
-TMP_DIR=$(mktemp -d)
-git clone https://github.com/ArturC03/r2d2-cli.git "$TMP_DIR"
-cd "$TMP_DIR"
+chmod +x "$TMP_BIN"
 
-echo "Building installer..."
-go build -o installer/build/r2d2-installer ./installer
+echo "A executar o instalador..."
+"$TMP_BIN"
 
-INSTALLER_PATH="$TMP_DIR/installer/build/r2d2-installer"
-
-echo "Re-running as sudo..."
-sudo bash "$0" "$INSTALLER_PATH"
+echo "A limpar..."
+rm -f "$TMP_BIN"

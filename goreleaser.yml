@@ -1,0 +1,32 @@
+# .goreleaser.yml
+project_name: r2d2-cli
+version: 2
+
+builds:
+  - id: r2d2-installer
+    main: ./installer
+    binary: r2d2-installer
+    goos:
+      - linux
+      - darwin
+    goarch:
+      - amd64
+      - arm64
+    ldflags:
+      - -s -w
+
+archives:
+  - format: tar.gz
+    name_template: "{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}"
+    files:
+      - LICENSE
+      - README.md
+
+release:
+  github:
+    owner: ArturC03
+    name: r2d2-cli
+
+checksum:
+  name_template: "checksums.txt"
+
