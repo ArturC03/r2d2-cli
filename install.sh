@@ -1,23 +1,32 @@
 #!/bin/sh
 
-# Minimal R2D2 CLI Installer
+set -e
 
-SCRIPT_DIR="$(dirname "$(realpath "$0")")"
-INSTALLER_PATH="$SCRIPT_DIR/installer/build/r2d2-installer"
-echo "Installer path: $INSTALLER_PATH"
+# Criar diretório temporário
+TMP_DIR=$(mktemp -d)
+echo "Cloning R2D2 CLI to $TMP_DIR..."
+git clone https://github.com/ArturC03/r2d2-cli.git "$TMP_DIR"
 
-# Check if the script is run as root
+# Ir para o diretório
+cd "$TMP_DIR"
+
+# Construir o instalador
+echo "Building installer..."
+go build -o installer/build/r2d2-installer ./installer
+
+# Caminho para o binário
+INSTALLER_PATH="$TMP_DIR/installer/build/r2d2-installer"
+
+# Verifica se é root
 if [ "$(id -u)" -ne 0 ]; then
-  echo "This script must be run with sudo. Re-running with sudo..."
+  echo "Este script precisa de sudo. A reiniciar com sudo..."
   exec sudo "$0" "$@"
 fi
 
-if [ ! -f "$INSTALLER_PATH" ]; then
-  echo "Installer binary not found at $INSTALLER_PATH Please build it first."
-  exit 1
-fi
+# Executar o instalador
+chmod +x "$INSTALLER_PATH"
+"$INSTALLER_PATH"
 
-cp "$INSTALLER_PATH" ./r2d2-installer
-chmod +x ./r2d2-installer
-./r2d2-installer
-rm -f ./r2d2-installer 
+# Limpar
+echo "Cleaning up..."
+rm -rf "$TMP_DIR"
