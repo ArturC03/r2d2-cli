@@ -1,7 +1,5 @@
 use "std.r2d2";
 
-
-
 interface Demo {
     export fn stringOp();
     fn mathOp();
@@ -66,7 +64,7 @@ module DemoCLI::Console {
     }
 
     export fn main() {
-        var associativeArray = [null => ["key" => ["key" => "value"]],"key2"=>"value2","key3"=>"value3","key4"=>"value3"];
+        var associativeArray = [null => [ 1 => ["key" => "value"]],"key2"=>"value2","key3"=>"value3","key4"=>"value3"];
         console.log(associativeArray, associativeArray["null"]["key"]["key"], associativeArray["key2"], associativeArray["key3"], associativeArray["key4"]);
 
         stringOp();
