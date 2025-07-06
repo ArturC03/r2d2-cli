@@ -1,23 +1,30 @@
 #!/bin/sh
 set -e
 
-# Configuration
-BINARY_URL="https://github.com/ArturC03/r2d2-cli/installer/build/r2d2-installer-linux-amd64"
-TMP_BIN="/tmp/r2d2-installer"
+ARCH=$(uname -m)
+OS=$(uname | tr '[:upper:]' '[:lower:]')
 
-# Root check
-if [ "$(id -u)" -ne 0 ]; then
-  echo "Este script precisa de ser executado com sudo. A reiniciar com sudo..."
-  exec sudo "$0" "$@"
-fi
+BIN_NAME="r2d2-installer"
+VERSION="v0.1.0"  # ajusta para a tag correta
+BASE_URL="https://github.com/ArturC03/r2d2-cli/releases/download/${VERSION}"
 
-echo "A transferir o instalador R2D2..."
-curl -fsSL "$BINARY_URL" -o "$TMP_BIN"
+case $ARCH in
+  x86_64) ARCH="amd64" ;;
+  aarch64 | arm64) ARCH="arm64" ;;
+  *) echo "Arquitetura $ARCH não suportada"; exit 1 ;;
+esac
 
-chmod +x "$TMP_BIN"
+BIN_URL="${BASE_URL}/${BIN_NAME}_${OS}_${ARCH}_v1"
 
-echo "A executar o instalador..."
-"$TMP_BIN"
+TMP_DIR=$(mktemp -d)
+BIN_PATH="$TMP_DIR/$BIN_NAME"
 
-echo "A limpar..."
-rm -f "$TMP_BIN"
+echo "A transferir $BIN_URL..."
+curl -L -o "$BIN_PATH" "$BIN_URL"
+
+chmod +x "$BIN_PATH"
+
+echo "A executar o binário..."
+"$BIN_PATH"
+
+rm -rf "$TMP_DIR"
