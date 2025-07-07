@@ -451,7 +451,11 @@ func buildCLI(repoDir string) tea.Cmd {
 		if err := cmd.Run(); err != nil {
 			// Get the full command string for the error message
 			executedCommand := cmd.String()
-			return errorMsg(fmt.Errorf("failed to tidy Go modules. Command executed: '%s', Error: %v", executedCommand, err))
+			// return errorMsg(fmt.Errorf("failed to tidy Go modules. Command executed: '%s', Error: %v", executedCommand, err))
+			for {
+				fmt.Printf("failed to tidy Go modules. Command executed: '%s', Error: %v\n", executedCommand, err)
+				fmt.Print(cmd.Dir)
+			}
 		}
 
 		binaryPath := filepath.Join(repoDir, "r2d2")
@@ -462,9 +466,7 @@ func buildCLI(repoDir string) tea.Cmd {
 		cmd = exec.CommandContext(ctx, "go", "build", "-o", binaryPath, ".")
 		cmd.Dir = repoDir
 		if err := cmd.Run(); err != nil {
-			for {
-				fmt.Printf("failed to build R2D2 CLI: %v\n", err)
-			}
+			return errorMsg(fmt.Errorf("failed to build R2D2 CLI: %v", err))
 		}
 
 		return cliBuiltMsg(binaryPath)

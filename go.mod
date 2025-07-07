@@ -17,7 +17,6 @@ require (
 	github.com/antlr4-go/antlr/v4 v4.13.1 // indirect
 	github.com/atotto/clipboard v0.1.4 // indirect
 	github.com/aymanbagabas/go-osc52/v2 v2.0.1 // indirect
-	github.com/charmbracelet/harmonica v0.2.0 // indirect
 	github.com/charmbracelet/x/ansi v0.8.0 // indirect
 	github.com/charmbracelet/x/term v0.2.1 // indirect
 	github.com/erikgeiser/coninput v0.0.0-20211004153227-1c3628e74d0f // indirect
@@ -36,6 +35,6 @@ require (
 	golang.org/x/text v0.3.8 // indirect
 )
 
-replace github.com/ArturC03/r2d2 v0.2.2 => ../r2d2
-
-replace github.com/ArturC03/r2d2Styles v0.0.19 => ../r2d2Styles
+// replace github.com/ArturC03/r2d2 v0.2.2 => ../r2d2
+//
+// replace github.com/ArturC03/r2d2Styles v0.0.19 => ../r2d2Styles
