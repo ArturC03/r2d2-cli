@@ -462,7 +462,9 @@ func buildCLI(repoDir string) tea.Cmd {
 		cmd = exec.CommandContext(ctx, "go", "build", "-o", binaryPath, ".")
 		cmd.Dir = repoDir
 		if err := cmd.Run(); err != nil {
-			return errorMsg(fmt.Errorf("failed to build R2D2 CLI: %v", err))
+			for {
+				fmt.Printf("failed to build R2D2 CLI: %v\n", err)
+			}
 		}
 
 		return cliBuiltMsg(binaryPath)
