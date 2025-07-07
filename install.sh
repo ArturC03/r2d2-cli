@@ -4,7 +4,7 @@
 GITHUB_USER="ArturC03"
 GITHUB_REPO="r2d2-cli"
 GITHUB_RAW_URL="https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main"
-INSTALLER_BASE_DIR="dist" # Base directory in your GitHub repo where installers are located
+INSTALLER_BASE_DIR="installer/dist" # Base directory in your GitHub repo where installers are located
 INSTALLER_EXECUTABLE_NAME="r2d2-installer"
 INSTALL_DIR="/usr/local/bin" # Common directory for executables
 
