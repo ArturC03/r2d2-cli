@@ -1,0 +1,30 @@
+version: 2
+project_name: r2d2-installer
+
+dist: dist
+
+builds:
+  - id: r2d2-installer
+    main: ./main.go
+    binary: r2d2-installer
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+
+archives:
+  - id: default
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    files:
+      - r2d2-installer
+
+checksum:
+  name_template: "checksums.txt"
+
+release:
+  github:
+    owner: ArturC03
+    name: r2d2-cli 
