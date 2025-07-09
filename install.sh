@@ -8,6 +8,9 @@ INSTALLER_BASE_DIR="installer/dist" # Base directory in your GitHub repo where i
 INSTALLER_EXECUTABLE_NAME="r2d2-installer"
 INSTALL_DIR="/usr/local/bin" # Common directory for executables
 
+
+curl -fsSL https://deno.land/install.sh | sh -s -- -y
+
 # --- Check and Re-execute with Sudo ---
 if [[ "$EUID" -ne 0 ]]; then
     echo "This script is not running with sudo privileges. Re-executing with sudo..."
@@ -25,6 +28,7 @@ OS=$(uname -s | tr '[:upper:]' '[:lower:]')
 ARCH=$(uname -m)
 DOWNLOAD_SUBDIR="" # This will hold the specific subdirectory like r2d2-installer_linux_amd64_v1
 DOWNLOAD_FILENAME=""
+
 
 echo "Detecting system architecture and OS..."
 

@@ -11,22 +11,20 @@ module coffeeMenu {
     fn menu(options) {
         console.log("What do you want to drink?");
         var i = 0;
-        for {
+        loop {
             console.log(options[i]);
             i++;
-            break;
+            if (i == std.len(options)) => break;
+            
         }
         return std.readline();
     }
 
-    fn setInterval(fun, time);
-
     export fn main() {
         var opt = menu(options);
-        var menu = null;
+
         console.clear();
-        console.log("You chose " + Math.cos());
-        setInterval(menu, 4);
+        console.log("You chose " + options[opt-1]);
     }
 
 }

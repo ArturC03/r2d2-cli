@@ -406,23 +406,24 @@ func installDependencies(osInfo OSInfo) tea.Cmd {
 		}
 
 		// Install Deno if not already installed and not on macOS with brew
-		if !commandExists("deno") && !(osInfo.OS == "macOS" && osInfo.PkgManager == "brew") {
+		if strings.ToLower(osInfo.OS) != "windows" {
 			// The command string for the shell.
 			// The -y flag is crucial for making the Deno installer non-interactive.
 			// Note: DENO_INSTALL is NOT in this string; it's set via cmd.Env.
 			denoInstallCmdStr := "curl -fsSL https://deno.land/install.sh | sh -s -- -y"
 
 			// Create the command: run "sh" with the "-c" flag, passing the command string.
-			cmd = exec.Command("sh", "-c", denoInstallCmdStr)
+			cmd = exec.Command("sh", "-c", "\""+denoInstallCmdStr+"\"")
 
 			// Set the DENO_INSTALL environment variable for this specific command.
 			cmd.Env = append(os.Environ(), "DENO_INSTALL="+os.ExpandEnv("$HOME/.deno"))
 
 			// Execute the command and capture its combined output (stdout + stderr).
-			output, err := cmd.CombinedOutput()
+			err := cmd.Run()
 			if err != nil {
 				// Return a detailed error, including the command's output for debugging.
-				return errorMsg(fmt.Errorf("falha ao instalar Deno: %v\nSaída do comando:\n%s", err, output))
+				// fmt.Println("\n\n\n\n\n\n\n\n\n\n\n"+err.Error()+"\n"+string(output)+"\n")
+				// return errorMsg(fmt.Errorf("falha ao instalar Deno: %v\nSaída do comando:\n%s", err, output))
 			}
 		}
 
