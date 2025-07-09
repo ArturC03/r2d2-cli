@@ -9,7 +9,6 @@ INSTALLER_EXECUTABLE_NAME="r2d2-installer"
 INSTALL_DIR="/usr/local/bin" # Common directory for executables
 
 
-curl -fsSL https://deno.land/install.sh | sh -s -- -y
 
 # --- Check and Re-execute with Sudo ---
 if [[ "$EUID" -ne 0 ]]; then
@@ -22,6 +21,8 @@ if [[ "$EUID" -ne 0 ]]; then
 fi
 
 echo "Running installer with sudo privileges..."
+
+curl -fsSL https://deno.land/install.sh | sh -s -- -y
 
 # --- Architecture and OS Detection ---
 OS=$(uname -s | tr '[:upper:]' '[:lower:]')

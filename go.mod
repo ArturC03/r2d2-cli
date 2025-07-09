@@ -5,7 +5,7 @@ go 1.24.0
 toolchain go1.24.1
 
 require (
-	github.com/ArturC03/r2d2 v0.2.3
+	github.com/ArturC03/r2d2 v0.2.4
 	github.com/ArturC03/r2d2Styles v0.1.0
 	github.com/charmbracelet/bubbles v0.20.0
 	github.com/charmbracelet/bubbletea v1.3.4
@@ -35,6 +35,6 @@ require (
 	golang.org/x/text v0.3.8 // indirect
 )
 
-// replace github.com/ArturC03/r2d2 v0.2.3 => ../r2d2
+// replace github.com/ArturC03/r2d2 v0.2.4 => ../r2d2
 //
 // replace github.com/ArturC03/r2d2Styles v0.1.0 => ../r2d2Styles

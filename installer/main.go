@@ -17,7 +17,7 @@ import (
 )
 
 const (
-	version = "1.0.0"
+	version = "0.2.3"
 )
 
 type installState int

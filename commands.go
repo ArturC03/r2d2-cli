@@ -8,7 +8,7 @@ import (
 	"github.com/ArturC03/r2d2Styles"
 )
 
-const Version = "0.1.1"
+const Version = "0.2.3"
 
 // ShowVersion displays the version of the R2D2 Language.
 func ShowVersion() {

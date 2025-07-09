@@ -41,7 +41,7 @@ func readR2D2File() string {
 	// Check if there are at least 3 command line arguments (the first is the program name)
 	if len(os.Args) < 3 {
 		fmt.Println(r2d2Styles.ErrorMessage("Isuficient number of arguments"))
-		fmt.Println(r2d2Styles.InfoMessage("Use: program <comand> <file_path_r2d2>"))
+		fmt.Println(r2d2Styles.InfoMessage("Use: r2d2 <comand> <file_path_r2d2>"))
 		os.Exit(1)
 	}
 
