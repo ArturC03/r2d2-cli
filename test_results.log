@@ -1,0 +1,468 @@
+=== RUN   TestShowVersion
+--- PASS: TestShowVersion (0.00s)
+=== RUN   TestUnknownCommand
+=== RUN   TestUnknownCommand/Invalid_command_'invalid'
+=== RUN   TestUnknownCommand/Invalid_command_'test'
+=== RUN   TestUnknownCommand/Empty_command
+--- PASS: TestUnknownCommand (0.00s)
+    --- PASS: TestUnknownCommand/Invalid_command_'invalid' (0.00s)
+    --- PASS: TestUnknownCommand/Invalid_command_'test' (0.00s)
+    --- PASS: TestUnknownCommand/Empty_command (0.00s)
+=== RUN   TestInfoMessage
+=== RUN   TestInfoMessage/Simple_info_message
+=== RUN   TestInfoMessage/Empty_message
+=== RUN   TestInfoMessage/Message_with_special_characters
+--- PASS: TestInfoMessage (0.00s)
+    --- PASS: TestInfoMessage/Simple_info_message (0.00s)
+    --- PASS: TestInfoMessage/Empty_message (0.00s)
+    --- PASS: TestInfoMessage/Message_with_special_characters (0.00s)
+=== RUN   TestErrorMessage
+=== RUN   TestErrorMessage/Simple_error_message
+=== RUN   TestErrorMessage/Empty_error_message
+=== RUN   TestErrorMessage/Error_with_details
+--- PASS: TestErrorMessage (0.00s)
+    --- PASS: TestErrorMessage/Simple_error_message (0.00s)
+    --- PASS: TestErrorMessage/Empty_error_message (0.00s)
+    --- PASS: TestErrorMessage/Error_with_details (0.00s)
+=== RUN   TestHelpMessage
+=== RUN   TestHelpMessage/Simple_help_message
+=== RUN   TestHelpMessage/Help_usage_message
+=== RUN   TestHelpMessage/Empty_help_message
+--- PASS: TestHelpMessage (0.00s)
+    --- PASS: TestHelpMessage/Simple_help_message (0.00s)
+    --- PASS: TestHelpMessage/Help_usage_message (0.00s)
+    --- PASS: TestHelpMessage/Empty_help_message (0.00s)
+=== RUN   TestVersionConstant
+--- PASS: TestVersionConstant (0.00s)
+=== RUN   TestMessageStyleConsistency
+--- PASS: TestMessageStyleConsistency (0.00s)
+=== RUN   TestBuildFunctionSignature
+--- PASS: TestBuildFunctionSignature (0.00s)
+=== RUN   TestRunFunctionSignature
+--- PASS: TestRunFunctionSignature (0.00s)
+=== RUN   TestBuildJsFunctionSignature
+--- PASS: TestBuildJsFunctionSignature (0.00s)
+=== RUN   TestMessageFunctionsWithSpecialCharacters
+=== RUN   TestMessageFunctionsWithSpecialCharacters/Special_chars:_Message_with_unicode
+=== RUN   TestMessageFunctionsWithSpecialCharacters/Special_chars:_Message_with_newline
+=== RUN   TestMessageFunctionsWithSpecialCharacters/Special_chars:_Message_with_"quotes
+=== RUN   TestMessageFunctionsWithSpecialCharacters/Special_chars:_Message_with_<HTML>_
+=== RUN   TestMessageFunctionsWithSpecialCharacters/Special_chars:_Message_with_$pecial
+--- PASS: TestMessageFunctionsWithSpecialCharacters (0.00s)
+    --- PASS: TestMessageFunctionsWithSpecialCharacters/Special_chars:_Message_with_unicode (0.00s)
+    --- PASS: TestMessageFunctionsWithSpecialCharacters/Special_chars:_Message_with_newline (0.00s)
+    --- PASS: TestMessageFunctionsWithSpecialCharacters/Special_chars:_Message_with_"quotes (0.00s)
+    --- PASS: TestMessageFunctionsWithSpecialCharacters/Special_chars:_Message_with_<HTML>_ (0.00s)
+    --- PASS: TestMessageFunctionsWithSpecialCharacters/Special_chars:_Message_with_$pecial (0.00s)
+=== RUN   TestBuild
+=== RUN   TestBuild/Simple_build
+=== PAUSE TestBuild/Simple_build
+=== RUN   TestBuild/Build_with_special_characters
+=== PAUSE TestBuild/Build_with_special_characters
+=== RUN   TestBuild/Build_with_unicode_characters
+=== PAUSE TestBuild/Build_with_unicode_characters
+=== RUN   TestBuild/Build_with_newlines_and_tabs
+=== PAUSE TestBuild/Build_with_newlines_and_tabs
+=== RUN   TestBuild/Build_with_quotes_and_apostrophes
+=== PAUSE TestBuild/Build_with_quotes_and_apostrophes
+=== RUN   TestBuild/Build_with_HTML_tags
+=== PAUSE TestBuild/Build_with_HTML_tags
+=== RUN   TestBuild/Build_with_special_characters_2
+=== PAUSE TestBuild/Build_with_special_characters_2
+=== RUN   TestBuild/Build_with_undefined_variable_assignment
+=== PAUSE TestBuild/Build_with_undefined_variable_assignment
+=== CONT  TestBuild/Simple_build
+=== CONT  TestBuild/Build_with_quotes_and_apostrophes
+=== CONT  TestBuild/Build_with_HTML_tags
+=== CONT  TestBuild/Build_with_unicode_characters
+=== CONT  TestBuild/Build_with_special_characters_2
+=== CONT  TestBuild/Build_with_special_characters
+=== CONT  TestBuild/Build_with_newlines_and_tabs
+=== CONT  TestBuild/Build_with_undefined_variable_assignment
+ ERROR  Variable 'v' not declared on line 1 on line 1
+[?25l[?2004h[?25l[?2004h[?25l[?2004h[?25l[?2004h[?25l[?2004h[?25l[?2004h[?25l[?2004h⣽  Compiling...[D⣽  Compiling...[D⣽  Compiling...[D⣽  Compiling...[D⣽  Compiling...[D⣽  Compiling...[D⣽  Compiling...[D⣻  Compiling...[D⣻  Compiling...[D⣻  Compiling...[D⣻  Compiling...[D⣻  Compiling...[D⣻  Compiling...[D⣻  Compiling...[D⢿  Compiling...[D⢿  Compiling...[D⢿  Compiling...[D⢿  Compiling...[D⢿  Compiling...[D⢿  Compiling...[D⢿  Compiling...[D⡿  Compiling...[D⡿  Compiling...[D⡿  Compiling...[D⡿  Compiling...[D⡿  Compiling...[D⡿  Compiling...[D⡿  Compiling...[D⣟  Compiling...[D⣟  Compiling...[D⣟  Compiling...[D⣟  Compiling...[D⣟  Compiling...[D⣟  Compiling...[D⣟  Compiling...[D⣯  Compiling...[D⣯  Compiling...[D⣯  Compiling...[D⣯  Compiling...[D⣯  Compiling...[D⣯  Compiling...[D⣯  Compiling...[D⣷  Compiling...[D⣷  Compiling...[D⣷  Compiling...[D⣷  Compiling...[D⣷  Compiling...[D⣷  Compiling...[D⣷  Compiling...[D⣾  Compiling...[D⣾  Compiling...[D⣾  Compiling...[D⣾  Compiling...[D⣾  Compiling...[D⣾  Compiling...[D⣾  Compiling...[D⣽  Compiling...[D⣽  Compiling...[D⣽  Compiling...[D⣽  Compiling...[D⣽  Compiling...[D⣽  Compiling...[D⣽  Compiling...[D⣻  Compiling...[D⣻  Compiling...[D⣻  Compiling...[D⣻  Compiling...[D⣻  Compiling...[D⣻  Compiling...[D⣻  Compiling...[D⢿  Compiling...[D⢿  Compiling...[D⢿  Compiling...[D⢿  Compiling...[D⢿  Compiling...[D⢿  Compiling...[D⢿  Compiling...[D⡿  Compiling...[D⡿  Compiling...[D⡿  Compiling...[D⡿  Compiling...[D⡿  Compiling...[D⡿  Compiling...[D⡿  Compiling...[D⣟  Compiling...[D⣟  Compiling...[D⣟  Compiling...[D⣟  Compiling...[D⣟  Compiling...[D⣟  Compiling...[D⣟  Compiling...[D⣯  Compiling...[D⣯  Compiling...[D⣯  Compiling...[D⣯  Compiling...[D⣯  Compiling...[D⣯  Compiling...[D⣯  Compiling...[D⣷  Compiling...[D⣷  Compiling...[D⣷  Compiling...[D⣷  Compiling...[D⣷  Compiling...[D⣷  Compiling...[D⣷  Compiling...[D⣾  Compiling...[D⣾  Compiling...[D⣾  Compiling...[D⣾  Compiling...[D⣾  Compiling...[D⣾  Compiling...[D⣾  Compiling...[D⣽  Compiling...[D⣽  Compiling...[D⣽  Compiling...[D⣽  Compiling...[D⣽  Compiling...[D⣽  Compiling...[D⣽  Compiling...[D⣻  Compiling...[D⣻  Compiling...[D⣻  Compiling...[D⣻  Compiling...[D⣻  Compiling...[D⣻  Compiling...[D⣻  Compiling...[D⢿  Compiling...[D⢿  Compiling...[D⢿  Compiling...[D⢿  Compiling...[D⢿  Compiling...[D⢿  Compiling...[D⢿  Compiling...[D⡿  Compiling...[D⡿  Compiling...[D⡿  Compiling...[D⡿  Compiling...[D⡿  Compiling...[D⡿  Compiling...[D⡿  Compiling...[D⣟  Compiling...[D⣟  Compiling...[D⣟  Compiling...[D⣟  Compiling...[D⣟  Compiling...[D⣟  Compiling...[D⣟  Compiling...[D⣯  Compiling...[D⣯  Compiling...[D⣯  Compiling...[D⣯  Compiling...[D⣯  Compiling...[D⣯  Compiling...[D⣯  Compiling...[D⣷  Compiling...[D⣷  Compiling...[D⣷  Compiling...[D⣷  Compiling...[D⣷  Compiling...[D⣷  Compiling...[D⣷  Compiling...[D[2K[?2004l[?25h[?1002l[?1003l[?1006l SUCCESS  Created executable: test_special2
+
+Compilation completed in 2.294 seconds
+⣾  Compiling...[D⣾  Compiling...[D[2K[?2004l[?25h[?1002l[?1003l[?1006l⣾  Compiling...[D SUCCESS  Created executable: test_special
+
+Compilation completed in 2.337 seconds
+⣾  Compiling...[D⣾  Compiling...[D⣾  Compiling...[D⣽  Compiling...[D⣽  Compiling...[D⣽  Compiling...[D⣽  Compiling...[D⣽  Compiling...[D[2K[?2004l[?25h[?1002l[?1003l[?1006l SUCCESS  Created executable: test_newline
+
+Compilation completed in 2.507 seconds
+⣻  Compiling...[D[2K[?2004l[?25h[?1002l[?1003l[?1006l SUCCESS  Created executable: test_unicode
+
+Compilation completed in 2.519 seconds
+⣻  Compiling...[D⣻  Compiling...[D[2K[?2004l[?25h[?1002l[?1003l[?1006l SUCCESS  Created executable: test_simple
+
+Compilation completed in 2.547 seconds
+⣻  Compiling...[D[2K[?2004l[?25h[?1002l[?1003l[?1006l SUCCESS  Created executable: test_html
+
+Compilation completed in 2.550 seconds
+⢿  Compiling...[D[2K[?2004l[?25h[?1002l[?1003l[?1006l SUCCESS  Created executable: test_quotes
+
+Compilation completed in 2.644 seconds
+--- PASS: TestBuild (0.00s)
+    --- PASS: TestBuild/Build_with_undefined_variable_assignment (0.37s)
+    --- PASS: TestBuild/Build_with_special_characters_2 (2.92s)
+    --- PASS: TestBuild/Build_with_special_characters (3.02s)
+    --- PASS: TestBuild/Build_with_newlines_and_tabs (3.15s)
+    --- PASS: TestBuild/Simple_build (3.16s)
+    --- PASS: TestBuild/Build_with_unicode_characters (3.17s)
+    --- PASS: TestBuild/Build_with_HTML_tags (3.18s)
+    --- PASS: TestBuild/Build_with_quotes_and_apostrophes (3.25s)
+=== RUN   TestRun
+=== RUN   TestRun/Simple_run
+=== RUN   TestRun/Run_with_special_characters
+=== RUN   TestRun/Run_with_unicode_characters
+=== RUN   TestRun/Run_with_newlines_and_tabs
+=== RUN   TestRun/Run_with_quotes_and_apostrophes
+=== RUN   TestRun/Run_with_HTML_tags
+=== RUN   TestRun/Run_with_special_characters#01
+=== RUN   TestRun/Build_with_undefined_variable_assignment
+--- PASS: TestRun (3.65s)
+    --- PASS: TestRun/Simple_run (0.49s)
+    --- PASS: TestRun/Run_with_special_characters (0.48s)
+    --- PASS: TestRun/Run_with_unicode_characters (0.47s)
+    --- PASS: TestRun/Run_with_newlines_and_tabs (0.47s)
+    --- PASS: TestRun/Run_with_quotes_and_apostrophes (0.49s)
+    --- PASS: TestRun/Run_with_HTML_tags (0.48s)
+    --- PASS: TestRun/Run_with_special_characters#01 (0.48s)
+    --- PASS: TestRun/Build_with_undefined_variable_assignment (0.27s)
+=== RUN   TestBuildJs
+=== RUN   TestBuildJs/Simple_build
+=== PAUSE TestBuildJs/Simple_build
+=== RUN   TestBuildJs/Build_with_special_characters
+=== PAUSE TestBuildJs/Build_with_special_characters
+=== RUN   TestBuildJs/Build_with_unicode_characters
+=== PAUSE TestBuildJs/Build_with_unicode_characters
+=== RUN   TestBuildJs/Build_with_newlines_and_tabs
+=== PAUSE TestBuildJs/Build_with_newlines_and_tabs
+=== RUN   TestBuildJs/Build_with_quotes_and_apostrophes
+=== PAUSE TestBuildJs/Build_with_quotes_and_apostrophes
+=== RUN   TestBuildJs/Build_with_HTML_tags
+=== PAUSE TestBuildJs/Build_with_HTML_tags
+=== RUN   TestBuildJs/Invalid_variable_assignment
+=== PAUSE TestBuildJs/Invalid_variable_assignment
+=== CONT  TestBuildJs/Simple_build
+=== CONT  TestBuildJs/Build_with_quotes_and_apostrophes
+=== CONT  TestBuildJs/Build_with_unicode_characters
+=== CONT  TestBuildJs/Build_with_newlines_and_tabs
+=== CONT  TestBuildJs/Build_with_special_characters
+=== CONT  TestBuildJs/Invalid_variable_assignment
+=== CONT  TestBuildJs/Build_with_HTML_tags
+ SUCCESS  Created JavaScript file: test_newline.js
+ SUCCESS  Created JavaScript file: test_special.js
+ SUCCESS  Created JavaScript file: test_html.js
+ ERROR  Variable 'x' not declared on line 1 on line 1
+ ERROR  Variable 'x' not found on line 1
+ SUCCESS  Created JavaScript file: test_unicode.js
+ SUCCESS  Created JavaScript file: test_simple.js
+ SUCCESS  Created JavaScript file: test_quotes.js
+--- PASS: TestBuildJs (0.00s)
+    --- PASS: TestBuildJs/Invalid_variable_assignment (0.38s)
+    --- PASS: TestBuildJs/Build_with_newlines_and_tabs (0.51s)
+    --- PASS: TestBuildJs/Build_with_quotes_and_apostrophes (0.56s)
+    --- PASS: TestBuildJs/Build_with_HTML_tags (0.59s)
+    --- PASS: TestBuildJs/Build_with_unicode_characters (0.59s)
+    --- PASS: TestBuildJs/Build_with_special_characters (0.59s)
+    --- PASS: TestBuildJs/Simple_build (0.67s)
+=== RUN   TestGetFilename
+=== RUN   TestGetFilename/Valid_file_path_with_extension
+=== RUN   TestGetFilename/File_path_with_directory_separator
+=== RUN   TestGetFilename/Path_with_multiple_separators
+=== RUN   TestGetFilename/Insufficient_arguments
+=== RUN   TestGetFilename/No_arguments
+--- PASS: TestGetFilename (0.00s)
+    --- PASS: TestGetFilename/Valid_file_path_with_extension (0.00s)
+    --- PASS: TestGetFilename/File_path_with_directory_separator (0.00s)
+    --- PASS: TestGetFilename/Path_with_multiple_separators (0.00s)
+    --- PASS: TestGetFilename/Insufficient_arguments (0.00s)
+    --- PASS: TestGetFilename/No_arguments (0.00s)
+=== RUN   TestParseOutputFlag
+=== RUN   TestParseOutputFlag/Valid_-o_flag
+=== RUN   TestParseOutputFlag/No_-o_flag
+=== RUN   TestParseOutputFlag/-o_flag_at_beginning
+=== RUN   TestParseOutputFlag/-o_flag_without_value_(at_end)
+=== RUN   TestParseOutputFlag/Multiple_-o_flags_(should_get_first)
+--- PASS: TestParseOutputFlag (0.00s)
+    --- PASS: TestParseOutputFlag/Valid_-o_flag (0.00s)
+    --- PASS: TestParseOutputFlag/No_-o_flag (0.00s)
+    --- PASS: TestParseOutputFlag/-o_flag_at_beginning (0.00s)
+    --- PASS: TestParseOutputFlag/-o_flag_without_value_(at_end) (0.00s)
+    --- PASS: TestParseOutputFlag/Multiple_-o_flags_(should_get_first) (0.00s)
+=== RUN   TestRemoveOutputFlag
+=== RUN   TestRemoveOutputFlag/Remove_-o_flag_and_value
+=== RUN   TestRemoveOutputFlag/No_-o_flag_to_remove
+=== RUN   TestRemoveOutputFlag/Remove_-o_flag_at_beginning
+=== RUN   TestRemoveOutputFlag/-o_flag_without_value_(at_end)
+=== RUN   TestRemoveOutputFlag/Multiple_-o_flags
+--- PASS: TestRemoveOutputFlag (0.00s)
+    --- PASS: TestRemoveOutputFlag/Remove_-o_flag_and_value (0.00s)
+    --- PASS: TestRemoveOutputFlag/No_-o_flag_to_remove (0.00s)
+    --- PASS: TestRemoveOutputFlag/Remove_-o_flag_at_beginning (0.00s)
+    --- PASS: TestRemoveOutputFlag/-o_flag_without_value_(at_end) (0.00s)
+    --- PASS: TestRemoveOutputFlag/Multiple_-o_flags (0.00s)
+=== RUN   TestCommandLineJoin
+=== RUN   TestCommandLineJoin/Basic_command_line
+=== RUN   TestCommandLineJoin/Command_with_flags
+=== RUN   TestCommandLineJoin/Single_command
+=== RUN   TestCommandLineJoin/No_additional_args
+--- PASS: TestCommandLineJoin (0.00s)
+    --- PASS: TestCommandLineJoin/Basic_command_line (0.00s)
+    --- PASS: TestCommandLineJoin/Command_with_flags (0.00s)
+    --- PASS: TestCommandLineJoin/Single_command (0.00s)
+    --- PASS: TestCommandLineJoin/No_additional_args (0.00s)
+=== RUN   TestFilePathExtraction
+=== RUN   TestFilePathExtraction/Unix_path
+=== RUN   TestFilePathExtraction/Deep_nested_path
+=== RUN   TestFilePathExtraction/Relative_path
+=== RUN   TestFilePathExtraction/Just_filename
+=== RUN   TestFilePathExtraction/Path_with_spaces
+--- PASS: TestFilePathExtraction (0.00s)
+    --- PASS: TestFilePathExtraction/Unix_path (0.00s)
+    --- PASS: TestFilePathExtraction/Deep_nested_path (0.00s)
+    --- PASS: TestFilePathExtraction/Relative_path (0.00s)
+    --- PASS: TestFilePathExtraction/Just_filename (0.00s)
+    --- PASS: TestFilePathExtraction/Path_with_spaces (0.00s)
+=== RUN   TestCommandValidation
+=== RUN   TestCommandValidation/Valid_command:_help
+=== RUN   TestCommandValidation/Valid_command:_-help
+=== RUN   TestCommandValidation/Valid_command:_-h
+=== RUN   TestCommandValidation/Valid_command:_--help
+=== RUN   TestCommandValidation/Valid_command:_--h
+=== RUN   TestCommandValidation/Valid_command:_version
+=== RUN   TestCommandValidation/Valid_command:_-version
+=== RUN   TestCommandValidation/Valid_command:_-v
+=== RUN   TestCommandValidation/Valid_command:_--version
+=== RUN   TestCommandValidation/Valid_command:_--v
+=== RUN   TestCommandValidation/Valid_command:_build
+=== RUN   TestCommandValidation/Valid_command:_-b
+=== RUN   TestCommandValidation/Valid_command:_run
+=== RUN   TestCommandValidation/Valid_command:_-r
+=== RUN   TestCommandValidation/Valid_command:_js
+=== RUN   TestCommandValidation/Valid_command:_new
+=== RUN   TestCommandValidation/Invalid_command:_invalid
+=== RUN   TestCommandValidation/Invalid_command:_test
+=== RUN   TestCommandValidation/Invalid_command:_compile
+=== RUN   TestCommandValidation/Invalid_command:_execute
+=== RUN   TestCommandValidation/Invalid_command:_--invalid
+--- PASS: TestCommandValidation (0.00s)
+    --- PASS: TestCommandValidation/Valid_command:_help (0.00s)
+    --- PASS: TestCommandValidation/Valid_command:_-help (0.00s)
+    --- PASS: TestCommandValidation/Valid_command:_-h (0.00s)
+    --- PASS: TestCommandValidation/Valid_command:_--help (0.00s)
+    --- PASS: TestCommandValidation/Valid_command:_--h (0.00s)
+    --- PASS: TestCommandValidation/Valid_command:_version (0.00s)
+    --- PASS: TestCommandValidation/Valid_command:_-version (0.00s)
+    --- PASS: TestCommandValidation/Valid_command:_-v (0.00s)
+    --- PASS: TestCommandValidation/Valid_command:_--version (0.00s)
+    --- PASS: TestCommandValidation/Valid_command:_--v (0.00s)
+    --- PASS: TestCommandValidation/Valid_command:_build (0.00s)
+    --- PASS: TestCommandValidation/Valid_command:_-b (0.00s)
+    --- PASS: TestCommandValidation/Valid_command:_run (0.00s)
+    --- PASS: TestCommandValidation/Valid_command:_-r (0.00s)
+    --- PASS: TestCommandValidation/Valid_command:_js (0.00s)
+    --- PASS: TestCommandValidation/Valid_command:_new (0.00s)
+    --- PASS: TestCommandValidation/Invalid_command:_invalid (0.00s)
+    --- PASS: TestCommandValidation/Invalid_command:_test (0.00s)
+    --- PASS: TestCommandValidation/Invalid_command:_compile (0.00s)
+    --- PASS: TestCommandValidation/Invalid_command:_execute (0.00s)
+    --- PASS: TestCommandValidation/Invalid_command:_--invalid (0.00s)
+=== RUN   TestArgumentCount
+=== RUN   TestArgumentCount/Sufficient_args_for_build
+=== RUN   TestArgumentCount/Insufficient_args_for_build
+=== RUN   TestArgumentCount/Help_command_(no_file_needed)
+=== RUN   TestArgumentCount/No_command
+--- PASS: TestArgumentCount (0.00s)
+    --- PASS: TestArgumentCount/Sufficient_args_for_build (0.00s)
+    --- PASS: TestArgumentCount/Insufficient_args_for_build (0.00s)
+    --- PASS: TestArgumentCount/Help_command_(no_file_needed) (0.00s)
+    --- PASS: TestArgumentCount/No_command (0.00s)
+=== RUN   TestFileExtensionValidation
+=== RUN   TestFileExtensionValidation/Valid_R2D2_file
+=== RUN   TestFileExtensionValidation/Valid_R2D2_file_with_path
+=== RUN   TestFileExtensionValidation/Invalid_extension
+=== RUN   TestFileExtensionValidation/No_extension
+=== RUN   TestFileExtensionValidation/R2D2_in_middle_of_name
+=== RUN   TestFileExtensionValidation/Case_sensitive_check
+--- PASS: TestFileExtensionValidation (0.00s)
+    --- PASS: TestFileExtensionValidation/Valid_R2D2_file (0.00s)
+    --- PASS: TestFileExtensionValidation/Valid_R2D2_file_with_path (0.00s)
+    --- PASS: TestFileExtensionValidation/Invalid_extension (0.00s)
+    --- PASS: TestFileExtensionValidation/No_extension (0.00s)
+    --- PASS: TestFileExtensionValidation/R2D2_in_middle_of_name (0.00s)
+    --- PASS: TestFileExtensionValidation/Case_sensitive_check (0.00s)
+=== RUN   TestColorConstants
+=== RUN   TestColorConstants/Color_constant:_subtleHex
+=== RUN   TestColorConstants/Color_constant:_backgroundHexDark
+=== RUN   TestColorConstants/Color_constant:_subtleHexDark
+=== RUN   TestColorConstants/Color_constant:_highlightHex
+=== RUN   TestColorConstants/Color_constant:_errorHex
+=== RUN   TestColorConstants/Color_constant:_errorHexDark
+=== RUN   TestColorConstants/Color_constant:_infoHex
+=== RUN   TestColorConstants/Color_constant:_infoHexDark
+=== RUN   TestColorConstants/Color_constant:_warningHex
+=== RUN   TestColorConstants/Color_constant:_accentHex
+=== RUN   TestColorConstants/Color_constant:_backgroundHex
+=== RUN   TestColorConstants/Color_constant:_warningHexDark
+=== RUN   TestColorConstants/Color_constant:_highlightHexDark
+=== RUN   TestColorConstants/Color_constant:_specialHex
+=== RUN   TestColorConstants/Color_constant:_specialHexDark
+=== RUN   TestColorConstants/Color_constant:_accentHexDark
+=== RUN   TestColorConstants/Color_constant:_whiteHex
+--- PASS: TestColorConstants (0.00s)
+    --- PASS: TestColorConstants/Color_constant:_subtleHex (0.00s)
+    --- PASS: TestColorConstants/Color_constant:_backgroundHexDark (0.00s)
+    --- PASS: TestColorConstants/Color_constant:_subtleHexDark (0.00s)
+    --- PASS: TestColorConstants/Color_constant:_highlightHex (0.00s)
+    --- PASS: TestColorConstants/Color_constant:_errorHex (0.00s)
+    --- PASS: TestColorConstants/Color_constant:_errorHexDark (0.00s)
+    --- PASS: TestColorConstants/Color_constant:_infoHex (0.00s)
+    --- PASS: TestColorConstants/Color_constant:_infoHexDark (0.00s)
+    --- PASS: TestColorConstants/Color_constant:_warningHex (0.00s)
+    --- PASS: TestColorConstants/Color_constant:_accentHex (0.00s)
+    --- PASS: TestColorConstants/Color_constant:_backgroundHex (0.00s)
+    --- PASS: TestColorConstants/Color_constant:_warningHexDark (0.00s)
+    --- PASS: TestColorConstants/Color_constant:_highlightHexDark (0.00s)
+    --- PASS: TestColorConstants/Color_constant:_specialHex (0.00s)
+    --- PASS: TestColorConstants/Color_constant:_specialHexDark (0.00s)
+    --- PASS: TestColorConstants/Color_constant:_accentHexDark (0.00s)
+    --- PASS: TestColorConstants/Color_constant:_whiteHex (0.00s)
+=== RUN   TestAdaptiveColors
+=== RUN   TestAdaptiveColors/Adaptive_color:_infoColor
+=== RUN   TestAdaptiveColors/Adaptive_color:_accentColor
+=== RUN   TestAdaptiveColors/Adaptive_color:_backgroundColor
+=== RUN   TestAdaptiveColors/Adaptive_color:_subtleColor
+=== RUN   TestAdaptiveColors/Adaptive_color:_highlightColor
+=== RUN   TestAdaptiveColors/Adaptive_color:_specialColor
+=== RUN   TestAdaptiveColors/Adaptive_color:_warningColor
+=== RUN   TestAdaptiveColors/Adaptive_color:_errorColor
+--- PASS: TestAdaptiveColors (0.00s)
+    --- PASS: TestAdaptiveColors/Adaptive_color:_infoColor (0.00s)
+    --- PASS: TestAdaptiveColors/Adaptive_color:_accentColor (0.00s)
+    --- PASS: TestAdaptiveColors/Adaptive_color:_backgroundColor (0.00s)
+    --- PASS: TestAdaptiveColors/Adaptive_color:_subtleColor (0.00s)
+    --- PASS: TestAdaptiveColors/Adaptive_color:_highlightColor (0.00s)
+    --- PASS: TestAdaptiveColors/Adaptive_color:_specialColor (0.00s)
+    --- PASS: TestAdaptiveColors/Adaptive_color:_warningColor (0.00s)
+    --- PASS: TestAdaptiveColors/Adaptive_color:_errorColor (0.00s)
+=== RUN   TestTagStyles
+=== RUN   TestTagStyles/Tag_style:_tagBaseStyle
+=== RUN   TestTagStyles/Tag_style:_errorStyle
+=== RUN   TestTagStyles/Tag_style:_infoStyle
+=== RUN   TestTagStyles/Tag_style:_warningStyle
+--- PASS: TestTagStyles (0.00s)
+    --- PASS: TestTagStyles/Tag_style:_tagBaseStyle (0.00s)
+    --- PASS: TestTagStyles/Tag_style:_errorStyle (0.00s)
+    --- PASS: TestTagStyles/Tag_style:_infoStyle (0.00s)
+    --- PASS: TestTagStyles/Tag_style:_warningStyle (0.00s)
+=== RUN   TestUIComponentStyles
+=== RUN   TestUIComponentStyles/UI_style:_containerStyle
+=== RUN   TestUIComponentStyles/UI_style:_headingStyle
+=== RUN   TestUIComponentStyles/UI_style:_normalItemStyle
+=== RUN   TestUIComponentStyles/UI_style:_activeItemStyle
+=== RUN   TestUIComponentStyles/UI_style:_statusMessageStyle
+=== RUN   TestUIComponentStyles/UI_style:_infoTextStyle
+--- PASS: TestUIComponentStyles (0.00s)
+    --- PASS: TestUIComponentStyles/UI_style:_containerStyle (0.00s)
+    --- PASS: TestUIComponentStyles/UI_style:_headingStyle (0.00s)
+    --- PASS: TestUIComponentStyles/UI_style:_normalItemStyle (0.00s)
+    --- PASS: TestUIComponentStyles/UI_style:_activeItemStyle (0.00s)
+    --- PASS: TestUIComponentStyles/UI_style:_statusMessageStyle (0.00s)
+    --- PASS: TestUIComponentStyles/UI_style:_infoTextStyle (0.00s)
+=== RUN   TestStyleConsistency
+--- PASS: TestStyleConsistency (0.00s)
+=== RUN   TestStyleRenderingWithEmptyContent
+=== RUN   TestStyleRenderingWithEmptyContent/Empty_content_for:_statusMessageStyle
+=== RUN   TestStyleRenderingWithEmptyContent/Empty_content_for:_activeItemStyle
+=== RUN   TestStyleRenderingWithEmptyContent/Empty_content_for:_infoTextStyle
+=== RUN   TestStyleRenderingWithEmptyContent/Empty_content_for:_errorStyle
+=== RUN   TestStyleRenderingWithEmptyContent/Empty_content_for:_infoStyle
+=== RUN   TestStyleRenderingWithEmptyContent/Empty_content_for:_warningStyle
+=== RUN   TestStyleRenderingWithEmptyContent/Empty_content_for:_containerStyle
+=== RUN   TestStyleRenderingWithEmptyContent/Empty_content_for:_headingStyle
+=== RUN   TestStyleRenderingWithEmptyContent/Empty_content_for:_normalItemStyle
+--- PASS: TestStyleRenderingWithEmptyContent (0.00s)
+    --- PASS: TestStyleRenderingWithEmptyContent/Empty_content_for:_statusMessageStyle (0.00s)
+    --- PASS: TestStyleRenderingWithEmptyContent/Empty_content_for:_activeItemStyle (0.00s)
+    --- PASS: TestStyleRenderingWithEmptyContent/Empty_content_for:_infoTextStyle (0.00s)
+    --- PASS: TestStyleRenderingWithEmptyContent/Empty_content_for:_errorStyle (0.00s)
+    --- PASS: TestStyleRenderingWithEmptyContent/Empty_content_for:_infoStyle (0.00s)
+    --- PASS: TestStyleRenderingWithEmptyContent/Empty_content_for:_warningStyle (0.00s)
+    --- PASS: TestStyleRenderingWithEmptyContent/Empty_content_for:_containerStyle (0.00s)
+    --- PASS: TestStyleRenderingWithEmptyContent/Empty_content_for:_headingStyle (0.00s)
+    --- PASS: TestStyleRenderingWithEmptyContent/Empty_content_for:_normalItemStyle (0.00s)
+=== RUN   TestStyleRenderingWithSpecialCharacters
+=== RUN   TestStyleRenderingWithSpecialCharacters/Special_chars_test
+=== RUN   TestStyleRenderingWithSpecialCharacters/Special_chars_test#01
+=== RUN   TestStyleRenderingWithSpecialCharacters/Special_chars_test#02
+=== RUN   TestStyleRenderingWithSpecialCharacters/Special_chars_test#03
+=== RUN   TestStyleRenderingWithSpecialCharacters/Special_chars_test#04
+=== RUN   TestStyleRenderingWithSpecialCharacters/Special_chars_test#05
+=== RUN   TestStyleRenderingWithSpecialCharacters/Special_chars_test#06
+=== RUN   TestStyleRenderingWithSpecialCharacters/Special_chars_test#07
+=== RUN   TestStyleRenderingWithSpecialCharacters/Special_chars_test#08
+=== RUN   TestStyleRenderingWithSpecialCharacters/Special_chars_test#09
+=== RUN   TestStyleRenderingWithSpecialCharacters/Special_chars_test#10
+=== RUN   TestStyleRenderingWithSpecialCharacters/Special_chars_test#11
+=== RUN   TestStyleRenderingWithSpecialCharacters/Special_chars_test#12
+=== RUN   TestStyleRenderingWithSpecialCharacters/Special_chars_test#13
+=== RUN   TestStyleRenderingWithSpecialCharacters/Special_chars_test#14
+=== RUN   TestStyleRenderingWithSpecialCharacters/Special_chars_test#15
+=== RUN   TestStyleRenderingWithSpecialCharacters/Special_chars_test#16
+=== RUN   TestStyleRenderingWithSpecialCharacters/Special_chars_test#17
+=== RUN   TestStyleRenderingWithSpecialCharacters/Special_chars_test#18
+=== RUN   TestStyleRenderingWithSpecialCharacters/Special_chars_test#19
+=== RUN   TestStyleRenderingWithSpecialCharacters/Special_chars_test#20
+=== RUN   TestStyleRenderingWithSpecialCharacters/Special_chars_test#21
+=== RUN   TestStyleRenderingWithSpecialCharacters/Special_chars_test#22
+=== RUN   TestStyleRenderingWithSpecialCharacters/Special_chars_test#23
+=== RUN   TestStyleRenderingWithSpecialCharacters/Special_chars_test#24
+=== RUN   TestStyleRenderingWithSpecialCharacters/Special_chars_test#25
+=== RUN   TestStyleRenderingWithSpecialCharacters/Special_chars_test#26
+=== RUN   TestStyleRenderingWithSpecialCharacters/Special_chars_test#27
+=== RUN   TestStyleRenderingWithSpecialCharacters/Special_chars_test#28
+=== RUN   TestStyleRenderingWithSpecialCharacters/Special_chars_test#29
+--- PASS: TestStyleRenderingWithSpecialCharacters (0.00s)
+    --- PASS: TestStyleRenderingWithSpecialCharacters/Special_chars_test (0.00s)
+    --- PASS: TestStyleRenderingWithSpecialCharacters/Special_chars_test#01 (0.00s)
+    --- PASS: TestStyleRenderingWithSpecialCharacters/Special_chars_test#02 (0.00s)
+    --- PASS: TestStyleRenderingWithSpecialCharacters/Special_chars_test#03 (0.00s)
+    --- PASS: TestStyleRenderingWithSpecialCharacters/Special_chars_test#04 (0.00s)
+    --- PASS: TestStyleRenderingWithSpecialCharacters/Special_chars_test#05 (0.00s)
+    --- PASS: TestStyleRenderingWithSpecialCharacters/Special_chars_test#06 (0.00s)
+    --- PASS: TestStyleRenderingWithSpecialCharacters/Special_chars_test#07 (0.00s)
+    --- PASS: TestStyleRenderingWithSpecialCharacters/Special_chars_test#08 (0.00s)
+    --- PASS: TestStyleRenderingWithSpecialCharacters/Special_chars_test#09 (0.00s)
+    --- PASS: TestStyleRenderingWithSpecialCharacters/Special_chars_test#10 (0.00s)
+    --- PASS: TestStyleRenderingWithSpecialCharacters/Special_chars_test#11 (0.00s)
+    --- PASS: TestStyleRenderingWithSpecialCharacters/Special_chars_test#12 (0.00s)
+    --- PASS: TestStyleRenderingWithSpecialCharacters/Special_chars_test#13 (0.00s)
+    --- PASS: TestStyleRenderingWithSpecialCharacters/Special_chars_test#14 (0.00s)
+    --- PASS: TestStyleRenderingWithSpecialCharacters/Special_chars_test#15 (0.00s)
+    --- PASS: TestStyleRenderingWithSpecialCharacters/Special_chars_test#16 (0.00s)
+    --- PASS: TestStyleRenderingWithSpecialCharacters/Special_chars_test#17 (0.00s)
+    --- PASS: TestStyleRenderingWithSpecialCharacters/Special_chars_test#18 (0.00s)
+    --- PASS: TestStyleRenderingWithSpecialCharacters/Special_chars_test#19 (0.00s)
+    --- PASS: TestStyleRenderingWithSpecialCharacters/Special_chars_test#20 (0.00s)
+    --- PASS: TestStyleRenderingWithSpecialCharacters/Special_chars_test#21 (0.00s)
+    --- PASS: TestStyleRenderingWithSpecialCharacters/Special_chars_test#22 (0.00s)
+    --- PASS: TestStyleRenderingWithSpecialCharacters/Special_chars_test#23 (0.00s)
+    --- PASS: TestStyleRenderingWithSpecialCharacters/Special_chars_test#24 (0.00s)
+    --- PASS: TestStyleRenderingWithSpecialCharacters/Special_chars_test#25 (0.00s)
+    --- PASS: TestStyleRenderingWithSpecialCharacters/Special_chars_test#26 (0.00s)
+    --- PASS: TestStyleRenderingWithSpecialCharacters/Special_chars_test#27 (0.00s)
+    --- PASS: TestStyleRenderingWithSpecialCharacters/Special_chars_test#28 (0.00s)
+    --- PASS: TestStyleRenderingWithSpecialCharacters/Special_chars_test#29 (0.00s)
+=== RUN   TestColorAccessibility
+--- PASS: TestColorAccessibility (0.00s)
+=== RUN   TestWhiteColor
+--- PASS: TestWhiteColor (0.00s)
+=== RUN   TestStyleComposition
+--- PASS: TestStyleComposition (0.00s)
+=== RUN   TestStyleMemoryUsage
+--- PASS: TestStyleMemoryUsage (0.11s)
+=== RUN   TestStyleProperties
+--- PASS: TestStyleProperties (0.00s)
+PASS
+ok  	github.com/ArturC03/r2d2-cli	7.710s

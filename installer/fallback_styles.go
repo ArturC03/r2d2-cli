@@ -17,7 +17,7 @@ var (
 	primaryBlue   = lipgloss.Color("#3B82F6")
 
 	// Text colors
-	textPrimary   = lipgloss.Color("#212529")
+	textPrimary   = lipgloss.AdaptiveColor{Light: "#374151", Dark: "#D1D5DB"} // Adaptive for 2s
 	textSecondary = lipgloss.Color("#6C757D")
 	textMuted     = lipgloss.Color("#ADB5BD")
 
