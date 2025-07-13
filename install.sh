@@ -24,6 +24,10 @@ echo "Running installer with sudo privileges..."
 
 curl -fsSL https://deno.land/install.sh | sh -s -- -y
 
+# --- Add Deno to PATH ---
+export DENO_INSTALL="$HOME/.deno"
+export PATH="$DENO_INSTALL/bin:$PATH"
+
 # --- Architecture and OS Detection ---
 OS=$(uname -s | tr '[:upper:]' '[:lower:]')
 ARCH=$(uname -m)
