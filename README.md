@@ -18,12 +18,12 @@ You can start using **R2D2** by executing the following command on your system.
 
 **Linux/macOS:**
 ```bash
-curl -sSL https://raw.githubusercontent.com/ArturC03/r2d2-cli/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/ArturC03/r2d2-cli/main/install.sh?nocache | sudo bash
 ```
 
 **Windows (PowerShell):**
 ```powershell
-iwr -useb https://raw.githubusercontent.com/ArturC03/r2d2-cli/main/install.ps1 | iex
+iwr -useb https://raw.githubusercontent.com/ArturC03/r2d2-cli/main/install.ps1?nocache | iex
 ```
 
 This will:
