@@ -18,7 +18,7 @@ You can start using **R2D2** by executing the following command on your system.
 
 **Linux/macOS:**
 ```bash
-curl -fsSL https://raw.githubusercontent.com/ArturC03/r2d2-cli/main/install.sh?nocache | sudo bash
+curl -fsSL https://raw.githubusercontent.com/ArturC03/r2d2-cli/main/install.sh?nocache | bash
 ```
 
 **Windows (PowerShell):**
