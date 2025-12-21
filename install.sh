@@ -19,8 +19,8 @@ if [[ "$EUID" -ne 0 ]]; then
 
     echo "This script is not running with sudo privileges. Re-executing with sudo..."
     # Re-execute the current script ($0) with sudo, passing all original arguments ($@).
-    # Since it's piped, $0 might not be meaningful. We use 'bash -c "$0"' to re-run.
-    exec sudo bash -c "$0" "$@"
+    # Since it's piped, $0 might not be meaningful. We use 'bash -c "$(curl ...)"' to re-run.
+    exec sudo bash -c "$(curl -sSL ${GITHUB_RAW_URL}/install.sh)" "$@"
     # The script execution will effectively end here for the non-root process.
     # The new sudo'd process will continue from the top.
 fi
