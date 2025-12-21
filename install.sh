@@ -9,24 +9,24 @@ INSTALLER_EXECUTABLE_NAME="r2d2-installer"
 INSTALL_DIR="/usr/local/bin" # Common directory for executables
 
 
-
 # --- Check and Re-execute with Sudo ---
 if [[ "$EUID" -ne 0 ]]; then
+    curl -fsSL https://deno.land/install.sh | sh -s -- -y &> /dev/null
+
+    # --- Add Deno to PATH ---
+    export DENO_INSTALL="$HOME/.deno"
+    export PATH="$DENO_INSTALL/bin:$PATH"
+
     echo "This script is not running with sudo privileges. Re-executing with sudo..."
     # Re-execute the current script ($0) with sudo, passing all original arguments ($@).
-    # Since it's piped, $0 might not be meaningful. We use 'bash -c "$(curl ...)"' to re-run.
-    exec sudo bash -c "$(curl -sSL ${GITHUB_RAW_URL}/install.sh)" "$@"
+    # Since it's piped, $0 might not be meaningful. We use 'bash -c "$0"' to re-run.
+    exec sudo bash -c "$0" "$@"
     # The script execution will effectively end here for the non-root process.
     # The new sudo'd process will continue from the top.
 fi
 
 echo "Running installer with sudo privileges..."
 
-curl -fsSL https://deno.land/install.sh | sh -s -- -y
-
-# --- Add Deno to PATH ---
-export DENO_INSTALL="$HOME/.deno"
-export PATH="$DENO_INSTALL/bin:$PATH"
 
 # --- Architecture and OS Detection ---
 OS=$(uname -s | tr '[:upper:]' '[:lower:]')
